@@ -621,66 +621,100 @@ body {
     {
         content: "Y";
     }
-    3%
+    4%
     {
-        content: "Y.";
+        content: "Ya";
     }
     4%
     {
-        content: "Y.Y";
+        content: "Yam";
     }
     5%
     {
-        content: "Y.Ya";
+        content: "Yame";
     }
     6%
     {
-        content: "Y.Yas";
+        content: "Yamen";
     }
     7%
     {
-        content: "Y.Yass";
+        content: "Yamen ";
     }
     8%
     {
-        content: "Y.Yasse";
+        content: "Yamen Y";
     }
     9%
     {
-        content: "Y.Yasser";
+        content: "Yamen Ya";
     }
-    89%
+    10%
     {
-        content: "Y.Yasser";
+        content: "Yamen Yas";
     }
+    11%
+    {
+        content: "Yamen Yass";
+    }
+    12%
+    {
+        content: "Yamen Yasse";
+    }
+    13%
+    {
+        content: "Yamen Yasser";
+    }
+    87%
+    {
+        content: "Yamen Yasser";
+    }
+    88%
+    {
+        content: "Yamen Yasse";
+    }
+    89% { 
+        content: "Yamen Yass";
+    } 
     90%
     {
-        content: "Y.Yasse";
+        content: "Yamen Yass";
     }
     91%
     {
-        content: "Y.Yass";
+        content: "Yamen Yas";
     }
-    92%
-    {
-        content: "Y.Yas";
-    }
+    92% { 
+        content: "Yamen Ya";
+    } 
     93%
     {
-        content: "Y.Ya";
+        content: "Yamen Y";
     }
     94%
     {
-        content: "Y.Y";
+        content: "Yamen ";
     }
     95% { 
-        content: "Y."; 
+        content: "Yamen";
     } 
     96%
     {
-        content: "Y";
+        content: "Yame";
+    }
+    97%
+    {
+        content: "Yam";
     }
     98%
+    {
+        content: "Ya";
+    }
+    99%
+    {
+        content: "Y";
+    }
+    100%
     {
         content: "";
     }
