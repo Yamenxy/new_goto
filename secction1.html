@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paid Video Access</title>
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        text-align: center;
+    }
+
+    h1, h2 {
+        margin-bottom: 20px;
+    }
+
+    .error {
+        color: red;
+    }
+
+    #login-error {
+        margin-top: 10px;
+    }
+
+    #video-container {
+        margin-top: 20px;
+    }
+
+    .phone-option {
+        display: block;
+        margin-bottom: 10px;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Paid Video Access</h1>
+    <div id="login">
+        <h2>Enter The Password to Watch the Video</h2>
+        <input type="password" id="password" placeholder="Enter Password">
+        <button onclick="login()">Check</button>
+        <p id="login-error" class="error"></p>
+        
+        </form>
+    </div>
+    <div id="video-container" style="display: none;">
+        <h2>Video Player</h2>
+        <div id="video-container" class="video-container">
+            <iframe id="video-frame" width="560" height="315" src="https://www.youtube.com/embed/S4UU0VQkiX0" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+<script>
+    function login() {
+        var password = document.getElementById("password").value;
+        // Replace 'your_password' with the actual password
+        if (password === "your_password") {
+            document.getElementById("login-error").textContent = "";
+            document.getElementById("login").style.display = "none";
+            document.getElementById("video-container").style.display = "block";
+            
+            // Set timeout to expire the password after 10 seconds (adjust as needed)
+            // setTimeout(function() {
+            //     document.getElementById("login").style.display = "block";
+            //     document.getElementById("video-container").style.display = "none";
+            //     document.getElementById("password").value = ""; // Clear the password input
+            //     document.getElementById("login-error").textContent = "Password has expired. Please log in again.";
+            // }, 60000); // 10 seconds
+        } else {
+            document.getElementById("login-error").textContent = "Incorrect password. Please try again.";
+        }
+    }
+
+   
+</script>
+</body>
+</html>
