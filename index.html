@@ -37,7 +37,7 @@
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="videos.html">videos</a>
+                        <a class="nav-link active" aria-current="page" href="main_video.html">videos</a>
                     </li>
 
                     <li class="nav-item">
@@ -47,24 +47,55 @@
                 </ul>
                 
 
-                <div class="col-sm-1 col-lg-2 btnnd">
-
-                    
-
-                    
-                     <button class="btn btn-primary m-1 btnn" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">OUR_GROUPS</button> 
-
-                    <button type="button " class=" logb btn btn-primary btnn  m-1" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop" onclick="window.location.href='https://script.google.com/macros/s/AKfycbxzW5h8DAB8d2OgO9B9FkJYBz7HuKZdviaVoJxRfjiXCFSFVeY4nK8q53HfxFo44hTP/exec'">
-                        GET_YOUR_DATA
-                    </button>
-
+                <div class="row"> <!-- Create a row to contain the buttons -->
+                    <div class="col-sm-4 col-lg-4 btnnd"> <!-- Divide the row into columns to hold each button -->
+                        <button class="btn btn-primary m-1 btnn" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">OUR_GROUPS</button> 
+                    </div>
+                    <div class="col-sm-4 col-lg-4 btnnd"> <!-- Repeat for each button -->
+                        <button type="button " class="logb btn btn-primary btnn m-1" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop" onclick="window.location.href='https://script.google.com/macros/s/AKfycbxzW5h8DAB8d2OgO9B9FkJYBz7HuKZdviaVoJxRfjiXCFSFVeY4nK8q53HfxFo44hTP/exec'">
+                            GET_YOUR_DATA
+                        </button>
+                    </div>
+                    <div class="col-sm-4 col-lg-4 btnnd"> <!-- Repeat for each button -->
+                        <button class="btn btn-primary m-1 btnn" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasWithBothOptions_contact" aria-controls="offcanvasWithBothOptions">Contacts</button> 
+                    </div>
                 </div>
+                
             </div>
         </div>
     </nav>
 
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions_contact" aria-labelledby="offcanvasWithBothOptionsLabel">
+        <div class="offcanvas-body">
+            <a class="smedia" href="https://api.whatsapp.com/send/?phone=%2B201004395090&text&type=phone_number&app_absent=0">
+                <p class="iconn text-success"><i class="fa-brands fa-whatsapp"></i><span class="titlemedia">Yamen Yasser</span></p>
+            </a>
+    
+            <a class="smedia" href="https://api.whatsapp.com/send/?phone=%2B2001111492628&text&type=phone_number&app_absent=0">
+                <p class="iconn text-success"><i class="fa-brands fa-whatsapp"></i><span class="titlemedia">Ahmed Elyamany</span></p>
+            </a>
+    
+            <a class="smedia" href="https://api.whatsapp.com/send/?phone=%2B201017284396&text&type=phone_number&app_absent=0">
+                <p class="iconn text-success"><i class="fa-brands fa-whatsapp"></i><span class="titlemedia">Hasnaa</span></p>
+            </a>
+    
+            <a class="smedia" href="https://api.whatsapp.com/send/?phone=%2B201126819337&text&type=phone_number&app_absent=0">
+                <p class="iconn text-success"><i class="fa-brands fa-whatsapp"></i><span class="titlemedia">Abdelazim Adel</span></p>
+            </a>
+    
+            <a class="smedia" href="https://api.whatsapp.com/send/?phone=%2B201122036588&text&type=phone_number&app_absent=0">
+                <p class="iconn text-success"><i class="fa-brands fa-whatsapp"></i><span class="titlemedia">Shimaa Abdelhamed</span></p>
+            </a>
+    
+            <a class="smedia" href="https://api.whatsapp.com/send/?phone=%2B201091911188&text&type=phone_number&app_absent=0">
+                <p class="iconn text-success"><i class="fa-brands fa-whatsapp"></i><span class="titlemedia">Kareem</span></p>
+            </a>
+        </div>
+    </div>
+    
     <!-- off canvas -->
     <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
         aria-labelledby="offcanvasWithBothOptionsLabel">
@@ -333,7 +364,7 @@
                         <h5>Quick Links</h5>
                         <ul class="list-unstyled">
                             <li><a href="#" class="text-light">Home</a></li>
-                            <li><a href="videos.html" class="text-light">videos</a></li>
+                            <li><a href="main_video.html" class="text-light">videos</a></li>
                             <li><a href="#" class="text-light">images</a></li>
                         </ul>
                     </div>
