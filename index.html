@@ -14,6 +14,37 @@
 
 </header>
 
+    <style>
+#fixedFooter {
+    position: fixed;
+    bottom:  0;
+    width: 100%;
+    background-color: #000000; /* Change the background color as needed */
+    padding: 20px; /* Adjust padding as needed */
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Vertically center align items */
+}
+
+.left-column {
+    display: flex;
+    align-items:flex-start; /* Vertically center align items */
+}
+
+.left-column img {
+    margin-right: 100px; /* Adjust margin as needed */
+    width: 65px; /* Adjust image width as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.center-column {
+    /* Optional: Add styling for the center column */
+}
+</style>
+    
 <body style="width: 100%;">
 
 
@@ -424,7 +455,16 @@
             <div class="text-center py-3">
             </div>
         </footer>
-
+<footer class="bg-dark text-light foot" id="fixedFooter">
+            <div class="footer-content">
+                <div class="left-column">
+                    <img src="flag.65a505a5616b94740bd2.png" alt="Footer Image">
+                </div>
+                <div class="center-column">
+                    <a>ENG/AHMEN_MOHIE</a>
+                </div>
+            </div>
+        </footer>
 
 
 
