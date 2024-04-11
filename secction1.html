@@ -59,27 +59,20 @@
     </div>
 </div>
 <script>
+    var codes = [
+        "", "", "", "", "",
+    ];
+
     function login() {
-        var password = document.getElementById("password").value;
-        // Replace 'your_password' with the actual password
-        if (password === "your_password") {
+        var code = document.getElementById("code").value;
+        if (codes.includes(code)) {
             document.getElementById("login-error").textContent = "";
             document.getElementById("login").style.display = "none";
             document.getElementById("video-container").style.display = "block";
-            
-            // Set timeout to expire the password after 10 seconds (adjust as needed)
-            // setTimeout(function() {
-            //     document.getElementById("login").style.display = "block";
-            //     document.getElementById("video-container").style.display = "none";
-            //     document.getElementById("password").value = ""; // Clear the password input
-            //     document.getElementById("login-error").textContent = "Password has expired. Please log in again.";
-            // }, 60000); // 10 seconds
         } else {
-            document.getElementById("login-error").textContent = "Incorrect password. Please try again.";
+            document.getElementById("login-error").textContent = "Incorrect code. Please try again.";
         }
     }
-
-   
 </script>
 </body>
 </html>
