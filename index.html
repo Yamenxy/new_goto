@@ -93,7 +93,7 @@
                     
                     <div class="col-sm-3 col-lg-3 btnnd"> <!-- Repeat for each button -->
                         <button type="button " class="logb btn btn-primary btnn m-1" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop" onclick="window.location.href='https://script.google.com/macros/s/AKfycbzqNqOlarC0Zg_MdIBaEppmNRl25fcyDJRul3Ew02_gCUbfGIxpngA1QvJ8eLoRGCJEdA/exec'">
+                            data-bs-target="#staticBackdrop" onclick="window.location.href='https://script.google.com/macros/s/AKfycbznvD7Br4ySNPrK9sjvSYyFAg5V_IiaY4gb7x0YYRCGCDQVFG-O6DnwlD6rCb3uvm7toA/exec'">
                             GET_YOUR_DATA
                         </button>
                     </div>
@@ -438,6 +438,7 @@
                             <li><a href="#" class="text-light">الرئيسيه</a></li>
                             <li><a href="main_video.html" class="text-light">الفيديوهات</a></li>
                             <li><a href="images.html" class="text-light">صور السبوره</a></li>
+                            <li><a href="#" id="adminLink" class="text-light">ADMIN</a></li>
                         </ul>
                     </div>
                     <!-- <div class="col-md-4 text-center">
@@ -466,7 +467,33 @@
     </div>
 </footer>
 
+<script>
+    // Function to handle the click event on the ADMIN link
+    document.getElementById('adminLink').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the default action of following the link
 
+        // Prompt the user for username and password
+        var adminName = prompt("Enter your username:");
+        var adminPassword = prompt("Enter your password:");
+
+        // Check if the provided username and password match any of the predefined combinations
+        if (
+            (adminName === "Yamen" && adminPassword === "Yaserhasan1") ||
+            (adminName === "Ahmed" && adminPassword === "217800") ||
+            (adminName === "Hassnaa" && adminPassword === "hassnaa29193#") ||
+            (adminName === "shimaa" && adminPassword === "151020035") ||
+            (adminName === "" && adminPassword === "") ||  // Additional empty username and password combination
+            (adminName === "" && adminPassword === "") ||  // Additional empty username and password combination
+            (adminName === "" && adminPassword === "")     // Additional empty username and password combination
+        ) {
+            // Redirect to the specified URL if the credentials are correct
+            window.location.href = "https://script.google.com/macros/s/AKfycbyeJ-NeCxh_XTw-MlBRI-augIbEPsBOh1ds0LCFLHfmiDS5PG_aB7DDz4JxcmETuoFy/exec";
+        } else {
+            // Display an error message if the credentials are incorrect
+            alert("Invalid credentials. Access denied.");
+        }
+    });
+</script>
 
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
