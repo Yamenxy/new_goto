@@ -5,11 +5,56 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Paid Video Access</title>
 <style>
-    body, html {
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-    }
+    * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+/* End Global rules */
+
+/* Start body rules */
+body {
+    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
+background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
+background-attachment: fixed;
+  background-repeat: no-repeat;
+
+    font-family: 'Vibur', cursive;
+/*   the main font */
+    font-family: 'Abel', sans-serif;
+opacity: .95;
+/* background-image: linear-gradient(to top, #d9afd9 0%, #97d9e1 100%); */
+}
+.input-item {
+    background: #fff;
+    color: #333;
+    padding: 14.5px 0px 15px 9px;
+    border-radius: 5px 0px 0px 5px;
+}
+input[class="form-input"]{
+    width: 240px;
+    height: 50px;
+  
+    margin-top: 2%;
+    padding: 15px;
+    
+    font-size: 16px;
+    font-family: 'Abel', sans-serif;
+    color: #5E6472;
+  
+    outline: none;
+    border: none;
+  
+    border-radius: 0px 5px 5px 0px;
+    transition: 0.2s linear;
+    
+}
+input[id="txt-input"] {width: 250px;}
+/* focus  */
+input:focus {
+    transform: translateX(-2px);
+    border-radius: 5px;
+}
 
     .container {
         max-width: 800px;
@@ -30,6 +75,11 @@
         margin-top: 10px;
     }
 
+    #loading-message {
+        margin-top: 10px;
+        display: none;
+    }
+
     #video-container {
         margin-top: 20px;
     }
@@ -41,39 +91,83 @@
 </style>
 </head>
 <body>
+    <div>
 <div class="container">
-    <h1>Paid Video Access</h1>
     <div id="login">
-        <h2>Enter The Code to Watch the Video</h2>
-        <input type="text" id="code" placeholder="Enter Code" required>
-        <button onclick="login()">Check</button>
+        <h2>Enter The Password</h2>
+        <input type="text" id="code" placeholder="Enter Code" style=" width: 240px;
+        height: 50px;
+      
+        margin-top: 2%;
+        padding: 15px;
+        
+        font-size: 16px;
+        font-family: 'Abel', sans-serif;
+        color: #5E6472;
+      
+        outline: none;
+        border: none;
+      
+        border-radius: 0px 5px 5px 0px;
+        transition: 0.2s linear;" required><br>
+        <button id="checkButton" style=" display: inline-block;
+        color: #252537;
+      
+        width: 280px;
+        height: 50px;
+      
+        padding: 0 20px;
+        background: #fff;
+        border-radius: 5px;
+        
+        outline: none;
+        border: none;
+      
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.2s linear;
+        
+        margin: 7% auto;
+        letter-spacing: 0.05em;">Check</button>
         <p id="login-error" class="error"></p>
+        <p id="loading-message">Loading...</p>
+        
     </div>
     <div id="video-container" style="display: none;">
-        <h2>Video Player</h2>
-        <div id="video-container" class="video-container">
-            <iframe id="video-frame" width="560" height="315" src="https://www.youtube.com/embed/S4UU0VQkiX0" allowfullscreen></iframe>
-        </div>
+        <iframe id="video-frame" width="560" height="315" src="https://www.youtube.com/embed/S4UU0VQkiX0" allowfullscreen></iframe>
     </div>
 </div>
+</div>
+
 <script>
-    var codes = [
-        "H7MK4voBnJd7QytFmJ", "", "", "", "",
-    ];
+    document.getElementById("checkButton").addEventListener("click", checkPassword);
 
-    function login() {
-    var code = document.getElementById("code").value;
-    if (code.trim() === "") {
-        document.getElementById("login-error").textContent = "Password is required!";
-    } else if (codes.includes(code)) {
-        document.getElementById("login-error").textContent = "";
-        document.getElementById("login").style.display = "none";
-        document.getElementById("video-container").style.display = "block";
-    } else {
-        document.getElementById("login-error").textContent = "Incorrect code. Please try again.";
+    function checkPassword() {
+        var code = document.getElementById("code").value;
+        var loadingMessage = document.getElementById("loading-message");
+        var loginError = document.getElementById("login-error");
+        if (code.trim() === "") {
+            loginError.textContent = "Password is required!";
+        } else {
+            loadingMessage.style.display = "block";
+            fetch('https://script.google.com/macros/s/AKfycbwk9ihTL4xCDhAS9iHhZxtI5IQ3ELkd29FFv_ZKO3LqS5Vr0crdcS44d4S5tdhPq54E/exec?code=' + code)
+                .then(response => response.json())
+                .then(data => {
+                    loadingMessage.style.display = "none";
+                    if (data.exists) {
+                        loginError.textContent = "";
+                        document.getElementById("login").style.display = "none";
+                        document.getElementById("video-container").style.display = "block";
+                    } else {
+                        loginError.textContent = "Incorrect code. Please try again.";
+                    }
+                })
+                .catch(error => {
+                    loadingMessage.style.display = "none";
+                    console.error('Error:', error);
+                });
+        }
     }
-}
-
 </script>
 </body>
 </html>
