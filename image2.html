@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paid Video Access</title>
+<style>
+    * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+/* End Global rules */
+
+/* Start body rules */
+body {
+    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
+background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
+background-attachment: fixed;
+  background-repeat: no-repeat;
+
+    font-family: 'Vibur', cursive;
+/*   the main font */
+    font-family: 'Abel', sans-serif;
+opacity: .95;
+/* background-image: linear-gradient(to top, #d9afd9 0%, #97d9e1 100%); */
+}
+.input-item {
+    background: #fff;
+    color: #333;
+    padding: 14.5px 0px 15px 9px;
+    border-radius: 5px 0px 0px 5px;
+}
+input[class="form-input"]{
+    width: 240px;
+    height: 50px;
+  
+    margin-top: 2%;
+    padding: 15px;
+    
+    font-size: 16px;
+    font-family: 'Abel', sans-serif;
+    color: #5E6472;
+  
+    outline: none;
+    border: none;
+  
+    border-radius: 0px 5px 5px 0px;
+    transition: 0.2s linear;
+    
+}
+input[id="txt-input"] {width: 250px;}
+/* focus  */
+input:focus {
+    transform: translateX(-2px);
+    border-radius: 5px;
+}
+
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        text-align: center;
+    }
+
+    h1, h2 {
+        margin-bottom: 20px;
+    }
+
+    .error {
+        color: red;
+    }
+
+    #login-error {
+        margin-top: 10px;
+    }
+
+    #loading-message {
+        margin-top: 10px;
+        display: none;
+    }
+
+    #video-container {
+        margin-top: 20px;
+    }
+
+    .phone-option {
+        display: block;
+        margin-bottom: 10px;
+    }
+    .imageContainer {
+            position: relative;
+            width: 45%;
+            height: auto;
+            margin: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .fullscreenButton {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            z-index: 1;
+        }
+
+        .btn-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            z-index: 1;
+            display: none;
+        }
+
+        .imageContainer.fullscreen:hover .btn-close {
+            display: block;
+        }
+</style>
+</head>
+<body>
+    <div>
+        <div class="container">
+            <div id="login">
+                <h2>Enter The Password</h2>
+                <input type="text" id="code" placeholder="Enter Code" style=" width: 240px;
+                height: 50px;
+              
+                margin-top: 2%;
+                padding: 15px;
+                
+                font-size: 16px;
+                font-family: 'Abel', sans-serif;
+                color: #5E6472;
+              
+                outline: none;
+                border: none;
+              
+                border-radius: 0px 5px 5px 0px;
+                transition: 0.2s linear;" required><br>
+                <button id="checkButton" style=" display: inline-block;
+                color: #252537;
+              
+                width: 280px;
+                height: 50px;
+              
+                padding: 0 20px;
+                background: #fff;
+                border-radius: 5px;
+                
+                outline: none;
+                border: none;
+              
+                cursor: pointer;
+                text-align: center;
+                transition: all 0.2s linear;
+                
+                margin: 7% auto;
+                letter-spacing: 0.05em;">Check</button>
+                <p id="login-error" class="error"></p>
+                <p id="loading-message">Loading...</p>
+                
+            </div>
+        
+                <!-- Place this within the container div, but outside of the login section -->
+<div id="image-container" class="container cardsCont m-auto mb-5" style="display: none;">
+    <div class="row justify-content-center gap-5">
+        <div class="imageContainer" id="imageContainer1">
+            <img id="image1" src="5fd4bc9c-29a5-4dc9-bf43-a6938de97043.jpg" alt="Image 1">
+            <button class="fullscreenButton" onclick="toggleFullScreen('image1')">⛶</button>
+            <button type="button" class="btn-close" onclick="closeFullScreen()">✖</button>
+        </div>
+
+        <div class="imageContainer" id="imageContainer2">
+            <img id="image2" src="7ff6779a-81b4-494d-a6a4-de3c311bd763.jpg" alt="Image 2">
+            <button class="fullscreenButton" onclick="toggleFullScreen('image2')">⛶</button>
+            <button type="button" class="btn-close" onclick="closeFullScreen()">✖</button>
+        </div>
+    </div>
+</div>
+
+        </div>
+        </div>
+    <script>
+       document.getElementById("checkButton").addEventListener("click", checkPassword);
+
+function checkPassword() {
+    var code = document.getElementById("code").value;
+    var loadingMessage = document.getElementById("loading-message");
+    var loginError = document.getElementById("login-error");
+
+    loginError.textContent = "";
+    if (code.trim() === "") {
+        loginError.textContent = "Code is required!";
+    } else {
+        loadingMessage.style.display = "block";
+        fetch('https://script.google.com/macros/s/AKfycbwOZHn9cDO8cDCE5snqP0ZYlO53wM7Rii432nFZ7eOH8nhZHzjM_IwWthbcGHlDcUjy/exec?code=' + code + '&column=1')
+            .then(response => response.json())
+            .then(data => {
+                loadingMessage.style.display = "none";
+                if (data.exists) {
+                    // Hide login and show image container
+                    document.getElementById("login").style.display = "none";
+                    document.getElementById("image-container").style.display = "block";
+                } else {
+                    if (data.message) {
+                        loginError.textContent = data.message;
+                    } else {
+                        loginError.textContent = 'Invalid code. Please try again.';
+                    }
+                }
+            })
+            .catch(error => {
+                loadingMessage.style.display = "none";
+                loginError.textContent = "An error occurred. Please try again.";
+                console.error('Error:', error);
+            });
+    }
+}
+
+
+
+        function toggleFullScreen(imageId) {
+    var elem = document.getElementById(imageId);
+    if (!document.fullscreenElement) {
+        elem.requestFullscreen().catch(err => {
+            alert(`Error attempting to enable full-screen mode: ${err.message}`);
+        });
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+    }
+}
+
+function closeFullScreen() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    }
+}
+
+document.addEventListener('fullscreenchange', (event) => {
+    const fullscreenElement = document.fullscreenElement;
+    const imageContainers = document.querySelectorAll('.imageContainer');
+    imageContainers.forEach(container => {
+        if (fullscreenElement && container.contains(fullscreenElement)) {
+            container.classList.add('fullscreen');
+        } else {
+            container.classList.remove('fullscreen');
+        }
+    });
+});
+
+    </script>
+</body>
+</html>

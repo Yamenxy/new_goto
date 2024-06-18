@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paid Video Access</title>
+<style>
+    * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+/* End Global rules */
+
+/* Start body rules */
+body {
+    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
+background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
+background-attachment: fixed;
+  background-repeat: no-repeat;
+
+    font-family: 'Vibur', cursive;
+/*   the main font */
+    font-family: 'Abel', sans-serif;
+opacity: .95;
+/* background-image: linear-gradient(to top, #d9afd9 0%, #97d9e1 100%); */
+}
+.input-item {
+    background: #fff;
+    color: #333;
+    padding: 14.5px 0px 15px 9px;
+    border-radius: 5px 0px 0px 5px;
+}
+input[class="form-input"]{
+    width: 240px;
+    height: 50px;
+  
+    margin-top: 2%;
+    padding: 15px;
+    
+    font-size: 16px;
+    font-family: 'Abel', sans-serif;
+    color: #5E6472;
+  
+    outline: none;
+    border: none;
+  
+    border-radius: 0px 5px 5px 0px;
+    transition: 0.2s linear;
+    
+}
+input[id="txt-input"] {width: 250px;}
+/* focus  */
+input:focus {
+    transform: translateX(-2px);
+    border-radius: 5px;
+}
+
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        text-align: center;
+    }
+
+    h1, h2 {
+        margin-bottom: 20px;
+    }
+
+    .error {
+        color: red;
+    }
+
+    #login-error {
+        margin-top: 10px;
+    }
+
+    #loading-message {
+        margin-top: 10px;
+        display: none;
+    }
+
+    #video-container {
+        margin-top: 20px;
+    }
+
+    .phone-option {
+        display: block;
+        margin-bottom: 10px;
+    }
+</style>
+</head>
+<body>
+    <div>
+        <div class="container">
+            <div id="login">
+                <h2>Enter The Password</h2>
+                <input type="text" id="code" placeholder="Enter Code" style=" width: 240px;
+                height: 50px;
+              
+                margin-top: 2%;
+                padding: 15px;
+                
+                font-size: 16px;
+                font-family: 'Abel', sans-serif;
+                color: #5E6472;
+              
+                outline: none;
+                border: none;
+              
+                border-radius: 0px 5px 5px 0px;
+                transition: 0.2s linear;" required><br>
+                <button id="checkButton" style=" display: inline-block;
+                color: #252537;
+              
+                width: 280px;
+                height: 50px;
+              
+                padding: 0 20px;
+                background: #fff;
+                border-radius: 5px;
+                
+                outline: none;
+                border: none;
+              
+                cursor: pointer;
+                text-align: center;
+                transition: all 0.2s linear;
+                
+                margin: 7% auto;
+                letter-spacing: 0.05em;">Check</button>
+                <p id="login-error" class="error"></p>
+                <p id="loading-message">Loading...</p>
+                
+            </div>
+        
+                <!-- CHANGE THE VIDEO'S URL  -->
+            <div id="video-container" style="display: none;">
+                <iframe id="video-frame" width="560" height="315" src="https://www.youtube.com/embed/S4UU0VQkiX0" allowfullscreen></iframe>
+            </div>
+        </div>
+        </div>
+    <script>
+        document.getElementById("checkButton").addEventListener("click", checkPassword);
+
+        function checkPassword() {
+            var code = document.getElementById("code").value;
+            var loadingMessage = document.getElementById("loading-message");
+            var loginError = document.getElementById("login-error");
+
+            loginError.textContent = "";
+            if (code.trim() === "") {
+                loginError.textContent = "Code is required!";
+            } else {
+                loadingMessage.style.display = "block";
+                fetch('https://script.google.com/macros/s/AKfycbwOZHn9cDO8cDCE5snqP0ZYlO53wM7Rii432nFZ7eOH8nhZHzjM_IwWthbcGHlDcUjy/exec?code=' + code + '&column=12')
+                    .then(response => response.json())
+                    .then(data => {
+                        loadingMessage.style.display = "none";
+                        if (data.exists) {
+                            document.getElementById("login").style.display = "none";
+                            document.getElementById("video-container").style.display = "block";
+                        } else {
+                            if (data.message) {
+                                loginError.textContent = data.message;
+                            } else {
+                                loginError.textContent = 'Invalid code. Please try again.';
+                            }
+                        }
+                    })  
+                    .catch(error => {
+                        loadingMessage.style.display = "none";
+                        loginError.textContent = "An error occurred. Please try again.";
+                        console.error('Error:', error);
+                    });
+            }
+        }
+    </script>
+</body>
+</html>
