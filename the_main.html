@@ -1,575 +1,382 @@
 <!DOCTYPE html>
-<html>
-<header>
+<html lang="en">
 
-    <title></title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/all.css">
-    <link rel="stylesheet" href="./css/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<head>
+  <meta charset="utf-8">
+  <title>Ahmed Mohie</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css_2/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-	
-</header>
-<style>
-#fixedFooter {
-    position: fixed;
-    bottom:  0;
-    width: 100%;
-    background-color: #000000; /* Change the background color as needed */
-    padding: 20px; /* Adjust padding as needed */
-}
 
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Vertically center align items */
-}
+  <!-- Place your favicon.ico and apple-touch-icon.png in the template root directory -->
+  <link href="favicon.ico" rel="shortcut icon">
 
-.left-column {
-    display: flex;
-    align-items:flex-start; /* Vertically center align items */
-}
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800"
+    rel="stylesheet">
 
-.left-column img {
-    margin-right: 100px; /* Adjust margin as needed */
-    width: 65px; /* Adjust image width as needed */
-    height: auto; /* Maintain aspect ratio */
-}
+  <!-- Bootstrap CSS File -->
+  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-.center-column {
-    /* Optional: Add styling for the center column */
-}
+  <!-- Libraries CSS Files -->
+  <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="lib/animate-css/animate.min.css" rel="stylesheet">
 
-/*     @import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+  <!-- Main Stylesheet File -->
+  <link href="css/style.css" rel="stylesheet">
 
-@import url("https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"); */
+  <!-- =======================================================
+    Theme Name: Imperial
+    Theme URL: https://bootstrapmade.com/imperial-free-onepage-bootstrap-theme/
+    Author: BootstrapMade.com
+    Author URL: https://bootstrapmade.com
+  ======================================================= -->
+</head>
 
-/* body {
-	font-family: "Montserrat", sans-serif;
-	min-height: 100vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-} */
+<body>
+  <div id="preloader"></div>
 
-/* * {
-	font-family: "Montserrat", sans-serif !important;
-}
-
-.reveal {
-  position: relative;
-  font-size: 6em;
-  font-weight: bold;
-  text-transform: uppercase;
-  background: #fff;
-  color: red;
-  letter-spacing: 0.5em; 
-}
-
- span {
-  color: #e5e5e5;
-  mix-blend-mode:hard-light;
-}
-
-.reveal:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 150px;
-  height: 100%;
-  border-radius: 50%;
-  background: #000;
-  animation: reveal 6s linear infinite;
-}
-
-@keyframes reveal {
-  0% {
-    left: -50px;
-  }
-  50% {
-    left: calc(100% - 150px);
-  }
-  100% {
-    left: -50px;
-  }
-}
-
-.credits a {
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  color: #000;
-  font-size: 24px;
-} */
-
-</style>
-
-<body style="width: 100%;">
-
-    <!-- Navigation bar -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top position-fixed ">
-        <div class="container-fluid nav" id="navbarContainer">
-            <a class="navbar-brand " href="#">
-                <!-- <img class="image" src="flag.65a505a5616b94740bd2.png" alt="" width="500" height="500" style="object-fit: cover;"> -->
-                <img class="image" src="27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg" alt="" width="50" height="39">الصف الاول الثانوي
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">الرئيسيه</a>
-                    </li>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="main_video.html">الفيديوهات</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="images.html">صور السبوره</a>
-                    </li>
-
-                </ul>
-                
-
-                <div class="row"> <!-- Create a row to contain the buttons -->
-                    <div class="col-sm-3 col-lg-3 btnnd"> <!-- Divide the row into columns to hold each button -->
-                        <button class="btn btn-primary m-1 btnn" type="button" data-bs-toggle="offcanvas"   
-                            data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">OUR_GROUPS</button> 
-                    </div>
-                
-                    <div class="col-sm-3 col-lg-3 btnnd"> <!-- Repeat for each button -->
-                        <button type="button " class="logb btn btn-primary btnn m-1" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop" onclick="window.location.href='https://yamenxy.github.io/DATA_M/'">
-                            Sign_Up
-                        </button>
-                    </div>
-                    
-                    <div class="col-sm-3 col-lg-3 btnnd"> <!-- Repeat for each button -->
-                        <button type="button " class="logb btn btn-primary btnn m-1" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop" onclick="window.location.href='https://script.google.com/macros/s/AKfycbz-efidKI4gvM8ZSm6H0bctnKAWyMvqn6elZvp2uc7nTjy4PrNDL5TOfkwH-0HRbgOBcA/exec'">
-                            GET_YOUR_DATA
-                        </button>
-                    </div>
-                    
-                    <div class="col-sm-3 col-lg-3 btnnd"> <!-- Repeat for each button -->
-                        <button class="btn btn-primary m-1 btnn" type="button" data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasWithBothOptions_contact" aria-controls="offcanvasWithBothOptions">Contacts</button> 
-                            <div class="background-left"></div>
-
-                    </div>
-                </div>
-                            </div>
+  <!--==========================
+  Hero Section
+  ============================-->
+  <section id="hero">
+    <div class="hero-container">
+      <div class="wow fadeIn">
+        <div class="hero-logo">
         </div>
-    </nav>
 
+        <h1>Welcome to Our Family</h1>
+        <div class="actions">
+          <a href="#about" class="btn-get-started">Get Strated</a>
+          <a href="#contact" class="btn-services">Our Groups</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--==========================
+  Header Section
+  ============================-->
+  <header id="header">
+    <div class="container">
+
+      <div id="logo" class="pull-left">
+        <a href="#hero"><img src="img/27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg" alt="" title="" /></img></a>
+        <!-- Uncomment below if you prefer to use a text image -->
+        <!--<h1><a href="#hero">Header 1</a></h1>-->
+      </div>
+
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li class="menu-active"><a href="#hero">Home</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#team">Team</a></li>
+          <li><a href='https://script.google.com/macros/s/AKfycbz0KJqM_aFLJy9m5-ch4AoH4_eJURvscDchujBEWnZapB1f2PWoUszaDI5syPcrRVnN/exec'>Profile</a></li>
+          <li class="menu-has-children"><a>Contents</a>
+            <ul>
+              <li class="menu-has-children"><a href="images.html">White Board picture</a>
+              </li>
+              <li class="menu-has-children"><a>Videos</a>
+                <ul>
+                  <li><a href="secction.html">Lectures</a></li>
+                  <li><a href="videos.html">Homework Videos</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li><a href="#contact">Our Groups</a></li>
+        </ul>
+      </nav>
+      <!-- #nav-menu-container -->
+    </div>
+  </header>
+  <!-- #header -->
    
 
-    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions_contact" aria-labelledby="offcanvasWithBothOptionsLabel">
-        <div class="offcanvas-body">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Fell Free to chat us</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <a class="smedia" href="https://api.whatsapp.com/send/?phone=%2B201004395090&text&type=phone_number&app_absent=0">
-                <p class="iconn text-success"><i class="fa-brands fa-whatsapp"></i><span class="titlemedia">Yamen Yasser</span></p>
-            </a>
-    
-            <a class="smedia" href="https://api.whatsapp.com/send/?phone=%2B2001111492628&text&type=phone_number&app_absent=0">
-                <p class="iconn text-success"><i class="fa-brands fa-whatsapp"></i><span class="titlemedia">Ahmed Elyamany</span></p>
-            </a>
-    
-            <a class="smedia" href="https://api.whatsapp.com/send/?phone=%2B201017284396&text&type=phone_number&app_absent=0">
-                <p class="iconn text-success"><i class="fa-brands fa-whatsapp"></i><span class="titlemedia">Hasnaa</span></p>
-            </a>
-    
-            <a class="smedia" href="https://api.whatsapp.com/send/?phone=%2B201126819337&text&type=phone_number&app_absent=0">
-                <p class="iconn text-success"><i class="fa-brands fa-whatsapp"></i><span class="titlemedia">Abdelazim Adel</span></p>
-            </a>
-    
-            <a class="smedia" href="https://api.whatsapp.com/send/?phone=%2B201122036588&text&type=phone_number&app_absent=0">
-                <p class="iconn text-success"><i class="fa-brands fa-whatsapp"></i><span class="titlemedia">Shimaa Abdelhamed</span></p>
-            </a>
-    
-            <a class="smedia" href="https://api.whatsapp.com/send/?phone=%2B201091911188&text&type=phone_number&app_absent=0">
-                <p class="iconn text-success"><i class="fa-brands fa-whatsapp"></i><span class="titlemedia">Kareem</span></p>
-            </a>
+  <!--==========================
+  About Section
+  ============================-->
+  <section id="about">
+    <div class="container wow fadeInUp">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 class="section-title">About Us</h3>
+          <div class="section-title-divider"></div>
+          <p class="section-description">We are Ahmed Mohie's Team and we will be with You and support You in the Website
+            and if You want any Question
+          </p>
         </div>
+      </div>
     </div>
-    
-    <!-- off canvas -->
-    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
-        aria-labelledby="offcanvasWithBothOptionsLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Feel free to follow these links</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        
-        <div class="offcanvas-body">
+    <div class="container about-container wow fadeInUp">
+      <div class="row">
 
-            <a class="smedia" href="https://chat.whatsapp.com/KI1Et4F5S7Y3iGY5t14lRe">
-                <p class="iconn text-success"><i class="fa-brands fa-whatsapp"></i><span
-                        class="titlemedia">whatsapp</span></p>
-            </a>
-
-            <a class="smedia" href="https://t.me/+oqML7Ks689E0ODlk">
-                <p class="iconn text-danger"><i class="fa-brands fa-telegram"></i><span class="titlemedia">Telegram</span>
-                </p>
-            </a>
-
-            <a class="smedia" href="https://youtube.com/@ahmedmohie36">
-                <p class="iconn text-info-emphasis"><i class="fa-brands fa-youtube"></i><span
-                        class="titlemedia">YouTube</span></p>
-            </a>
-
-            <a class="smedia" href="https://www.tiktok.com/@ahmed_mohie7?_t=8eQinzl24Qg&_r=1">
-                <p class="iconn text-warning-emphasis"><i class="fa-brands fa-tiktok"></i><span
-                        class="titlemedia">TikTok</span></p>
-            </a>
-
-            <a class="smedia" href="https://www.facebook.com/share/bSLEp1NgJwAc4Wbd/?mibextid=K35XfP">
-                <p class="iconn fst"><i class="fa-brands fa-facebook"></i><span class="titlemedia">Facebook </span></p>
-            </a>
-
-            <a class="smedia" href="https://www.facebook.com/profile.php?id=100086168628540&mibextid=LQQJ4d">
-                <p class="iconn fst"><i class="fa-brands fa-facebook"></i><span class="titlemedia">Facebook </span></p>
-            </a>
-
-            <a class="smedia" href="https://instagram.com/ahmedmohie97?igshid=OGQ5ZDc2ODk2ZA==">
-                <p class="iconn fst"><i class="fa-brands fa-instagram"></i><span class="titlemedia">Instagram </span></p>
-            </a>
-
-            
-
-            
-
-            
-
-            
+        <div class="col-lg-6 about-img">
+          <img src="img/" alt="">
         </div>
 
+        <div class="col-md-6 about-content">
+          <h2 class="about-title"></h2>
+          <p class="about-text">
+            
+          </p>
+          <p class="about-text">
+            
+          </p>
+          <p class="about-text">
+            
+          </p>
+        </div>
+      </div>
     </div>
+  </section>
 
+  <!--==========================
+  Services Section
+  ============================-->
+  
 
-    <!-- carousel -->
-
-    <div class=" containere">
-        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators  ">
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
-<!--                 <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-                    aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-                    aria-label="Slide 3"></button> -->
-                <!-- Additional indicators -->
-<!--                 <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
-                    aria-label="Slide 4"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4"
-                    aria-label="Slide 5"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="5"
-                    aria-label="Slide 6"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="6"
-                    aria-label="Slide 7"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="7"
-                    aria-label="Slide 8"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="8"
-                    aria-label="Slide 9"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="9"
-                    aria-label="Slide 10"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="10"
-                    aria-label="Slide 11"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="11"
-                    aria-label="Slide 12"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="12"
-                    aria-label="Slide 13"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="13"
-                    aria-label="Slide 14"></button> -->
-            </div>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg" class="d-block w-100 cimg">
+  <!--==========================
+  Subscrbe Section
+  ============================-->
+  <section id="subscribe">
+    <div class="container wow fadeInUp">
+      <div class="row" style="color: azure;">
+        <div class="col-md-8">
+          <div class="page-header-wrapper">
+            <div class="container">
+                <div class="page-header text-center wow fadeInDown" data-wow-delay="0.4s">
+                    <h2>Some Fun Facts</h2>
+                    <div class="devider"></div>
+                    <p class="subtitle">Before anyone is not told</p>
                 </div>
-<!--                 <div class="carousel-item">
-                    <img src="616d294d-0655-4660-a8cd-b146f33c9c9b.jpg" class="d-block w-100 cimg" alt="sale">
-                </div>
-                <div class="carousel-item">
-                    <img src="6283de8d-f97e-4317-9766-81acf4d2abb4.jpg" class="d-block w-100 cimg" alt="Latest drop">
-                </div> -->
-                <!-- Additional carousel items -->
-<!--                 <div class="carousel-item">
-                    <img src="1b8c9bce-2a98-4dd3-8464-3a7b2e0ae333.jpg" class="d-block w-100 cimg" alt="Image 4">
-                </div>
-                <div class="carousel-item">
-                    <img src="e3b0f7c2-0266-4047-b8c8-dd1b95b60d7a.jpg" class="d-block w-100 cimg" alt="Image 5">
-                </div>
-                <div class="carousel-item">
-                    <img src="f7fd6a98-b7ff-4202-b37a-e05d7571ac17.jpg" class="d-block w-100 cimg" alt="Image 6">
-                </div>
-                <div class="carousel-item">
-                    <img src="8386561d-3da1-4043-8f10-a72b7284b7b8.jpg" class="d-block w-100 cimg" alt="Image 7">
-                </div>
-                <div class="carousel-item">
-                    <img src="849875d9-ff17-4278-91c9-641f237159a3.jpg" class="d-block w-100 cimg" alt="Image 8">
-                </div>
-                <div class="carousel-item">
-                    <img src="74b6f1ca-b9f8-4e93-92dd-732d7d0c5ffc.jpg" class="d-block w-100 cimg" alt="Image 9">
-                </div>
-                <div class="carousel-item">
-                    <img src="7a368516-e415-460d-bb59-5d48b1839e1f.jpg" class="d-block w-100 cimg" alt="Image 10">
-                </div>
-                <div class="carousel-item">
-                    <img src="62a2d41d-f45a-4f3e-a3f6-84d2a6624315.jpg" class="d-block w-100 cimg" alt="Image 11">
-                </div>
-                <div class="carousel-item">
-                    <img src="2b95972d-e3fa-4efe-9e1b-6f0c6ca31108.jpg" class="d-block w-100 cimg" alt="Image 12">
-                </div>
-                <div class="carousel-item">
-                    <img src="07cf337a-897e-4b90-b00f-a2f33d1e6440.jpg" class="d-block w-100 cimg" alt="Image 13">
-                </div> 
-                <div class="carousel-item">
-                    <img src="f2fe3ece-5c20-48ad-bb9c-29717aee4b78.jpg" class="d-block w-100 cimg" alt="Image 14">
-                </div>-->
             </div>
         </div>
-    </div>
-    
-    
-                
-                
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-
-
-    </div>
-
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">please enter your message and then submit</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1"
-                            placeholder="name@example.com">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">your question goes here</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        <!-- End page header-->
+        <div class="container">
+            <div class="row">
+                <div class="fact text-center col-md-4 col-sm-6">
+                    <div class="fact-inner">
+                        <i class="fa fa-users fa-3x"></i>
+                        <div class="extra-space-l"></div>
+                        <span class="counter">2000</span>
+                        <p class="lead">Students</p>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-secondary" data-bs-container="body" data-toggle="popover"
-                        title="it's important for us to know what email we can contact you in" data-content="">
-                        why do we need your email?
-                    </button>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exx">
-                        Save and send
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="exx" tabindex="-1" aria-labelledby="exx" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exx">Message sent successfully</h1><br>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-footer">
-                    <div class="float-end">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <div class="fact text-center col-md-4 col-sm-6">
+                    <div class="fact-inner">
+                        <i class="fa bi-person fa-3x"></i>
+                        <div class="extra-space-l"></div>
+                        <span class="counter">10</span>
+                        <p class="lead">Assistants</p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
-    <div class="separator"></div>
-    <div class="ussep"></div>
-
-
-
-
-    <!-- cards -->
-    <div class="ussep">
-        <!-- <div class="h2d">
-            <h2>Our Top Sales</h2>
-        </div> -->
-    </div>
-
-    <div class="container cardsCont m-auto mb-5 ">
-        <div class="row col-12 justify-content-around m-auto gap-5">
-
-	
-		
-            <!-- <div class="card col-lg-4 col-md-6 col-sm-12 cardEdit" style="width: 18rem;">
-                <div class="cardEditText">
-                    <img src="White-tailed Deer - Fawn_jpg.jpg" class=" card-img-top" alt="black hoodie">
-                </div>
-
-                <div class="card-body ">
-                    <h5 class="card-title">deer</h5>
-                    <p class="card-text"></p>
-                    <a href="#" class="btn btn-primary" onclick="bookActivity('Activity 1')"><s>399$</s> 299$</a>
+                <div class="fact text-center col-md-4 col-sm-12">
+                    <div class="fact-inner">
+                        <i class="fa fa-trophy fa-3x"></i>
+                        <div class="extra-space-l"></div>
+                        <span class="counter">500</span>
+                        <p class="lead">Winning Awards</p>
+                    </div>
                 </div>
                 
-
-            </div>
-
-            <div class="card col-lg-4 col-md-6 col-sm-12 cardEdit" style="width: 18rem;">
-                <div class="cardEditText">
-                    <img src="ZRAWdgHeNNPw8PaSxg7kVj-1200-80.jpg" class=" card-img-top" alt="black hoodie">
-                </div>
-
-                <div class="card-body ">
-                    <h5 class="card-title">Monkeys</h5>
-                    <p class="card-text"></p>
-                    <a href="#" class="btn btn-primary" onclick="bookActivity('Activity 1')"><s>399$</s> 299$</a>
-                </div>
-
-            </div>
-
-            <div class="card col-lg-4 col-md-6 col-sm-12 cardEdit" style="width: 18rem;">
-                <div class="cardEditText">
-                    <img src="download.jpg" class=" card-img-top" alt="black hoodie" onclick="bookActivity('Activity 1')">
-                </div>
-
-                <div class="card-body ">
-                    <h5 class="card-title">Hourses</h5>
-                    <p class="card-text"></p>
-                    <a href="#" class="btn btn-primary" onclick="bookActivity('Activity 1')"><s>399$</s> 299$</a>
-                </div> -->
-
-            </div>
+            </div> <!-- /.row -->
         </div>
-    </div>
-
-    <div class="separator2"></div>
-
-    <!-- news -->
-
-    <div class="space"></div>
-    
-    <div class="space"></div>
-
-        <div id="clickable-div" class="ussep">
-        <h2>Founder of The Website:<span class="textanimation"></span><span class="write"></span></h2>
-    </div>
-        <div class="space" style="height: 100px;"></div>    
-
-
-        <div class="space"></div>
-
-
-        <footer class="bg-dark text-light foot">
-            <div class="containere py-4 p-4">
-                <div class="row">
-                    <div class="col-md-4 text-center">
-                        <h5>Quick Links</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="#" class="text-light">الرئيسيه</a></li>
-                            <li><a href="main_video.html" class="text-light">الفيديوهات</a></li>
-                            <li><a href="images.html" class="text-light">صور السبوره</a></li>
-                            <li><a href="#" id="adminLink" class="text-light">ADMIN</a></li>
-                        </ul>
-                    </div>
-                    <!-- <div class="col-md-4 text-center">
-                        <h5>Connect With Us</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="#" class="text-light"><i class="fab fa-facebook-f"></i> Facebook</a></li>
-                            <li><a href="#" class="text-light"><i class="fab fa-twitter"></i> Twitter</a></li>
-                            <li><a href="#" class="text-light"><i class="fab fa-instagram"></i> Instagram</a></li>
-                        </ul>
-                    </div> -->
-                    
-                </div>
-            </div>
-            <div class="text-center py-3">
-            </div>
-        </footer>
-
-        <footer class="bg-dark text-light foot" id="fixedFooter">
-    <div class="footer-content">
-        <div class="left-column">
-            <img src="flag.65a505a5616b94740bd2.png" alt="Footer Image">
         </div>
-        <div class="center-column">
-            <a>ENG/AHMEN_MOHIE</a>
-        </div>
+      </div>
     </div>
-</footer>
+  </section>
+  
 
-<script>
-        // Function to handle the click event on the ADMIN link
-        document.getElementById('adminLink').addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent the default action of following the link
+  <!--==========================
+  Team Section
+  ============================-->
+  <section id="team">
+    <div class="container wow fadeInUp">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 class="section-title">Our Team</h3>
+          <div class="section-title-divider"></div>
+          <p class="section-description">This is Some Informations about our Team</p>
+        </div>
+      </div>
 
-            // Prompt the user for username and password
-            var adminName = prompt("Enter your username:");
-var adminPassword = prompt("Enter your password:");
+      <div class="row">
+        <div class="col-md-3">
+          <div class="member">
+            <div class="pic"><img src="img/team-1.jpg" alt=""></div>
+            <h4>Ahmed Mohie</h4>
+            <span>Electrical Engineer</span>
+            <div class="social">
+              <a href=""><i class="fa fa-whatsapp"></i></a>
+              <a href=""><i class="fa fa-facebook"></i></a>
+              <a href=""><i class="fa fa-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="member">
+            <div class="pic"><img src="img/team-3.jpg" alt=""></div>
+            <h4>Yamen Yasser</h4>
+            <span>Software Engineer</span>
+            <div class="social">
+              <a href="https://api.whatsapp.com/send/?phone=%2B201004395090&text&type=phone_number&app_absent=0"><i class="fa fa-whatsapp"></i></a>
+              <a href=""><i class="fa fa-facebook"></i></a>
+              <a href=""><i class="fa fa-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="member">
+            <div class="pic"><img src="img/team-2.jpg" alt=""></div>
+            <h4>Hassnaa</h4>
+            <span>Engineer</span>
+            <div class="social">
+              <a href="https://api.whatsapp.com/send/?phone=%2B201017284396&text&type=phone_number&app_absent=0"><i class="fa fa-whatsapp"></i></a>
+              <a href=""><i class="fa fa-facebook"></i></a>
+              <a href=""><i class="fa fa-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="member">
+            <div class="pic"><img src="img/team-3.jpg" alt=""></div>
+            <h4>Ahmed Elyamany</h4>
+            <span>Engineer</span>
+            <div class="social">
+              <a href="https://api.whatsapp.com/send/?phone=%2B2001111492628&text&type=phone_number&app_absent=0"><i class="fa fa-whatsapp"></i></a>
+              <a href=""><i class="fa fa-facebook"></i></a>
+              <a href=""><i class="fa fa-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="member">
+            <div class="pic"><img src="img/team-3.jpg" alt=""></div>
+            <h4>Kareem</h4>
+            <span>Doctor</span>
+            <div class="social">
+              <a href="https://api.whatsapp.com/send/?phone=%2B201091911188&text&type=phone_number&app_absent=0"><i class="fa fa-whatsapp"></i></a>
+              <a href=""><i class="fa fa-facebook"></i></a>
+              <a href=""><i class="fa fa-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="member">
+            <div class="pic"><img src="img/team-4.jpg" alt=""></div>
+            <h4>Shimaa</h4>
+            <span>Doctor</span>
+            <div class="social">
+              <a href="https://api.whatsapp.com/send/?phone=%2B201122036588&text&type=phone_number&app_absent=0"><i class="fa fa-whatsapp"></i></a>
+              <a href=""><i class="fa fa-facebook"></i></a>
+              <a href=""><i class="fa fa-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!--==========================
+  Contact Section
+  ============================-->
+  <section id="contact">
+    <div class="container wow fadeInUp">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 class="section-title">Our Groups</h3>
+          <div class="section-title-divider"></div>
+          <p class="section-description">Join Our Groups</p>
+        </div>
+      </div>
+  
+      <div class="social text-center mt-4">
+        <a href="https://chat.whatsapp.com/KI1Et4F5S7Y3iGY5t14lRe" class="social-link"><i class="fa fa-whatsapp fa-3x mr-5"></i></a>
+        <a href="https://www.facebook.com/share/bSLEp1NgJwAc4Wbd/?mibextid=K35XfP" class="social-link"><i class="fa fa-facebook fa-3x mr-5"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=100086168628540&mibextid=LQQJ4d" class="social-link"><i class="fa fa-facebook fa-3x mr-5"></i></a>
+        <a href="https://instagram.com/ahmedmohie97?igshid=OGQ5ZDc2ODk2ZA==" class="social-link"><i class="fa fa-instagram fa-3x"></i></a>
+      </div>
+    </div>
+  </section>
+  
+
+  <!--==========================
+  Footer
+============================-->
+  <footer id="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <li><a href="#" id="adminLink" class="text-light">ADMIN</a></li>
+          <div class="credits">
+            <a>Designed by Yamen Yasser</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- #footer -->
+
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+
+  <!-- Required JavaScript Libraries -->
+  <script src="lib/jquery/jquery.min.js"></script>
+  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src="lib/superfish/hoverIntent.js"></script>
+  <script src="lib/superfish/superfish.min.js"></script>
+  <script src="lib/morphext/morphext.min.js"></script>
+  <script src="lib/wow/wow.min.js"></script>
+  <script src="lib/stickyjs/sticky.js"></script>
+  <script src="lib/easing/easing.js"></script>
+  
+
+  <!-- Template Specisifc Custom Javascript File -->
+  <script src="js/custom.js"></script>
+
+  <script src="contactform/contactform.js"></script>
+
+  <script>
+    // Function to handle the click event on the ADMIN link
+    document.getElementById('adminLink').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the default action of following the link
+
+        // Prompt the user for username and password
+        var adminName = prompt("Enter your username:");
+    var adminPassword = prompt("Enter your password:");
 
 // Check if the provided username and password match any of the predefined combinations
 if (
-    (adminName === "Yamen" && adminPassword === "Yaserhasan1") ||
-    (adminName === "Ahmed" && adminPassword === "217800") ||
-    (adminName === "Hassnaa" && adminPassword === "hassnaa29193#") ||
-    (adminName === "shimaa" && adminPassword === "151020035")
+(adminName === "Yamen" && adminPassword === "Yaserhasan1") ||
+(adminName === "Ahmed" && adminPassword === "217800") ||
+(adminName === "Hassnaa" && adminPassword === "hassnaa29193#") ||
+(adminName === "shimaa" && adminPassword === "151020035")
 ) {
-    // Redirect to the welcome page with the username as a query parameter
-    window.location.href = "welcome_page.html?username=" + adminName;
+// Redirect to the welcome page with the username as a query parameter
+window.location.href = "welcome_page.html?username=" + adminName;
 } else {
-    // Display an error message if the credentials are incorrect
-    alert("Invalid credentials. Access denied.");
+// Display an error message if the credentials are incorrect
+alert("Invalid credentials. Access denied.");
 }
 
 
 
-        });
-    </script>
-
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-            crossorigin="anonymous"></script>
-
-	<script>
-    document.getElementById("clickable-div").addEventListener("click", function() {
-        window.location.href = "https://api.whatsapp.com/send/?phone=%2B201004395090&text&type=phone_number&app_absent=0";
     });
 </script>
-        
+
+
 </body>
+
 </html>
