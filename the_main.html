@@ -320,7 +320,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <li><a href="#" id="adminLink" class="text-light">ADMIN</a></li>
+          <li><a href="admin.html" id="adminLink" class="text-light">ADMIN</a></li>
           <div class="credits">
             <a>Designed by Yamen Yasser</a>
           </div>
@@ -358,18 +358,7 @@
     var adminPassword = prompt("Enter your password:");
 
 // Check if the provided username and password match any of the predefined combinations
-if (
-(adminName === "Yamen" && adminPassword === "Yaserhasan1") ||
-(adminName === "Ahmed" && adminPassword === "217800") ||
-(adminName === "Hassnaa" && adminPassword === "hassnaa29193#") ||
-(adminName === "shimaa" && adminPassword === "151020035")
-) {
-// Redirect to the welcome page with the username as a query parameter
-window.location.href = "welcome_page.html?username=" + adminName;
-} else {
-// Display an error message if the credentials are incorrect
-alert("Invalid credentials. Access denied.");
-}
+
 
 
 
