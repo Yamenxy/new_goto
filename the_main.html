@@ -151,47 +151,47 @@
         <div class="col-md-8">
           <div class="page-header-wrapper">
             <div class="container">
-                <div class="page-header text-center wow fadeInDown" data-wow-delay="0.4s">
-                    <h2>Some Fun Facts</h2>
-                    <div class="devider"></div>
-                    <p class="subtitle">Before anyone is not told</p>
-                </div>
+              <div class="page-header text-center wow fadeInDown" data-wow-delay="0.4s">
+                <h2>Some Fun Facts</h2>
+                <div class="devider"></div>
+                <p class="subtitle">Before anyone is not told</p>
+              </div>
             </div>
-        </div>
-        <!-- End page header-->
-        <div class="container">
+          </div>
+          <!-- End page header-->
+          <div class="container">
             <div class="row">
-                <div class="fact text-center col-md-4 col-sm-6">
-                    <div class="fact-inner">
-                        <i class="fa fa-users fa-3x"></i>
-                        <div class="extra-space-l"></div>
-                        <span class="counter">2000</span>
-                        <p class="lead">Students</p>
-                    </div>
+              <div class="fact text-center col-md-4 col-sm-6">
+                <div class="fact-inner">
+                  <i class="fa fa-users fa-3x"></i>
+                  <div class="extra-space-l"></div>
+                  <span class="counter" data-target="2000">0</span>
+                  <p class="lead">Students</p>
                 </div>
-                <div class="fact text-center col-md-4 col-sm-6">
-                    <div class="fact-inner">
-                        <i class="fa bi-person fa-3x"></i>
-                        <div class="extra-space-l"></div>
-                        <span class="counter">10</span>
-                        <p class="lead">Assistants</p>
-                    </div>
+              </div>
+              <div class="fact text-center col-md-4 col-sm-6">
+                <div class="fact-inner">
+                  <i class="fa bi-person fa-3x"></i>
+                  <div class="extra-space-l"></div>
+                  <span class="counter" data-target="10">0</span>
+                  <p class="lead">Assistants</p>
                 </div>
-                <div class="fact text-center col-md-4 col-sm-12">
-                    <div class="fact-inner">
-                        <i class="fa fa-trophy fa-3x"></i>
-                        <div class="extra-space-l"></div>
-                        <span class="counter">500</span>
-                        <p class="lead">Winning Awards</p>
-                    </div>
+              </div>
+              <div class="fact text-center col-md-4 col-sm-12">
+                <div class="fact-inner">
+                  <i class="fa fa-trophy fa-3x"></i>
+                  <div class="extra-space-l"></div>
+                  <span class="counter" data-target="500">0</span>
+                  <p class="lead">Winning Awards</p>
                 </div>
-                
+              </div>
             </div> <!-- /.row -->
-        </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
+  
   
 
   <!--==========================
@@ -228,8 +228,8 @@
             <span>Software Engineer</span>
             <div class="social">
               <a href="https://api.whatsapp.com/send/?phone=%2B201004395090&text&type=phone_number&app_absent=0"><i class="fa fa-whatsapp"></i></a>
-              <a href=""><i class="fa fa-facebook"></i></a>
-              <a href=""><i class="fa fa-instagram"></i></a>
+              <a href="https://www.facebook.com/share/23qoF3xEzpspFP2A/?mibextid=qi2Omg"><i class="fa fa-facebook"></i></a>
+              <a href="https://www.instagram.com/lwldlslhlwldlslh?igsh=a2o1dTdkbm5qZWhz"><i class="fa fa-instagram"></i></a>
             </div>
           </div>
         </div>
@@ -341,6 +341,32 @@
   <script src="lib/wow/wow.min.js"></script>
   <script src="lib/stickyjs/sticky.js"></script>
   <script src="lib/easing/easing.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const counters = document.querySelectorAll('.counter');
+      const speed = 1000; // The lower the number, the faster the count
+  
+      counters.forEach(counter => {
+        const updateCount = () => {
+          const target = +counter.getAttribute('data-target');
+          const count = +counter.innerText;
+  
+          const increment = target / speed;
+  
+          if (count < target) {
+            counter.innerText = Math.ceil(count + increment);
+            setTimeout(updateCount, 1);
+          } else {
+            counter.innerText = target;
+          }
+        };
+  
+        updateCount();
+      });
+    });
+  </script>
+  
   
 
   <!-- Template Specisifc Custom Javascript File -->
