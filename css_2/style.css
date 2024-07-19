@@ -86,7 +86,7 @@ h1, h2, h3, h4, h5, h6 {
   display: table;
   width: 100%;
   height: 100vh;
-  background: url(../img/27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg) top center;
+  background: url(../images/27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg) top center;
   background-size: cover;
 }
 
@@ -579,7 +579,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 /* Subscribe Section
 --------------------------------*/
 #subscribe {
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(../img/27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg) fixed center center;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(../images/27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg) fixed center center;
   background-size: cover;
   padding: 80px 0;
 }
@@ -875,6 +875,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   font-size: 13px;
   color: #ccc;
 }
+
 
 /*---------------------------------------------------------------
 images of the team
