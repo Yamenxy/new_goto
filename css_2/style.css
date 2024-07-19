@@ -875,3 +875,31 @@ body.mobile-nav-active #mobile-nav-toggle {
   font-size: 13px;
   color: #ccc;
 }
+
+/*---------------------------------------------------------------
+images of the team
+----------------------------------------------------------------*/
+.member {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.member .pic {
+  overflow: hidden;
+  width: 100%;
+  max-width: 250px;
+  margin: 0 auto 15px;
+}
+
+.member .pic img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+}
+
+@media (max-width: 767px) {
+  .member .pic {
+    max-width: 200px;
+  }
+}
