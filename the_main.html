@@ -358,11 +358,11 @@
   <!--==========================
   Footer
 ============================-->
-  <footer id="footer">
+<footer id="footer">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <li><a href="admin.html" class="text-light">ADMIN</a></li>
+          <li style="display: none;" id="admin-button"><a href="admin.html" class="text-light">ADMIN</a></li>
           <div class="credits">
             <a>Designed by Yamen Yasser</a>
           </div>
@@ -408,7 +408,21 @@
       });
     });
   </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const designedByElement = document.querySelector('.credits a');
+      const adminButton = document.getElementById('admin-button');
+      let clickCount = 0;
   
+      designedByElement.addEventListener('click', function() {
+        clickCount++;
+        if (clickCount === 5) {
+          adminButton.style.display = 'block';
+        }
+      });
+    });
+  </script>
   
 
   <!-- Template Specisifc Custom Javascript File -->
