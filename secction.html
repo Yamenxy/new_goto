@@ -8,154 +8,162 @@
     <link rel="stylesheet" href="./css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link rel="stylesheet" href="css_2/style.css">
+
 </head>
-<body style="width: 100%;">
+<style>
+    html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 
-    <div class="container cardsCont m-auto mb-5 ">
-        <div class="row justify-content-around gap-5">
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <div class="card cardEdit" style="width: 18rem;">
-                    <div class="cardEditText">
-                        <img src="27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg" class="card-img-top" alt="black hoodie">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a href="secction1.html" class="card-link">شرح الزتونه واحد</a>
-                        </h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-            </div>
+body {
+    display: flex;
+    flex-direction: column;
+}
 
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <div class="card cardEdit" style="width: 18rem;">
-                    <div class="cardEditText">
-                        <img src="27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg" class="card-img-top" >
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a href="coming_soon.html" class="card-link">شرح الزتونه اتنين</a>       <!-- be sure to change the herf!-->
-                        </h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-            </div>
+.container {
+    flex: 1 0 auto;
+}
 
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <div class="card cardEdit" style="width: 18rem;">
-                    <div class="cardEditText">
-                        <img src="27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg" class="card-img-top" >
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a href="coming_soon.html" class="card-link">شرح الزتونه تلاته</a>
-                        </h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-            </div>
+.fixed-footer {
+    bottom: 0;
+    width: 100%;
+    background-color: #f8f9fa; /* Adjust background color if needed */
+    padding: 10px 0;
+    text-align: center;
+}
 
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <div class="card cardEdit" style="width: 18rem;">
-                    <div class="cardEditText">
-                        <img src="27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg" class="card-img-top" >
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a href="coming_soon.html" class="card-link">شرح الزتونه اربعة</a>
-                        </h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-            </div>
+</style>
+<body >
+    <header id="header" >
+        <div class="container">
+    
+          <nav id="nav-menu-container" class="pull-left">
+            <ul class="nav-menu">
+              <li class="menu-active"><a href="/the_main.html#hero">Home</a></li>
+              <li><a href="/the_main.html#about">About Us</a></li>
+              <li><a href="/the_main.html#team">Team</a></li>
+              <li><a href='https://script.google.com/macros/s/AKfycbz0KJqM_aFLJy9m5-ch4AoH4_eJURvscDchujBEWnZapB1f2PWoUszaDI5syPcrRVnN/exec'>Profile</a></li>
+              <li class="menu-has-children"><a>Contents</a>
+                <ul>
+                  <li class=""><a href="images.html">White Board picture</a>
+                  </li>
+                  <li class="menu-has-children"><a>Videos</a>
+                    <ul>
+                      <li><a href="secction.html">Lectures</a></li>
+                      <li><a href="videos.html">Homework Videos</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><a href="/the_main.html#contact">Our Groups</a></li>
+            </ul>
+          </nav>
+    
+          <div id="logo" class="pull-right">
+            <a href="#hero"><img src="images/27aaa2af-994c-4d8a-8221-c5a3674cbb9b-removebg-preview_logo.png" alt="" title="" /></img></a>
+            <span style="color: white;">الصف الاول الثانوي</span>
+            <!-- Uncomment below if you prefer to use a text image -->
+            <!--<h1><a href="#hero">Header 1</a></h1>-->
+          </div>
+          <!-- #nav-menu-container -->
+        </div>
+      </header>
 
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <div class="card cardEdit" style="width: 18rem;">
-                    <div class="cardEditText">
-                        <img src="27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg" class="card-img-top" >
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a href="coming_soon.html" class="card-link">شرح الزتونه خمسة</a>
-                        </h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <div class="card cardEdit" style="width: 18rem;">
-                    <div class="cardEditText">
-                        <img src="27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg" class="card-img-top" >
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a href="coming_soon.html" class="card-link">شرح الزتونه ستة</a>
-                        </h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <div class="card cardEdit" style="width: 18rem;">
-                    <div class="cardEditText">
-                        <img src="27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg" class="card-img-top" >
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a href="coming_soon.html" class="card-link">شرح الزتونه سبعة</a>
-                        </h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <div class="card cardEdit" style="width: 18rem;">
-                    <div class="cardEditText">
-                        <img src="27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg" class="card-img-top" >
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a href="coming_soon.html" class="card-link">شرح الزتونه ثمانية</a>
-                        </h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <div class="card cardEdit" style="width: 18rem;">
-                    <div class="cardEditText">
-                        <img src="27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg" class="card-img-top" >
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a href="coming_soon.html" class="card-link">شرح الزتونه تسعة</a>
-                        </h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <div class="card cardEdit" style="width: 18rem;">
-                    <div class="cardEditText">
-                        <img src="27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg" class="card-img-top" >
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a href="coming_soon.html" class="card-link">شرح الزتونه عشرة</a>
-                        </h5>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-            </div>
-
-            
+      <div class="container cardsCont m-auto mb-5 mt-5" style="direction: rtl;
+          text-align: right;">
+        <div id="cardContainer" class="row justify-content-around gap-5 ">
+            <!-- Cards will be dynamically inserted here -->
+        </div>
+        <div id="pagination" class="mt-4 text-center">
+            <!-- Pagination buttons will be dynamically inserted here -->
         </div>
     </div>
 
+    <footer id="footer" class="fixed-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="credits">
+                        <a>Designed by Yamen Yasser</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+<script>
+    
+    const cardsPerPage = 4;
+    let currentPage = 1;
+    
+    const cardData = [
+        { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "شرح الزتونه واحد", link: "secction1.html" },
+        { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "شرح الزتونه اتنين", link: "secction2.html" },
+        { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "شرح الزتونه تلاته", link: "coming_soon.html" },
+        { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "شرح الزتونه اربعه", link: "coming_soon.html" },
+        { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "شرح الزتونه خمسه", link: "coming_soon.html" },
+        { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "شرح الزتونه سته", link: "coming_soon.html" },
+        { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "شرح الزتونه سبعه", link: "coming_soon.html" },
+        { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "شرح الزتونه تمانيه", link: "coming_soon.html" },
+        { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "شرح الزتونه تسعه", link: "coming_soon.html" },
+        { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "شرح الزتونه عشره", link: "coming_soon.html" },
+    ];
+    
+    function createCard(cardInfo) {
+    return `
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <a href="${cardInfo.link}" class="card-link">
+                <div class="card cardEdit" style="width: 18rem;">
+                    <div class="cardEditText">
+                        <img src="${cardInfo.imgSrc}" class="card-img-top" alt="${cardInfo.title}">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">${cardInfo.title}</h5>
+                        <p class="card-text"></p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        `;
+    }
+    
+    function displayCards(page) {
+        const cardContainer = document.getElementById('cardContainer');
+        const startIndex = (page - 1) * cardsPerPage;
+        const endIndex = startIndex + cardsPerPage;
+        const cardsToDisplay = cardData.slice(startIndex, endIndex);
+    
+        cardContainer.innerHTML = cardsToDisplay.map(createCard).join('');
+    }
+    
+    function createPaginationButtons() {
+        const paginationContainer = document.getElementById('pagination');
+        const totalPages = Math.ceil(cardData.length / cardsPerPage);
+    
+        let paginationHTML = '';
+        for (let i = 1; i <= totalPages; i++) {
+            paginationHTML += `<button class="btn btn-primary mx-1" onclick="changePage(${i})">${i}</button>`;
+        }
+    
+        paginationContainer.innerHTML = paginationHTML;
+    }
+    
+    function changePage(page) {
+        currentPage = page;
+        displayCards(currentPage);
+    }
+    
+    // Initial display
+    displayCards(currentPage);
+    createPaginationButtons();
+    </script>
+
 </html>
