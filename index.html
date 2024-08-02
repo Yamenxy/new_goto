@@ -1,237 +1,258 @@
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-      <link rel="icon" href="images/27aaa2af-994c-4d8a-8221-c5a3674cbb9b-removebg-preview_logo.png" type="image/png">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --background: #f0f2f5;
+      --primary-color: #1877f2;
+      --text-color: #1c1e21;
+      --secondary-color: #42b72a;
+    }
 
-    <style>
-      :root {
-        --background: #f0f2f5;
-        --primary-color: #1877f2;
-        --text-color: #1c1e21;
-        --secondary-color: #42b72a;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+    }
+
+    .login-container {
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 16px;
+      border: 1px solid #dddfe2;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    form input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
+    }
+
+    button {
+      width: 100%;
+      height: 50px;
+      margin: 20px 0;
+      color: #fff;
+      background: linear-gradient(to right, #667eea, #764ba2);
+      font-size: 1.2em;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #764ba2, #667eea);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .register-forget {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 16px;
+    }
+
+    .register-forget a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .register-forget a:hover {
+      text-decoration: underline;
+    }
+
+    #loading-message {
+      text-align: center;
+      margin-top: 16px;
+      color: var(--primary-color);
+    }
+
+    #login-error {
+      text-align: center;
+      margin-top: 16px;
+      color: #ff3b30;
+    }
+
+    .support-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .support-link a {
+      color: #000000;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .support-link a:hover {
+      text-decoration: underline;
+    }
+
+    .scanner span {
+      color: transparent;
+      font-size: 1.4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scanner span::before {
+      content: "Loading...";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      border-right: 4px solid #000000;
+      overflow: hidden;
+      color: #000000;
+      animation: load91371 2s linear infinite;
+    }
+
+    @keyframes load91371 {
+      0%, 10%, 100% {
+        width: 0;
       }
 
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
+      10%,20%,30%,40%,50%,60%,70%,80%,90%,100% {
+        border-right-color: transparent;
       }
 
-      body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            font-family: 'Tajawal', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
+      11%,21%,31%,41%,51%,61%,71%,81%,91% {
+        border-right-color: #000000;
+      }
 
-      .container {
+      60%, 80% {
         width: 100%;
-        max-width: 400px;
-        padding: 20px;
       }
+    }
 
-      .login-container {
-        background-color: #ffffff;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-      }
+    .disabled {
+      pointer-events: none;
+      opacity: 0.6;
+    }
 
-      h1 {
-        font-size: 24px;
-        text-align: center;
-        margin-bottom: 20px;
-        
-      }
-
-      form input {
-        width: 100%;
-        padding: 14px;
-        margin-bottom: 16px;
-        border: 1px solid #dddfe2;
-        border-radius: 6px;
-        font-size: 16px;
-      }
-
-      form input:focus {
-        outline: none;
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
-      }
-
-      button {
-            width: 100%;
-            height: 50px;
-            margin: 20px 0;
-            color: #fff;
-            background: linear-gradient(to right, #667eea, #764ba2);
-            font-size: 1.2em;
-            font-weight: bold;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-    
-        button:hover {
-            background: linear-gradient(to right, #764ba2, #667eea);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-      .register-forget {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 16px;
-      }
-
-      .register-forget a {
-        color: var(--primary-color);
-        text-decoration: none;
-        font-size: 14px;
-      }
-
-      .register-forget a:hover {
-        text-decoration: underline;
-      }
-
-      #loading-message {
-        text-align: center;
-        margin-top: 16px;
-        color: var(--primary-color);
-      }
-
-      #login-error {
-        text-align: center;
-        margin-top: 16px;
-        color: #ff3b30;
-      }
-
-      .support-link {
-        text-align: center;
-        margin-top: 20px;
-      }
-
-      .support-link a {
-        color: #000000;
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: 600;
-      }
-
-      .support-link a:hover {
-        text-decoration: underline;
-      }
-
-             .scanner span {
-  color: transparent;
-  font-size: 1.4rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.scanner span::before {
-  content: "Loading...";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 100%;
-  border-right: 4px solid #000000;
-  overflow: hidden;
-  color: #000000;
-  animation: load91371 2s linear infinite;
-}
-
-@keyframes load91371 {
-  0%, 10%, 100% {
-    width: 0;
-  }
-
-  10%,20%,30%,40%,50%,60%,70%,80%,90%,100% {
-    border-right-color: transparent;
-  }
-
-  11%,21%,31%,41%,51%,61%,71%,81%,91% {
-    border-right-color: #000000;
-  }
-
-  60%, 80% {
-    width: 100%;
-  }
-}
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="login-container">
-        <h1 style="color: linear-gradient(to right, #667eea, #764ba2);">Login</h1>
-        <form onsubmit="event.preventDefault(); checkPassword();">
-          <input type="text" id="code" placeholder="Enter the code..." required />
-          <input type="password" id="password" placeholder="Enter the password..." required />
-          <button type="submit">Log In</button>
-        </form>
-        <div class="register-forget">
-          <a href="https://yamenxy.github.io/DATA_M/">Register</a>
-          <a href="https://api.whatsapp.com/send/?phone=%2B201004395090&text&type=phone_number&app_absent=0">Forgot Password?</a>
-        </div>
-        <div id="loading-message" style="display:none;">
-          <div class="loader">
-            <div class="scanner">
-              <span>Loading...</span>
-            </div>
+  </style>
+</head>
+<body>
+  <div class="container disable-on-submit">
+    <div class="login-container">
+      <h1 style="color: linear-gradient(to right, #667eea, #764ba2);">Login</h1>
+      <form onsubmit="event.preventDefault(); checkPassword();">
+        <input type="text" id="code" placeholder="Enter the code..." class="disable-on-submit" required />
+        <input type="password" id="password" placeholder="Enter the password..." class="disable-on-submit" required />
+        <button type="submit" class="disable-on-submit">Log In</button>
+      </form>
+      <div class="register-forget">
+        <a href="https://yamenxy.github.io/DATA_M/">Register</a>
+        <a href="https://api.whatsapp.com/send/?phone=%2B201004395090&text&type=phone_number&app_absent=0">Forgot Password?</a>
+      </div>
+      <div id="loading-message" style="display:none;">
+        <div class="loader">
+          <div class="scanner">
+            <span>Loading...</span>
           </div>
         </div>
-        <div id="login-error"></div>
       </div>
-      <div class="support-link">
-        <a href="https://api.whatsapp.com/send/?phone=%2B201004395090&text&type=phone_number&app_absent=0">Need Support?</a>
-      </div>
+
+      <div id="login-error"></div>
     </div>
+    <div class="support-link">
+      <a href="https://api.whatsapp.com/send/?phone=%2B201004395090&text&type=phone_number&app_absent=0">Need Support?</a>
+    </div>
+  </div>
 
-    <script>
-      function checkPassword() {
-        var code = document.getElementById("code").value;
-        var password = document.getElementById("password").value;
-        var loadingMessage = document.getElementById("loading-message");
-        var loginError = document.getElementById("login-error");
+  <script>
+    function checkPassword() {
+      var code = document.getElementById("code").value;
+      var password = document.getElementById("password").value;
+      var loadingMessage = document.getElementById("loading-message");
+      var loginError = document.getElementById("login-error");
 
-        if (code.trim() === "" || password.trim() === "") {
-          loginError.textContent = "Code and password are required!";
-        } else {
-          loadingMessage.style.display = "block";
-          var url = 'https://script.google.com/macros/s/AKfycbxVbrE6oFuVBopVbbklGP34bDyPBVbuGPiqG_Nrv_UCcGY8eV1eQos5xLqLc_upkYtOcg/exec';
-          url += '?code=' + encodeURIComponent(code) + '&password=' + encodeURIComponent(password);
+      if (code.trim() === "" || password.trim() === "") {
+        loginError.textContent = "Code and password are required!";
+      } else {
+        loadingMessage.style.display = "block";
+        disablePage();
 
-          fetch(url)
-            .then(response => response.json())
-            .then(data => {
-              loadingMessage.style.display = "none";
-              if (data.exists) {
-                loginError.textContent = "";
-                window.location.href = 'the_main.html';
-              } else {
-                loginError.textContent = "Incorrect code or password. Please try again.";
-              }
-            })
-            .catch(error => {
-              loadingMessage.style.display = "none";
-              console.error('Error:', error);
-              loginError.textContent = "An error occurred. Please try again.";
-            });
-        }
+        var url = 'https://script.google.com/macros/s/AKfycbxVbrE6oFuVBopVbbklGP34bDyPBVbuGPiqG_Nrv_UCcGY8eV1eQos5xLqLc_upkYtOcg/exec';
+        url += '?code=' + encodeURIComponent(code) + '&password=' + encodeURIComponent(password);
+
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            loadingMessage.style.display = "none";
+            enablePage();
+            if (data.exists) {
+              loginError.textContent = "";
+              window.location.href = 'the_main.html';
+            } else {
+              loginError.textContent = "Incorrect code or password. Please try again.";
+            }
+          })
+          .catch(error => {
+            loadingMessage.style.display = "none";
+            enablePage();
+            console.error('Error:', error);
+            loginError.textContent = "An error occurred. Please try again.";
+          });
       }
-    </script>
-  </body>
-  </html>
+    }
 
+    function disablePage() {
+      var elements = document.getElementsByClassName('disable-on-submit');
+      for (var i = 0; i < elements.length; i++) {
+        elements[i].classList.add('disabled');
+        elements[i].disabled = true;
+      }
+    }
 
-
+    function enablePage() {
+      var elements = document.getElementsByClassName('disable-on-submit');
+      for (var i = 0; i < elements.length; i++) {
+        elements[i].classList.remove('disabled');
+        elements[i].disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
