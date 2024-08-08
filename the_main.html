@@ -430,6 +430,42 @@
 
   <!-- <script src="contactform/contactform.js"></script> -->
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const designedByElement = document.querySelector('.credits a');
+        const adminButton = document.getElementById('admin-button');
+        let clickCount = 0;
+
+        designedByElement.addEventListener('click', function() {
+            clickCount++;
+            if (clickCount === 5) {
+                adminButton.style.display = 'block';
+            }
+        });
+
+        // Sequence: up up down down left right left right a m
+        const adminSequence = [
+            'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
+            'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
+            'a', 'm'
+        ];
+
+        let keySequence = [];
+        document.addEventListener('keydown', function(event) {
+            keySequence.push(event.key);
+
+            // Keep only the last 10 key presses
+            if (keySequence.length > adminSequence.length) {
+                keySequence.shift();
+            }
+
+            // Check if the sequence matches
+            if (keySequence.toString() === adminSequence.toString()) {
+                adminButton.style.display = 'block';
+            }
+        });
+    });
+</script>
 
 
 
