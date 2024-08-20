@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Ahmed Mohie</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css_2/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="icon" href="images/27aaa2af-994c-4d8a-8221-c5a3674cbb9b-removebg-preview_logo.png" type="image/png">
+  <link href="favicon.ico" rel="shortcut icon">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800" rel="stylesheet">
+  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="lib/animate-css/animate.min.css" rel="stylesheet">
+</head>
+
+<style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .container {
+      flex: 1 0 auto;
+    }
+  
+    .fixed-footer {
+      bottom: 0;
+      width: 100%;
+      background-color: #f8f9fa;
+      padding: 10px 0;
+      text-align: center;
+    }
+  
+    .card {
+      border: none;
+      border-radius: 8px; /* Slightly smaller border radius */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      max-width: 280px; /* Limit the card width */
+      margin: auto; /* Center align the card */
+    }
+  
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+  
+    .card-img-top {
+      border-bottom: 1px solid #ddd;
+    }
+  
+    .card-body {
+      padding: 0.75rem; /* Reduce padding */
+    }
+  
+    .card-title {
+      font-size: 1.5rem; /* Smaller font size */
+      font-weight: bold;
+    }
+  
+    .card-text {
+      color: #555;
+    }
+  
+    .card-link {
+      text-decoration: none;
+    }
+  
+    #pagination {
+      margin-top: 20px;
+    }
+  
+    .pagination-btn {
+      margin: 0 3px; /* Smaller margin */
+      padding: 8px 16px; /* Smaller padding */
+      border-radius: 5px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+  
+    .pagination-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+  
+
+<body>
+    <header id="header">
+        <div class="container">
+    
+          <nav id="nav-menu-container" class="pull-left">
+            <ul class="nav-menu">
+              <li><a href='https://script.google.com/macros/s/AKfycbz0KJqM_aFLJy9m5-ch4AoH4_eJURvscDchujBEWnZapB1f2PWoUszaDI5syPcrRVnN/exec'>الملف الشخصي</a></li>
+              <li class="menu-has-children"><a>المحتويات</a>
+                <ul>
+                  <li><a href="images_arabic.html">صور السبورة البيضاء</a></li>
+                  <li class="menu-has-children"><a>الفيديوهات</a>
+                    <ul>
+                      <li><a href="secction_arabic.html">المحاضرات</a></li>
+                      <li><a href="videos_Arabic.html">فيديوهات الواجبات</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><a href="#contact">مجموعاتنا</a></li>
+              <li><a href="#team">فريقنا</a></li>
+              <li><a href="#about">من نحن</a></li>
+  
+  
+              <li class="menu-active"><a href="#hero">الصفحة الرئيسية</a></li>
+  
+            </ul>
+          </nav>
+    
+          <div id="logo" class="pull-right">
+            <a href="#hero"><img src="images/27aaa2af-994c-4d8a-8221-c5a3674cbb9b-removebg-preview_logo.png" alt="" title="" /></a>
+            <span style="color: white;">الصف الأول الثانوي</span>
+            <!-- Uncomment below if you prefer to use a text image -->
+            <!--<h1><a href="#hero">Header 1</a></h1>-->
+          </div>
+          <!-- #nav-menu-container -->
+        </div>
+      </header>
+
+  <div class="container cardsCont m-auto mb-5 mt-5" style="direction: rtl; text-align: right;">
+    <div id="cardContainer" class="row justify-content-around">
+      <!-- Cards will be dynamically inserted here -->
+    </div>
+    <div id="pagination" class="mt-4 text-center">
+      <!-- Pagination buttons will be dynamically inserted here -->
+    </div>
+  </div>
+  
+
+  <footer id="footer" class="fixed-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="credits">
+            <a>Designed by Yamen Yasser</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="lib/jquery/jquery.min.js"></script>
+  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src="lib/superfish/hoverIntent.js"></script>
+  <script src="lib/superfish/superfish.min.js"></script>
+  <script src="lib/morphext/morphext.min.js"></script>
+  <script src="lib/wow/wow.min.js"></script>
+  <script src="lib/stickyjs/sticky.js"></script>
+  <script src="lib/easing/easing.js"></script>
+  <script src="js/custom.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+  <script>
+    const cardsPerPage = 4;
+    let currentPage = 1;
+
+    const cardData = [
+      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه صفر", link: "video1.html" },
+      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه واحد", link: "video2.html" },
+      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه اتنين", link: "coming_soon.html" },
+      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه تلاتة", link: "coming_soon.html" },
+      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه اربعة", link: "coming_soon.html" },
+      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه خمسة", link: "coming_soon.html" },
+      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه ستة", link: "coming_soon.html" },
+      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه سبعة", link: "coming_soon.html" },
+      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه تمانية", link: "coming_soon.html" },
+      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه تسعة", link: "coming_soon.html" },
+      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه عشرة", link: "coming_soon.html" },
+    ];
+
+    function createCard(cardInfo) {
+      return `
+        <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+          <a href="${cardInfo.link}" class="card-link">
+            <div class="card">
+              <img src="${cardInfo.imgSrc}" class="card-img-top" alt="${cardInfo.title}">
+              <div class="card-body">
+                <h5 class="card-title">${cardInfo.title}</h5>
+                <p class="card-text"></p>
+              </div>
+            </div>
+          </a>
+        </div>
+      `;
+    }
+
+    function displayCards(page) {
+      const cardContainer = document.getElementById('cardContainer');
+      const startIndex = (page - 1) * cardsPerPage;
+      const endIndex = startIndex + cardsPerPage;
+      const cardsToDisplay = cardData.slice(startIndex, endIndex);
+
+      cardContainer.innerHTML = cardsToDisplay.map(createCard).join('');
+    }
+
+    function createPaginationButtons() {
+      const paginationContainer = document.getElementById('pagination');
+      const totalPages = Math.ceil(cardData.length / cardsPerPage);
+
+      let paginationHTML = '';
+      for (let i = 1; i <= totalPages; i++) {
+        paginationHTML += `<button class="pagination-btn" onclick="changePage(${i})">${i}</button>`;
+      }
+
+      paginationContainer.innerHTML = paginationHTML;
+    }
+
+    function changePage(page) {
+      currentPage = page;
+      displayCards(currentPage);
+    }
+
+    // Initial display
+    displayCards(currentPage);
+    createPaginationButtons();
+  </script>
+</body>
+
+</html>
