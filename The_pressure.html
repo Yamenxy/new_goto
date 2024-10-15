@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluid Pressure Simulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0; /* Reset margin */
+            padding: 20px; /* Add padding for small screens */
+            box-sizing: border-box; /* Ensure padding doesn't affect width */
+        }
+        .container {
+            display: flex;
+            flex-direction: column; /* Stack elements vertically on small screens */
+            align-items: center; /* Center the elements */
+        }
+        .simulation {
+            position: relative;
+            width: 90%; /* Use percentage for responsive width */
+            max-width: 300px; /* Limit max width */
+            height: 400px;
+            border: 2px solid #000;
+            background-color: #b3e5fc;
+            margin-bottom: 20px; /* Space between simulation and controls */
+        }
+        .depth-marker {
+            position: absolute;
+            left: -30px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .marker-0 { top: 10px; }
+        .marker-1 { top: 110px; }
+        .marker-2 { top: 210px; }
+        .marker-3 { top: 310px; }
+
+        .water {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #03a9f4;
+        }
+
+        /* Pressure gauge styles */
+        .gauge {
+            position: relative;
+            width: 100px; /* Use percentage for responsive width */
+            height: 100px; /* Use percentage for responsive height */
+            border: 3px solid #000;
+            border-radius: 50%;
+            background-color: #fff;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .gauge .value {
+            font-weight: bold;
+            line-height: 100px; /* Centering the text */
+            font-size: 16px; /* Slightly smaller font size */
+        }
+        .gauge .needle {
+            position: absolute;
+            width: 2px;
+            height: 50px; /* Adjusted for responsive design */
+            background: red;
+            transform-origin: bottom center;
+            bottom: 50%;
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
+        .gauge .tick {
+            position: absolute;
+            background: black;
+            width: 2px;
+            height: 10px;
+            left: 50%;
+            transform-origin: 50% 100%; /* Rotate around the bottom */
+        }
+        .gauge .tick-label {
+            position: absolute;
+            text-align: center;
+            font-size: 8px; /* Smaller font size for responsiveness */
+            font-weight: bold;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 10px;
+            border: 2px solid #000;
+            background-color: #fff;
+            width: 90%; /* Use percentage for responsive width */
+            max-width: 400px; /* Limit max width */
+        }
+        .control-group {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        .slider {
+            width: 100%;
+        }
+
+        /* Responsive styles */
+        @media (min-width: 600px) {
+            .container {
+                flex-direction: row; /* Change back to row layout on larger screens */
+                justify-content: space-around;
+            }
+            .simulation {
+                margin-bottom: 0; /* Remove bottom margin for larger screens */
+            }
+        }
+
+        @media (max-width: 400px) {
+            .gauge .value {
+                font-size: 14px; /* Adjust font size for very small screens */
+            }
+            .gauge .needle {
+                height: 40px; /* Adjust height of needle */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Simulation -->
+        <div class="simulation">
+            <div class="depth-marker marker-0">0 m</div>
+            <div class="depth-marker marker-1">1 m</div>
+            <div class="depth-marker marker-2">2 m</div>
+            <div class="depth-marker marker-3">3 m</div>
+
+            <!-- Water level -->
+            <div class="water" id="waterLevel" style="height: 0%;"></div>
+
+            <!-- Pressure gauge -->
+            <div class="gauge" id="pressureGauge">
+                <div class="value" id="pressureValue">0 kPa</div>
+
+                <!-- Tick marks and labels -->
+            </div>
+        </div>
+        
+        <!-- Controls -->
+        <div class="controls">
+            <div class="control-group">
+                <label for="depth">Depth (meters):</label>
+                <input type="number" id="depth" min="0" max="3" step="0.1" value="0">
+                <input type="range" id="depthSlider" min="0" max="3" step="0.1" value="0" class="slider">
+                <span id="depthValue">0 m</span>
+            </div>
+            <div class="control-group">
+                <label for="fluidDensity">Fluid Density (kg/m³):</label>
+                <input type="number" id="fluidDensity" min="500" max="2000" step="1" value="1000">
+                <input type="range" id="densitySlider" min="500" max="2000" step="1" value="1000" class="slider">
+                <span id="fluidValue">1000 kg/m³ (Water)</span>
+            </div>
+            <div class="control-group">
+                <label for="gravity">Gravity (m/s²):</label>
+                <input type="number" id="gravity" min="3.7" max="24.79" step="0.1" value="9.8">
+                <input type="range" id="gravitySlider" min="3.7" max="24.79" step="0.1" value="9.8" class="slider">
+                <span id="gravityValue">9.8 m/s² (Earth)</span>
+            </div>
+            <div class="control-group">
+                <label for="atmosphereToggle">Atmosphere:</label>
+                <input type="checkbox" id="atmosphereToggle" checked> On
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const depthInput = document.getElementById('depth');
+        const depthSlider = document.getElementById('depthSlider');
+        const fluidDensityInput = document.getElementById('fluidDensity');
+        const densitySlider = document.getElementById('densitySlider');
+        const gravityInput = document.getElementById('gravity');
+        const gravitySlider = document.getElementById('gravitySlider');
+        const atmosphereToggle = document.getElementById('atmosphereToggle');
+
+        const depthValue = document.getElementById('depthValue');
+        const fluidValue = document.getElementById('fluidValue');
+        const gravityValue = document.getElementById('gravityValue');
+        const pressureValue = document.getElementById('pressureValue');
+        const gaugeNeedle = document.getElementById('gaugeNeedle');
+        const waterLevel = document.getElementById('waterLevel');
+
+        const atmPressure = 101.325; // Atmospheric pressure in kPa
+
+        function updatePressure() {
+            // Get current values from input fields
+            const depth = parseFloat(depthInput.value);
+            const density = parseFloat(fluidDensityInput.value);
+            const gravity = parseFloat(gravityInput.value);
+            const atmosphereOn = atmosphereToggle.checked;
+
+            // Update display of current values
+            depthValue.textContent = `${depth} m`;
+            fluidValue.textContent = `${density} kg/m³`;
+            gravityValue.textContent = `${gravity.toFixed(1)} m/s²`;
+
+            // Calculate pressure (P = density * gravity * depth)
+            let pressure = (density * gravity * depth) / 1000; // Convert to kPa
+
+            // Add atmospheric pressure if the toggle is on
+            if (atmosphereOn) {
+                pressure += atmPressure;
+            }
+
+            // Update the gauge display
+            pressureValue.textContent = `${pressure.toFixed(2)} kPa`;
+
+            // Adjust water level visually
+            const waterHeight = (depth / 3) * 100; // Scale to 0-100%
+            waterLevel.style.height = `${waterHeight}%`;
+
+            // Update gauge needle position
+            const needleAngle = (pressure / 3) * 180 - 90; // Convert pressure to angle
+            gaugeNeedle.style.transform = `translate(-50%, 0) rotate(${needleAngle}deg)`;
+        }
+
+        // Event listeners for input changes
+        depthInput.addEventListener('input', updatePressure);
+        depthSlider.addEventListener('input', () => {
+            depthInput.value = depthSlider.value;
+            updatePressure();
+        });
+        fluidDensityInput.addEventListener('input', updatePressure);
+        densitySlider.addEventListener('input', () => {
+            fluidDensityInput.value = densitySlider.value;
+            updatePressure();
+        });
+        gravityInput.addEventListener('input', updatePressure);
+        gravitySlider.addEventListener('input', () => {
+            gravityInput.value = gravitySlider.value;
+            updatePressure();
+        });
+        atmosphereToggle.addEventListener('change', updatePressure);
+
+        // Initial update on load
+        updatePressure();
+    </script>
+</body>
+</html>
