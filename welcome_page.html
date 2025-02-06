@@ -363,6 +363,10 @@ nav ul li span:nth-child(4) {
             <div style="width: 100%; margin: 0 auto; text-align: center;">
                 <nav>
                     <ul>
+                        <li id="gradesWebsiteBtn" style="margin: 10px;">
+                        Attendance
+                        <span></span><span></span><span></span><span></span>
+                      </li>
                       <li id="gradesWebsiteBtn" style="margin: 10px;">
                         Grades using website
                         <span></span><span></span><span></span><span></span>
@@ -402,6 +406,11 @@ nav ul li span:nth-child(4) {
         // Set the username in the welcome message
         document.getElementById('username').textContent = username;
 
+         document.getElementById('Attendance').addEventListener('click', function() {
+            // Redirect to the specified URL
+            window.location.href = "https://script.google.com/macros/s/AKfycbz5uM7wBpjzgaLrMhgBIyScpvqlEsdffbk1I8twsK7X8UDEajKZ84RB5JbCh8f4eKzYcw/exec";
+        });
+        
         // Add event listener to the "Grades using website" button
         document.getElementById('gradesWebsiteBtn').addEventListener('click', function() {
             // Redirect to the specified URL
