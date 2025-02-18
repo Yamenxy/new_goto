@@ -1,233 +1,92 @@
+
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <title>Ahmed Mohie</title>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="css_2/style.css">
-  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="icon" href="images/27aaa2af-994c-4d8a-8221-c5a3674cbb9b-removebg-preview_logo.png" type="image/png">
-  <link href="favicon.ico" rel="shortcut icon">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800" rel="stylesheet">
-  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <link href="lib/animate-css/animate.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فيديوهات الواجب</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            color: white;
+            font-family: 'Tajawal', sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 20px;
+            line-height: 1.8;
+        }
+        .highlight {
+            color: #ffcc00;
+            font-weight: bold;
+        }
+        .download-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #ffcc00;
+            color: #1e3c72;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .assistants {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .assistants ul {
+            list-style: none;
+            padding: 0;
+        }
+        .assistants li {
+            margin: 5px 0;
+        }
+        .assistants a {
+            color: #ffcc00;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
 </head>
-
-<style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-  
-    body {
-      display: flex;
-      flex-direction: column;
-    }
-  
-    .container {
-      flex: 1 0 auto;
-    }
-  
-    .fixed-footer {
-      bottom: 0;
-      width: 100%;
-      background-color: #f8f9fa;
-      padding: 10px 0;
-      text-align: center;
-    }
-  
-    .card {
-      border: none;
-      border-radius: 8px; /* Slightly smaller border radius */
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      transition: transform 0.3s, box-shadow 0.3s;
-      max-width: 280px; /* Limit the card width */
-      margin: auto; /* Center align the card */
-    }
-  
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-  
-    .card-img-top {
-      border-bottom: 1px solid #ddd;
-    }
-  
-    .card-body {
-      padding: 0.75rem; /* Reduce padding */
-    }
-  
-    .card-title {
-      font-size: 1.5rem; /* Smaller font size */
-      font-weight: bold;
-    }
-  
-    .card-text {
-      color: #555;
-    }
-  
-    .card-link {
-      text-decoration: none;
-    }
-  
-    #pagination {
-      margin-top: 20px;
-    }
-  
-    .pagination-btn {
-      margin: 0 3px; /* Smaller margin */
-      padding: 8px 16px; /* Smaller padding */
-      border-radius: 5px;
-      border: none;
-      background-color: #007bff;
-      color: white;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-  
-    .pagination-btn:hover {
-      background-color: #0056b3;
-    }
-  </style>
-  
-
 <body>
-  <header id="header">
     <div class="container">
-        <nav id="nav-menu-container" class="pull-left">
-            <ul class="nav-menu">
-              <li class="menu-active"><a href="/new_goto/the_main.html#hero">Home</a></li>
-              <li><a href="/new_goto/the_main.html#about">About Us</a></li>
-              <li><a href="/new_goto/the_main.html#team">Team</a></li>
-              <li><a href='https://script.google.com/macros/s/AKfycbxc33HhRAVrsUzwM77MwG7E3D32wafJZWpaYuMqdX0BTlW6WHY0Ts1P0iZ82v_GaVMbuw/exec'>Profile</a></li>
-              <li><a href="The_pressure.html">The pressure</a></li>
-              <li class="menu-has-children"><a>Contents</a>
-                <ul>
-                  <li class=""><a href="coming_soon.html">White Board picture</a>
-                  </li>
-                  <li class="menu-has-children"><a>Videos</a>
-                    <ul>
-                      <li><a href="coming_soon.html">Lectures</a></li>
-                      <li><a href="coming_soon.html">Homework Videos</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-              <li><a href="/new_goto/the_main.html#contact">Our Groups</a></li>
+        <h1>فيديوهات الواجب</h1>
+        <p>
+            فيديوهات الواجب موجودة في <span class="highlight">ابليكيشن A plus</span> هتنزله زي اي ابليكيشن من 
+            <span class="highlight">جوجل بلاي او بلاي ستور</span> و لازم تبقي مسجل في الابليكيشن بنفس الرقم بتاعك اللي سجلت بيه في الويب سايت.
+        </p>
+        <p>
+            هتلاقي فيديوهات الواجب في <span class="highlight">مكتبتي</span> و الفيديو الاول هتلاقيه موجود في <span class="highlight">المحاضرات المقترحة</span> 
+            تدخل تتفرج عليه علطول مدوسش علي اشتراك.
+        </p>
+        <p>
+            ولو عندك اي سؤال ممكن تتواصل معانا، هتلاقي <span class="highlight">ارقام الاسيستانت</span> كلهم تحت  
+        </p>
+        <a href="https://play.google.com/store/apps/details?id=com.sellx.aplus_student" class="download-link" target="_blank">تحميل التطبيق</a>
+        <div class="assistants">
+            <h2>أرقام الاسيستانت</h2>
+            <ul>
+                <li><a href="https://wa.me/201004395090" target="_blank">01004395090</a></li>
+                <li><a href="https://wa.me/201111492628" target="_blank">01111492628</a></li>
+                <li><a href="https://wa.me/201080972317" target="_blank">01080972317</a></li>
+                <li><a href="https://wa.me/201122036588" target="_blank">01122036588</a></li>
+                <li><a href="https://wa.me/201070471066" target="_blank">01070471066</a></li>
+                <li><a href="https://wa.me/201225926040" target="_blank">01225926040</a></li>
             </ul>
-          </nav>
-
-      <div id="logo" class="pull-right">
-        <span style="color: white;">الصف الاول الثانوي</span>
-        <a href="#hero"><img src="images/27aaa2af-994c-4d8a-8221-c5a3674cbb9b-removebg-preview_logo.png" alt="" title="" /></a>
-      </div>
-    </div>
-  </header>
-
-  <div class="container cardsCont m-auto mb-5 mt-5" style="direction: rtl; text-align: right;">
-    <div id="cardContainer" class="row justify-content-around">
-      <!-- Cards will be dynamically inserted here -->
-    </div>
-    <div id="pagination" class="mt-4 text-center">
-      <!-- Pagination buttons will be dynamically inserted here -->
-    </div>
-  </div>
-  
-
-  <footer id="footer" class="fixed-footer">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="credits">
-            <a>Designed by Yamen Yasser</a>
-          </div>
         </div>
-      </div>
     </div>
-  </footer>
-
-  <script src="lib/jquery/jquery.min.js"></script>
-  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-  <script src="lib/superfish/hoverIntent.js"></script>
-  <script src="lib/superfish/superfish.min.js"></script>
-  <script src="lib/morphext/morphext.min.js"></script>
-  <script src="lib/wow/wow.min.js"></script>
-  <script src="lib/stickyjs/sticky.js"></script>
-  <script src="lib/easing/easing.js"></script>
-  <script src="js/custom.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-
-  <script>
-    const cardsPerPage = 4;
-    let currentPage = 1;
-
-    const cardData = [
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه واحد", link: "video1.html" },
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه اتنين", link: "video2.html" },
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه تلاتة", link: "coming_soon.html" },
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه اربعة", link: "coming_soon.html" },
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه خمسة", link: "coming_soon.html" },
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه ستة", link: "coming_soon.html" },
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه سبعة", link: "coming_soon.html" },
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه تمانية", link: "coming_soon.html" },
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه تسعة", link: "coming_soon.html" },
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه عشرة", link: "coming_soon.html" },
-    ];
-
-    function createCard(cardInfo) {
-      return `
-        <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
-          <a href="${cardInfo.link}" class="card-link">
-            <div class="card">
-              <img src="${cardInfo.imgSrc}" class="card-img-top" alt="${cardInfo.title}">
-              <div class="card-body">
-                <h5 class="card-title">${cardInfo.title}</h5>
-                <p class="card-text"></p>
-              </div>
-            </div>
-          </a>
-        </div>
-      `;
-    }
-
-    function displayCards(page) {
-      const cardContainer = document.getElementById('cardContainer');
-      const startIndex = (page - 1) * cardsPerPage;
-      const endIndex = startIndex + cardsPerPage;
-      const cardsToDisplay = cardData.slice(startIndex, endIndex);
-
-      cardContainer.innerHTML = cardsToDisplay.map(createCard).join('');
-    }
-
-    function createPaginationButtons() {
-      const paginationContainer = document.getElementById('pagination');
-      const totalPages = Math.ceil(cardData.length / cardsPerPage);
-
-      let paginationHTML = '';
-      for (let i = 1; i <= totalPages; i++) {
-        paginationHTML += `<button class="pagination-btn" onclick="changePage(${i})">${i}</button>`;
-      }
-
-      paginationContainer.innerHTML = paginationHTML;
-    }
-
-    function changePage(page) {
-      currentPage = page;
-      displayCards(currentPage);
-    }
-
-    // Initial display
-    displayCards(currentPage);
-    createPaginationButtons();
-  </script>
 </body>
-
 </html>
