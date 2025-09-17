@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Page</title>
+  <title>تسجيل الدخول</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -28,6 +28,7 @@
       min-height: 100vh;
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      direction: rtl;
     }
 
     .container {
@@ -136,7 +137,7 @@
     }
 
     .scanner span::before {
-      content: "Loading...";
+      content: "جارٍ التحميل...";
       position: absolute;
       top: 0;
       left: 0;
@@ -152,15 +153,6 @@
       0%, 10%, 100% {
         width: 0;
       }
-
-      10%,20%,30%,40%,50%,60%,70%,80%,90%,100% {
-        border-right-color: transparent;
-      }
-
-      11%,21%,31%,41%,51%,61%,71%,81%,91% {
-        border-right-color: #000000;
-      }
-
       60%, 80% {
         width: 100%;
       }
@@ -171,25 +163,59 @@
       opacity: 0.6;
     }
 
+    /* Sidebar Styles */
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      right: 0;
+      background-color: #111;
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 60px;
+    }
+
+    .sidebar a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 20px;
+      color: #818181;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+      color: #f1f1f1;
+    }
+
+    .sidebar .closebtn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+    }
   </style>
 </head>
 <body>
   <div class="container disable-on-submit">
     <div class="login-container">
-      <h1 style="color: linear-gradient(to right, #667eea, #764ba2);">Login</h1>
+      <h1>تسجيل الدخول</h1>
       <form onsubmit="event.preventDefault(); checkPassword();">
-        <input type="text" id="code" placeholder="Enter the code..." class="disable-on-submit" required />
-        <input type="password" id="password" placeholder="Enter the password..." class="disable-on-submit" required />
-        <button type="submit" class="disable-on-submit">Log In</button>
+        <input type="text" id="code" placeholder="أدخل الكود..." class="disable-on-submit" required />
+        <input type="password" id="password" placeholder="أدخل كلمة المرور..." class="disable-on-submit" required />
+        <button type="submit" class="disable-on-submit">دخول</button>
       </form>
       <div class="register-forget">
-        <a href="https://yamenxy.github.io/DATA_M/">Register</a>
-        <a href="https://api.whatsapp.com/send/?phone=%2B201004395090&text&type=phone_number&app_absent=0">Forgot Password?</a>
+        <a href="https://yamenxy.github.io/DATA_M/">تسجيل جديد</a>
+        <a href="javascript:void(0)" onclick="openNav()">نسيت كلمة المرور؟</a>
       </div>
       <div id="loading-message" style="display:none;">
         <div class="loader">
           <div class="scanner">
-            <span>Loading...</span>
+            <span>جارٍ التحميل...</span>
           </div>
         </div>
       </div>
@@ -197,8 +223,14 @@
       <div id="login-error"></div>
     </div>
     <div class="support-link">
-      <a href="https://api.whatsapp.com/send/?phone=%2B201004395090&text&type=phone_number&app_absent=0">Need Support?</a>
+      <a href="javascript:void(0)" onclick="openNav()">هل تحتاج مساعدة؟</a>
     </div>
+  </div>
+
+  <div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="https://api.whatsapp.com/send/?phone=%2B201004395090">يـامـن ياسر</a>
+    <a href="https://api.whatsapp.com/send/?phone=%2B2001111492628">أحمد اليماني</a>
   </div>
 
   <script>
@@ -209,7 +241,7 @@
       var loginError = document.getElementById("login-error");
 
       if (code.trim() === "" || password.trim() === "") {
-        loginError.textContent = "Code and password are required!";
+        loginError.textContent = "يجب إدخال الكود وكلمة المرور!";
       } else {
         loadingMessage.style.display = "block";
         disablePage();
@@ -226,14 +258,14 @@
               loginError.textContent = "";
               window.location.href = 'the_main.html';
             } else {
-              loginError.textContent = "Incorrect code or password. Please try again.";
+              loginError.textContent = "الكود أو كلمة المرور غير صحيحة. حاول مرة أخرى.";
             }
           })
           .catch(error => {
             loadingMessage.style.display = "none";
             enablePage();
             console.error('Error:', error);
-            loginError.textContent = "An error occurred. Please try again.";
+            loginError.textContent = "حدث خطأ ما. حاول مرة أخرى.";
           });
       }
     }
@@ -252,6 +284,14 @@
         elements[i].classList.remove('disabled');
         elements[i].disabled = false;
       }
+    }
+
+    function openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+    }
+
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
     }
   </script>
 </body>
