@@ -1,180 +1,308 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paid Video Access</title>
+<title>Video Source Selection</title>
 <style>
-    * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-/* End Global rules */
-
-/* Start body rules */
-body {
-    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
-background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
-background-attachment: fixed;
-  background-repeat: no-repeat;
-
-    font-family: 'Vibur', cursive;
-/*   the main font */
-    font-family: 'Abel', sans-serif;
-opacity: .95;
-/* background-image: linear-gradient(to top, #d9afd9 0%, #97d9e1 100%); */
-}
-.input-item {
-    background: #fff;
-    color: #333;
-    padding: 14.5px 0px 15px 9px;
-    border-radius: 5px 0px 0px 5px;
-}
-input[class="form-input"]{
-    width: 240px;
-    height: 50px;
-  
-    margin-top: 2%;
-    padding: 15px;
-    
-    font-size: 16px;
-    font-family: 'Abel', sans-serif;
-    color: #5E6472;
-  
-    outline: none;
-    border: none;
-  
-    border-radius: 0px 5px 5px 0px;
-    transition: 0.2s linear;
-    
-}
-input[id="txt-input"] {width: 250px;}
-/* focus  */
-input:focus {
-    transform: translateX(-2px);
-    border-radius: 5px;
-}
-
-    .container {
-        max-width: 800px;
-        margin: 50px auto;
-        padding: 20px;
+    body {
+        background-color: #181818;
+        font-family: 'Cairo', sans-serif;
+        color: white;
+        direction: rtl;
         text-align: center;
     }
 
-    h1, h2 {
-        margin-bottom: 20px;
+    /* 🔑 Code Page */
+    .code-section {
+        max-width: 420px;
+        margin: 100px auto;
+        padding: 35px 25px;
+        background: linear-gradient(145deg, #202020, #2a2a2a);
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+        text-align: center;
+        animation: fadeIn 0.8s ease-in-out;
     }
 
-    .error {
-        color: red;
-    }
-
-    #login-error {
-        margin-top: 10px;
-    }
-
-    #loading-message {
-        margin-top: 10px;
-        display: none;
-    }
-
-    #video-container {
-        margin-top: 20px;
-    }
-
-    .phone-option {
-        display: block;
+    .code-section h2 {
         margin-bottom: 10px;
+        font-size: 1.6rem;
+        color: #00C9FF;
+    }
+
+    .code-section .hint {
+        font-size: 0.95rem;
+        color: #bbb;
+        margin-bottom: 25px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .code-section input {
+        width: 100%;
+        padding: 14px;
+        font-size: 1.05rem;
+        border: 2px solid #333;
+        border-radius: 10px;
+        outline: none;
+        text-align: center;
+        background-color: #2b2b2b;
+        color: white;
+        transition: all 0.3s ease;
+        box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
+    }
+
+    .code-section input:focus {
+        border-color: #00C9FF;
+        box-shadow: 0 0 10px #00C9FF, inset 0 0 8px rgba(0,0,0,0.8);
+    }
+
+    .code-section input::placeholder {
+        color: #aaa;
+        font-size: 1rem;
+    }
+
+    .code-section button {
+        width: 100%;
+        padding: 14px;
+        font-size: 1.05rem;
+        background: linear-gradient(90deg, #00C9FF, #00a6d6);
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: bold;
+        color: #fff;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 201, 255, 0.4);
+    }
+
+    .code-section button:hover {
+        background: linear-gradient(90deg, #00a6d6, #008fbf);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 201, 255, 0.6);
+    }
+
+    #message {
+        margin-top: 15px;
+        font-weight: bold;
+        font-size: 1rem;
+        min-height: 22px;
+    }
+
+    /* ✨ Fade In Animation */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 🎥 Video Page */
+    .video-section {
+        display: none;
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 20px;
+        gap: 20px;
+        flex-direction: row-reverse;
+    }
+
+    .video-sources {
+        flex: 1;
+        padding: 20px;
+        background-color: #222;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .source-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 20px;
+        background-color: #333;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .source-item:hover {
+        background-color: #444;
+    }
+
+    .source-item img {
+        height: 30px;
+        width: 30px;
+        margin-left: 20px;
+    }
+
+    .source-label {
+        flex: 1;
+        font-size: 1.1rem;
+    }
+
+    .source-resolution {
+        font-weight: bold;
+        background-color: #00C9FF;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+
+    .video-container {
+        flex: 3;
+        background-color: #000;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        text-align: center;
+    }
+
+    .video-container iframe {
+        width: 100%;
+        height: 600px;
+        border: none;
+        border-radius: 10px;
+    }
+
+    @media (max-width: 768px) {
+        .video-section {
+            flex-direction: column;
+        }
+
+        .video-container iframe {
+            height: 400px;
+        }
+    }
+
+    /* ⏳ Loading Spinner */
+    .loading {
+        display: none;
+        margin-top: 15px;
+    }
+
+    .spinner {
+        border: 4px solid #444;
+        border-top: 4px solid #00C9FF;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        animation: spin 1s linear infinite;
+        margin: auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
 </style>
 </head>
 <body>
-    <div>
-        <div class="container">
-            <div id="login">
-                <h2>Enter Your Code</h2>
-                <input type="text" id="code" placeholder="Enter Code" style=" width: 240px;
-                height: 50px;
-              
-                margin-top: 2%;
-                padding: 15px;
-                
-                font-size: 16px;
-                font-family: 'Abel', sans-serif;
-                color: #5E6472;
-              
-                outline: none;
-                border: none;
-              
-                border-radius: 0px 5px 5px 0px;
-                transition: 0.2s linear;" required><br>
-                <button id="checkButton" style=" display: inline-block;
-                color: #252537;
-              
-                width: 280px;
-                height: 50px;
-              
-                padding: 0 20px;
-                background: #fff;
-                border-radius: 5px;
-                
-                outline: none;
-                border: none;
-              
-                cursor: pointer;
-                text-align: center;
-                transition: all 0.2s linear;
-                
-                margin: 7% auto;
-                letter-spacing: 0.05em;">Check</button>
-                <p id="login-error" class="error"></p>
-                <p id="loading-message">Loading...</p>
-                
+
+    <!-- 🔑 Code Input Page -->
+    <div class="code-section" id="codeSection">
+        <h2>🎬 ادخل الكود الخاص بك</h2>
+        <p class="hint">من فضلك أدخل الكود لمتابعة الفيديو</p>
+        <div class="form-group">
+            <input type="text" id="studentCode" placeholder="ادخل الكود هنا">
+            <button onclick="verifyCode()">✅ تحقق من الكود</button>
+        </div>
+        <div id="message"></div>
+        <div class="loading" id="loading"><div class="spinner"></div></div>
+    </div>
+
+    <!-- 🎥 Video Page -->
+    <div class="video-section" id="videoSection">
+        <div class="video-sources">
+            <div class="source-item" onclick="loadVideo('drive')">
+                <img src="images/drive.png" alt="Google Drive Icon">
+                <div class="source-label">Google Drive</div>
+                <div class="source-resolution">FHD</div>
             </div>
-        
-                <!-- CHANGE THE VIDEO'S URL  -->
-            <div id="video-container" style="display: none;">
-                <iframe id="video-frame" width="560" height="315" src="https://www.youtube.com/embed/S4UU0VQkiX0" allowfullscreen></iframe>
+
+            <div class="source-item" onclick="loadVideo('pcloud')">
+                <img src="images/pcloud.png" alt="pcloud Icon">
+                <div class="source-label">pCloud</div>
+                <div class="source-resolution">FHD</div>
+            </div>
+
+            <div class="source-item" onclick="loadVideo('mega')">
+                <img src="images/mega.png" alt="Mega Icon">
+                <div class="source-label">Mega.nz</div>
+                <div class="source-resolution">FHD</div>
             </div>
         </div>
+
+        <div class="video-container">
+            <iframe id="video-frame" src="" allowfullscreen></iframe>
         </div>
-    <script>
-        document.getElementById("checkButton").addEventListener("click", checkPassword);
+    </div>
 
-        function checkPassword() {
-            var code = document.getElementById("code").value;
-            var loadingMessage = document.getElementById("loading-message");
-            var loginError = document.getElementById("login-error");
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxaoorJWQpHw9JS1JRBLVuNUc5Vu4HG_mdCGWveJ_yMJ74R02l1uN_u2CC6Grshum5Xsw/exec";
+    let verified = false;
 
-            loginError.textContent = "";
-            if (code.trim() === "") {
-                loginError.textContent = "Code is required!";
-            } else {
-                loadingMessage.style.display = "block";
-                fetch('https://script.google.com/macros/s/AKfycbwOZHn9cDO8cDCE5snqP0ZYlO53wM7Rii432nFZ7eOH8nhZHzjM_IwWthbcGHlDcUjy/exec?code=' + code + '&column=12')
-                    .then(response => response.json())
-                    .then(data => {
-                        loadingMessage.style.display = "none";
-                        if (data.exists) {
-                            document.getElementById("login").style.display = "none";
-                            document.getElementById("video-container").style.display = "block";
-                        } else {
-                            if (data.message) {
-                                loginError.textContent = data.message;
-                            } else {
-                                loginError.textContent = 'Invalid code. Please try again.';
-                            }
-                        }
-                    })  
-                    .catch(error => {
-                        loadingMessage.style.display = "none";
-                        loginError.textContent = "An error occurred. Please try again.";
-                        console.error('Error:', error);
-                    });
-            }
+    async function verifyCode() {
+        const code = document.getElementById("studentCode").value.trim();
+        const msg = document.getElementById("message");
+        const loader = document.getElementById("loading");
+
+        if (!code) {
+            msg.innerText = "⚠️ من فضلك أدخل الكود";
+            msg.style.color = "red";
+            return;
         }
-    </script>
+
+        // Show loading spinner
+        loader.style.display = "block";
+        msg.innerText = "";
+
+        try {
+            const res = await fetch(SCRIPT_URL, {
+                method: "POST",
+                body: new URLSearchParams({
+                    barcode: code,
+                    attendanceType: "الحضور الثالث"
+                })
+            });
+
+            const data = await res.json();
+            if (data.attendance && data.attendance[0] === "✓") {
+                msg.style.color = "lightgreen";
+                msg.innerText = "✅ تم التحقق!";
+                document.getElementById("codeSection").style.display = "none";
+                document.getElementById("videoSection").style.display = "flex";
+                verified = true;
+            } else {
+                msg.style.color = "red";
+                msg.innerText = "❌ غير مسموح لك بالمشاهدة";
+                verified = false;
+            }
+        } catch (err) {
+            msg.style.color = "orange";
+            msg.innerText = "⚠️ خطأ في الاتصال بالخادم!";
+            verified = false;
+        } finally {
+            // Hide loading spinner
+            loader.style.display = "none";
+        }
+    }
+
+    function loadVideo(source) {
+        if (!verified) return;
+
+        const iframe = document.getElementById("video-frame");
+        if (source === 'mega') {
+            iframe.src = "https://mega.nz/embed/eiozRaDa#hUWFBk5A4gLBo9I5LTEbrFzkcuPfEh47EApMGF0k89Y";
+        } else if (source === 'drive') {
+            iframe.src = "https://drive.google.com/file/d/1AUfL1aA_YKd25gFmSAQZBTQ4Y_45tD78/preview"; 
+        } else if (source === 'pcloud') {
+            iframe.src = "https://u.pcloud.link/publink/show?code=XZCQca0ZNkiLcLbDOiQExAGnwRKfxLundsaX"; 
+        }
+    }
+</script>
 </body>
 </html>
