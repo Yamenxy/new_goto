@@ -242,67 +242,68 @@
     </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxaoorJWQpHw9JS1JRBLVuNUc5Vu4HG_mdCGWveJ_yMJ74R02l1uN_u2CC6Grshum5Xsw/exec";
-    let verified = false;
+    // const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxaoorJWQpHw9JS1JRBLVuNUc5Vu4HG_mdCGWveJ_yMJ74R02l1uN_u2CC6Grshum5Xsw/exec";
+    // let verified = false;
 
-    async function verifyCode() {
-        const code = document.getElementById("studentCode").value.trim();
-        const msg = document.getElementById("message");
-        const loader = document.getElementById("loading");
+    // async function verifyCode() {
+    //     const code = document.getElementById("studentCode").value.trim();
+    //     const msg = document.getElementById("message");
+    //     const loader = document.getElementById("loading");
 
-        if (!code) {
-            msg.innerText = "⚠️ من فضلك أدخل الكود";
-            msg.style.color = "red";
-            return;
-        }
+    //     if (!code) {
+    //         msg.innerText = "⚠️ من فضلك أدخل الكود";
+    //         msg.style.color = "red";
+    //         return;
+    //     }
 
-        // Show loading spinner
-        loader.style.display = "block";
-        msg.innerText = "";
+    //     // Show loading spinner
+    //     loader.style.display = "block";
+    //     msg.innerText = "";
 
-        try {
-            const res = await fetch(SCRIPT_URL, {
-                method: "POST",
-                body: new URLSearchParams({
-                    barcode: code,
-                    attendanceType: "الحضور الثاني"
-                })
-            });
+    //     try {
+    //         const res = await fetch(SCRIPT_URL, {
+    //             method: "POST",
+    //             body: new URLSearchParams({
+    //                 barcode: code,
+    //                 attendanceType: "الحضور الثاني"
+    //             })
+    //         });
 
-            const data = await res.json();
-            if (data.attendance && data.attendance[0] === "✓") {
-                msg.style.color = "lightgreen";
-                msg.innerText = "✅ تم التحقق!";
-                document.getElementById("codeSection").style.display = "none";
-                document.getElementById("videoSection").style.display = "flex";
-                verified = true;
-            } else {
-                msg.style.color = "red";
-                msg.innerText = "❌ غير مسموح لك بالمشاهدة";
-                verified = false;
-            }
-        } catch (err) {
-            msg.style.color = "orange";
-            msg.innerText = "⚠️ خطأ في الاتصال بالخادم!";
-            verified = false;
-        } finally {
-            // Hide loading spinner
-            loader.style.display = "none";
-        }
-    }
+    //         const data = await res.json();
+    //         if (data.attendance && data.attendance[0] === "✓") {
+    //             msg.style.color = "lightgreen";
+    //             msg.innerText = "✅ تم التحقق!";
+    //             document.getElementById("codeSection").style.display = "none";
+    //             document.getElementById("videoSection").style.display = "flex";
+    //             verified = true;
+    //         } else {
+    //             msg.style.color = "red";
+    //             msg.innerText = "❌ غير مسموح لك بالمشاهدة";
+    //             verified = false;
+    //         }
+    //     } catch (err) {
+    //         msg.style.color = "orange";
+    //         msg.innerText = "⚠️ خطأ في الاتصال بالخادم!";
+    //         verified = false;
+    //     } finally {
+    //         // Hide loading spinner
+    //         loader.style.display = "none";
+    //     }
+    // }
 
     function loadVideo(source) {
         if (!verified) return;
 
         const iframe = document.getElementById("video-frame");
         if (source === 'mega') {
-            iframe.src = "https://mega.nz/embed/eiozRaDa#hUWFBk5A4gLBo9I5LTEbrFzkcuPfEh47EApMGF0k89Y";
+            iframe.src = "https://mega.nz/embed/PyQimTYb#txHuiDBquSTBU1TafBgkCKe_xjTuT9HpJ9xUSE1dh-E";
         } else if (source === 'drive') {
-            iframe.src = "https://drive.google.com/file/d/1AUfL1aA_YKd25gFmSAQZBTQ4Y_45tD78/preview"; 
+            iframe.src = ""; 
         } else if (source === 'pcloud') {
-            iframe.src = "https://u.pcloud.link/publink/show?code=XZCQca0ZNkiLcLbDOiQExAGnwRKfxLundsaX"; 
+            iframe.src = ""; 
         }
     }
 </script>
 </body>
 </html>
+
