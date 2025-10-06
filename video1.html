@@ -15,12 +15,12 @@
 
     /* 🎥 Video Page */
     .video-section {
+        display: flex;
         max-width: 1200px;
         margin: 30px auto;
         padding: 20px;
         gap: 20px;
         flex-direction: row-reverse;
-        display: flex; /* show directly */
     }
 
     .video-sources {
@@ -90,6 +90,27 @@
             height: 400px;
         }
     }
+
+    /* ⏳ Loading Spinner */
+    .loading {
+        display: none;
+        margin-top: 15px;
+    }
+
+    .spinner {
+        border: 4px solid #444;
+        border-top: 4px solid #00C9FF;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        animation: spin 1s linear infinite;
+        margin: auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 </style>
 </head>
 <body>
@@ -122,18 +143,32 @@
     </div>
 
 <script>
-    function loadVideo(source) {
-        const iframe = document.getElementById("video-frame");
-        if (source === 'mega') {
-            iframe.src = "https://mega.nz/embed/euB3iIII#f7tu6ZCeMGPt9EmG2FoBLiENwjccQWt4yBFl1iqCagM";
-        } else if (source === 'drive') {
-            iframe.src = "https://drive.google.com/file/d/1VTRA1-ss235W-I38xb0rFXb4eA0M663s/view?usp=sharing"; 
-        } else if (source === 'pcloud') {
-            iframe.src = "https://u.pcloud.link/publink/show?code=XZ0dye5ZQOjlWeudaSyrnubgFL9vW8mXlG2y"; 
-        }
+const API_URL = "https://script.google.com/macros/s/AKfycbwQTTdonp4sMmOmFzLKwpAjX-PdCKdpcF0-EMlhPdtHbgeqBhNpOjeaK0yPaMXz7vX1/exec";
+const PAGE_NAME = "video1"; // change for each page (video1, video2...)
+
+window.addEventListener('load', () => {
+    loadLinks();
+});
+
+async function loadLinks() {
+    try {
+        const res = await fetch(`${API_URL}?pageName=${PAGE_NAME}`);
+        const links = await res.json();
+        window.videoLinks = links;
+    } catch {
+        alert("⚠️ خطأ في تحميل روابط الفيديو");
     }
+}
+
+function loadVideo(source) {
+    if (!window.videoLinks) {
+        alert("⚠️ لم يتم تحميل الروابط بعد، حاول مجددًا");
+        return;
+    }
+    const iframe = document.getElementById("video-frame");
+    iframe.src = window.videoLinks[source];
+}
 </script>
+
 </body>
 </html>
-
-
