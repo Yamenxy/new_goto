@@ -13,96 +13,9 @@
         text-align: center;
     }
 
-    /* 🔑 Code Page */
-    .code-section {
-        max-width: 420px;
-        margin: 100px auto;
-        padding: 35px 25px;
-        background: linear-gradient(145deg, #202020, #2a2a2a);
-        border-radius: 16px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-        text-align: center;
-        animation: fadeIn 0.8s ease-in-out;
-    }
-
-    .code-section h2 {
-        margin-bottom: 10px;
-        font-size: 1.6rem;
-        color: #00C9FF;
-    }
-
-    .code-section .hint {
-        font-size: 0.95rem;
-        color: #bbb;
-        margin-bottom: 25px;
-    }
-
-    .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .code-section input {
-        width: 100%;
-        padding: 14px;
-        font-size: 1.05rem;
-        border: 2px solid #333;
-        border-radius: 10px;
-        outline: none;
-        text-align: center;
-        background-color: #2b2b2b;
-        color: white;
-        transition: all 0.3s ease;
-        box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
-    }
-
-    .code-section input:focus {
-        border-color: #00C9FF;
-        box-shadow: 0 0 10px #00C9FF, inset 0 0 8px rgba(0,0,0,0.8);
-    }
-
-    .code-section input::placeholder {
-        color: #aaa;
-        font-size: 1rem;
-    }
-
-    .code-section button {
-        width: 100%;
-        padding: 14px;
-        font-size: 1.05rem;
-        background: linear-gradient(90deg, #00C9FF, #00a6d6);
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        font-weight: bold;
-        color: #fff;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 10px rgba(0, 201, 255, 0.4);
-    }
-
-    .code-section button:hover {
-        background: linear-gradient(90deg, #00a6d6, #008fbf);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(0, 201, 255, 0.6);
-    }
-
-    #message {
-        margin-top: 15px;
-        font-weight: bold;
-        font-size: 1rem;
-        min-height: 22px;
-    }
-
-    /* ✨ Fade In Animation */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-20px); }
-        to   { opacity: 1; transform: translateY(0); }
-    }
-
     /* 🎥 Video Page */
     .video-section {
-        display: none;
+        display: flex;
         max-width: 1200px;
         margin: 30px auto;
         padding: 20px;
@@ -202,18 +115,6 @@
 </head>
 <body>
 
-    <!-- 🔑 Code Input Page -->
-    <!-- <div class="code-section" id="codeSection">
-        <h2>🎬 ادخل الكود الخاص بك</h2>
-        <p class="hint">من فضلك أدخل الكود لمتابعة الفيديو</p>
-        <div class="form-group">
-            <input type="text" id="studentCode" placeholder="ادخل الكود هنا">
-            <button onclick="verifyCode()">✅ تحقق من الكود</button>
-        </div>
-        <div id="message"></div>
-        <div class="loading" id="loading"><div class="spinner"></div></div>
-    </div> -->
-
     <!-- 🎥 Video Page -->
     <div class="video-section" id="videoSection">
         <div class="video-sources">
@@ -242,31 +143,32 @@
     </div>
 
 <script>
-    function loadVideo(source) {
-        const iframe = document.getElementById("video-frame");
-        if (source === 'mega') {
-            iframe.src = "https://mega.nz/embed/viJXDCgY#f7tu6ZCeMGPt9EmG2FoBLiENwjccQWt4yBFl1iqCagM";
-        } else if (source === 'drive') {
-            iframe.src = "https://drive.google.com/file/d/18lbeSi0ar5SdBXKJbcxc3YPIfV7g7qO0/view?usp=sharing"; 
-        } else if (source === 'pcloud') {
-            iframe.src = "https://u.pcloud.link/publink/show?code=XZoHRe5ZxFTBMbXfP0zOUC9Tx0qQgXxbWj0k"; 
-        }
-    }
+const API_URL = "https://script.google.com/macros/s/AKfycbwQTTdonp4sMmOmFzLKwpAjX-PdCKdpcF0-EMlhPdtHbgeqBhNpOjeaK0yPaMXz7vX1/exec";
+const PAGE_NAME = "video2"; // change for each page (video1, video2...)
 
-    // ✅ Show video section directly & load a default video
-    window.onload = function() {
-        document.getElementById("videoSection").style.display = "flex";
-        loadVideo("mega");  // change to "drive" or "pcloud" if you want another default
+window.addEventListener('load', () => {
+    loadLinks();
+});
+
+async function loadLinks() {
+    try {
+        const res = await fetch(`${API_URL}?pageName=${PAGE_NAME}`);
+        const links = await res.json();
+        window.videoLinks = links;
+    } catch {
+        alert("⚠️ خطأ في تحميل روابط الفيديو");
     }
+}
+
+function loadVideo(source) {
+    if (!window.videoLinks) {
+        alert("⚠️ لم يتم تحميل الروابط بعد، حاول مجددًا");
+        return;
+    }
+    const iframe = document.getElementById("video-frame");
+    iframe.src = window.videoLinks[source];
+}
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
