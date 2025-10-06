@@ -203,7 +203,7 @@
 <body>
 
     <!-- 🔑 Code Input Page -->
-    <div class="code-section" id="codeSection">
+    <!-- <div class="code-section" id="codeSection">
         <h2>🎬 ادخل الكود الخاص بك</h2>
         <p class="hint">من فضلك أدخل الكود لمتابعة الفيديو</p>
         <div class="form-group">
@@ -212,7 +212,7 @@
         </div>
         <div id="message"></div>
         <div class="loading" id="loading"><div class="spinner"></div></div>
-    </div>
+    </div> -->
 
     <!-- 🎥 Video Page -->
     <div class="video-section" id="videoSection">
@@ -245,54 +245,55 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxpZMVtd1v3-NszLeQFaeZIW75vC3wO6KEad7OscTw-JCkWWYGGRgeMRR6dsqsRhyCZTg/exec";
     let verified = false;
 
-    async function verifyCode() {
-        const code = document.getElementById("studentCode").value.trim();
-        const msg = document.getElementById("message");
-        const loader = document.getElementById("loading");
+    // async function verifyCode() {
+    //     const code = document.getElementById("studentCode").value.trim();
+    //     const msg = document.getElementById("message");
+    //     const loader = document.getElementById("loading");
 
-        if (!code) {
-            msg.innerText = "⚠️ من فضلك أدخل الكود";
-            msg.style.color = "red";
-            return;
-        }
+    //     if (!code) {
+    //         msg.innerText = "⚠️ من فضلك أدخل الكود";
+    //         msg.style.color = "red";
+    //         return;
+    //     }
 
-        // Show loading spinner
-        loader.style.display = "block";
-        msg.innerText = "";
+    //     // Show loading spinner
+    //     loader.style.display = "block";
+    //     msg.innerText = "";
 
-        try {
-            const res = await fetch(SCRIPT_URL, {
-                method: "POST",
-                body: new URLSearchParams({
-                    barcode: code,
-                    attendanceType: "الحضور الثالث"
-                })
-            });
+    //     try {
+    //         const res = await fetch(SCRIPT_URL, {
+    //             method: "POST",
+    //             body: new URLSearchParams({
+    //                 barcode: code,
+    //                 attendanceType: "الحضور الثالث"
+    //             })
+    //         });
 
-            const data = await res.json();
-            if (data.attendance && data.attendance[0] === "✓") {
-                msg.style.color = "lightgreen";
-                msg.innerText = "✅ تم التحقق!";
-                document.getElementById("codeSection").style.display = "none";
-                document.getElementById("videoSection").style.display = "flex";
-                verified = true;
-            } else {
-                msg.style.color = "red";
-                msg.innerText = "❌ غير مسموح لك بالمشاهدة";
-                verified = false;
-            }
-        } catch (err) {
-            msg.style.color = "orange";
-            msg.innerText = "⚠️ خطأ في الاتصال بالخادم!";
-            verified = false;
-        } finally {
-            // Hide loading spinner
-            loader.style.display = "none";
-        }
-    }
+    //         const data = await res.json();
+    //         if (data.attendance && data.attendance[0] === "✓") {
+    //             msg.style.color = "lightgreen";
+    //             msg.innerText = "✅ تم التحقق!";
+    //             document.getElementById("codeSection").style.display = "none";
+    //             document.getElementById("videoSection").style.display = "flex";
+    //             verified = true;
+    //         } else {
+    //             msg.style.color = "red";
+    //             msg.innerText = "❌ غير مسموح لك بالمشاهدة";
+    //             verified = false;
+    //         }
+    //     } catch (err) {
+    //         msg.style.color = "orange";
+    //         msg.innerText = "⚠️ خطأ في الاتصال بالخادم!";
+    //         verified = false;
+    //     } finally {
+    //         // Hide loading spinner
+    //         loader.style.display = "none";
+    //     }
+    // }
 
     function loadVideo(source) {
-        if (!verified) return;
+        // if (!verified) return;
+        document.getElementById("videoSection").style.display = "flex";
 
         const iframe = document.getElementById("video-frame");
         if (source === 'mega') {
@@ -302,16 +303,15 @@
         } else if (source === 'pcloud') {
             iframe.src = "https://u.pcloud.link/publink/show?code=XZfVne5ZE71jUTwzJwQJRUL7hKLPrXE36jCV"; 
         }
-    
-
-    window.onload = function() {
+    }
+     window.onload = function() {
         document.getElementById("videoSection").style.display = "flex";
         loadVideo("pcloud");  // change to "drive" or "pcloud" if you want another default
-    }
     }
 </script>
 </body>
 </html>
+
 
 
 
