@@ -96,52 +96,78 @@
     .pagination-btn:hover {
       background-color: #0056b3;
     }
+
+
+    /* Skeleton loader for cards */
+.skeleton-card {
+  background: #e0e0e0;
+  border-radius: 8px;
+  height: 200px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.skeleton-card::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0; left: -150px;
+  height: 100%; width: 150px;
+  background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+  animation: loading 1s infinite;
+}
+@keyframes loading {
+  from { left: -150px; }
+  to { left: 100%; }
+}
+
+
+
   </style>
   
 
 <body>
-    <header id="header">
-        <div class="container">
-    
-          <nav id="nav-menu-container" class="pull-left">
+  <header id="header">
+    <div class="container">
+        <nav id="nav-menu-container" class="pull-left">
             <ul class="nav-menu">
-              <li><a href='https://script.google.com/macros/s/AKfycbz0KJqM_aFLJy9m5-ch4AoH4_eJURvscDchujBEWnZapB1f2PWoUszaDI5syPcrRVnN/exec'>الملف الشخصي</a></li>
-              <li><a href="videos_Arabic.html">فيديوهات الواجبات</a></li>
-              <!-- <li class="menu-has-children"><a>المحتويات</a>
+              <li class="menu-active"><a href="/the_main.html#hero">Home</a></li>
+              <li><a href="/the_main.html#about">About Us</a></li>
+              <li><a href="/the_main.html#team">Team</a></li>
+              <li><a href='https://script.google.com/macros/s/AKfycbz0KJqM_aFLJy9m5-ch4AoH4_eJURvscDchujBEWnZapB1f2PWoUszaDI5syPcrRVnN/exec'>Profile</a></li>
+              <li class="menu-has-children"><a>Contents</a>
                 <ul>
-                  <li><a href="images_arabic.html">صور السبورة البيضاء</a></li>
-                  <li class="menu-has-children"><a>الفيديوهات</a>
+                  <li class=""><a href="images.html">White Board picture</a>
+                  </li>
+                  <li class="menu-has-children"><a>Videos</a>
                     <ul>
-                      <li><a href="secction_arabic.html">المحاضرات</a></li>
-                      <li><a href="videos_Arabic.html">فيديوهات الواجبات</a></li>
+                      <li><a href="secction.html">Lectures</a></li>
+                      <li><a href="videos.html">Homework Videos</a></li>
                     </ul>
                   </li>
                 </ul>
-              </li> -->
-              <li><a href="#contact">مجموعاتنا</a></li>
-              <li><a href="#team">فريقنا</a></li>
-              <li><a href="#about">من نحن</a></li>
-  
-  
-              <li class="menu-active"><a href="#hero">الصفحة الرئيسية</a></li>
-  
+              </li>
+              <li><a href="/the_main.html#contact">Our Groups</a></li>
             </ul>
           </nav>
-    
-          <div id="logo" class="pull-right">
-            <a href="#hero"><img src="images/27aaa2af-994c-4d8a-8221-c5a3674cbb9b-removebg-preview_logo.png" alt="" title="" /></a>
-            <span style="color: white;">الصف الأول الثانوي</span>
-            <!-- Uncomment below if you prefer to use a text image -->
-            <!--<h1><a href="#hero">Header 1</a></h1>-->
-          </div>
-          <!-- #nav-menu-container -->
-        </div>
-      </header>
+
+      <div id="logo" class="pull-right">
+        <span style="color: white;">الصف الاول الثانوي</span>
+        <a href="#hero"><img src="images/27aaa2af-994c-4d8a-8221-c5a3674cbb9b-removebg-preview_logo.png" alt="" title="" /></a>
+      </div>
+    </div>
+  </header>
 
   <div class="container cardsCont m-auto mb-5 mt-5" style="direction: rtl; text-align: right;">
-    <div id="cardContainer" class="row justify-content-around">
-      <!-- Cards will be dynamically inserted here -->
+    <div id="cardContainer" class="row justify-content-around text-center">
+  <div id="loading" class="mt-5">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+      <span class="visually-hidden">Loading...</span>
     </div>
+    <p class="mt-3">Loading videos...</p>
+  </div>
+</div>
+
     <div id="pagination" class="mt-4 text-center">
       <!-- Pagination buttons will be dynamically inserted here -->
     </div>
@@ -172,73 +198,80 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
   <script>
-    const cardsPerPage = 4;
-    let currentPage = 1;
+  const cardsPerPage = 4;
+  let currentPage = 1;
+  let cardData = [];
 
-    const cardData = [
-      // { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه صفر", link: "video1.html" },
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه واحد", link: "video1.html" },
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه اتنين", link: "video2.html" },
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه تلاتة", link: "video3.html" },
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه اربعة", link: "coming_soon.html" },
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه خمسة", link: "coming_soon.html" },
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه ستة", link: "coming_soon.html" },
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه سبعة", link: "coming_soon.html" },
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه تمانية", link: "coming_soon.html" },
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه تسعة", link: "coming_soon.html" },
-      { imgSrc: "27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg", title: "حل واجب الزتونه عشرة", link: "coming_soon.html" },
-    ];
+  document.getElementById("cardContainer").innerHTML = `
+  <div class="col-lg-6 col-md-6 col-sm-12"><div class="skeleton-card"></div></div>
+  <div class="col-lg-6 col-md-6 col-sm-12"><div class="skeleton-card"></div></div>
+  <div class="col-lg-6 col-md-6 col-sm-12"><div class="skeleton-card"></div></div>
+  <div class="col-lg-6 col-md-6 col-sm-12"><div class="skeleton-card"></div></div>
+`;
 
-    function createCard(cardInfo) {
-      return `
-        <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
-          <a href="${cardInfo.link}" class="card-link">
-            <div class="card">
-              <img src="${cardInfo.imgSrc}" class="card-img-top" alt="${cardInfo.title}">
-              <div class="card-body">
-                <h5 class="card-title">${cardInfo.title}</h5>
-                <p class="card-text"></p>
-              </div>
-            </div>
-          </a>
-        </div>
-      `;
-    }
 
-    function displayCards(page) {
-      const cardContainer = document.getElementById('cardContainer');
-      const startIndex = (page - 1) * cardsPerPage;
-      const endIndex = startIndex + cardsPerPage;
-      const cardsToDisplay = cardData.slice(startIndex, endIndex);
+  const sheetURL = "https://script.google.com/macros/s/AKfycbzNOm4aouJwWOYpxO9fnGeGPAHK9FB-BczPeO4hQGO6DFRWhotw-MR96q-YG5icoOSQ/exec"; // your script URL
 
-      cardContainer.innerHTML = cardsToDisplay.map(createCard).join('');
-    }
+  async function loadVideos() {
+  const loading = document.getElementById("loading");
+  try {
+    const response = await fetch(sheetURL);
+    cardData = await response.json();
 
-    function createPaginationButtons() {
-      const paginationContainer = document.getElementById('pagination');
-      const totalPages = Math.ceil(cardData.length / cardsPerPage);
+    // Hide loading spinner
+    if (loading) loading.style.display = "none";
 
-      let paginationHTML = '';
-      for (let i = 1; i <= totalPages; i++) {
-        paginationHTML += `<button class="pagination-btn" onclick="changePage(${i})">${i}</button>`;
-      }
-
-      paginationContainer.innerHTML = paginationHTML;
-    }
-
-    function changePage(page) {
-      currentPage = page;
-      displayCards(currentPage);
-    }
-
-    // Initial display
     displayCards(currentPage);
     createPaginationButtons();
-  </script>
+  } catch (error) {
+    console.error("Error loading videos:", error);
+    if (loading) loading.innerHTML = "<p>⚠️ Error loading videos.</p>";
+  }
+}
+
+
+  function createCard(cardInfo) {
+    return `
+      <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+        <a href="${cardInfo.link}" class="card-link">
+          <div class="card">
+            <img src="${cardInfo.imgSrc}" loading="lazy" class="card-img-top" alt="${cardInfo.title}">
+            <div class="card-body">
+              <h5 class="card-title">${cardInfo.title}</h5>
+            </div>
+          </div>
+        </a>
+      </div>
+    `;
+  }
+
+  function displayCards(page) {
+    const cardContainer = document.getElementById('cardContainer');
+    const startIndex = (page - 1) * cardsPerPage;
+    const endIndex = startIndex + cardsPerPage;
+    const cardsToDisplay = cardData.slice(startIndex, endIndex);
+    cardContainer.innerHTML = cardsToDisplay.map(createCard).join('');
+  }
+
+  function createPaginationButtons() {
+    const paginationContainer = document.getElementById('pagination');
+    const totalPages = Math.ceil(cardData.length / cardsPerPage);
+    let paginationHTML = '';
+    for (let i = 1; i <= totalPages; i++) {
+      paginationHTML += `<button class="pagination-btn" onclick="changePage(${i})">${i}</button>`;
+    }
+    paginationContainer.innerHTML = paginationHTML;
+  }
+
+  function changePage(page) {
+    currentPage = page;
+    displayCards(currentPage);
+  }
+
+  // Load videos initially
+  loadVideos();
+</script>
+
 </body>
 
 </html>
-
-
-
-
