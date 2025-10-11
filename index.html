@@ -8,71 +8,135 @@
   <style>
     :root {
       --background: #f0f2f5;
-      --primary-color: #1877f2;
+      --primary-color: #667eea;
+      --secondary-color: #764ba2;
       --text-color: #1c1e21;
-      --secondary-color: #42b72a;
+      --error-color: #ff3b30;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      margin: 0;
-      padding: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       direction: rtl;
     }
 
-    .container {
-      width: 100%;
-      max-width: 400px;
-      padding: 20px;
-    }
+    .container { width: 100%; max-width: 400px; padding: 20px; }
 
     .login-container {
       background-color: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
-      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      padding: 35px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .login-container:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
     }
 
     h1 {
-      font-size: 24px;
+      font-size: 26px;
       text-align: center;
-      margin-bottom: 20px;
+      color: var(--secondary-color);
+      margin-bottom: 25px;
     }
 
     form input {
       width: 100%;
       padding: 14px;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
       border: 1px solid #dddfe2;
-      border-radius: 6px;
-      font-size: 16px;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: all 0.3s ease;
     }
 
     form input:focus {
       outline: none;
       border-color: var(--primary-color);
-      box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
+      box-shadow: 0 0 0 3px rgba(102,126,234,0.2);
+    }
+
+    /* ✅ Modern Toggle Switch for Remember Me */
+    .remember-me {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8f8f8;
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      transition: background 0.3s ease;
+    }
+
+    .remember-me:hover {
+      background: #f0f0f0;
+    }
+
+    .remember-me label {
+      font-size: 15px;
+      color: #333;
+      cursor: pointer;
+      user-select: none;
+      flex: 1;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0;
+      right: 0; bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider::before {
+      position: absolute;
+      content: "";
+      height: 18px; width: 18px;
+      left: 3px; bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .toggle-switch input:checked + .slider {
+      background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    }
+
+    .toggle-switch input:checked + .slider::before {
+      transform: translateX(20px);
     }
 
     button {
       width: 100%;
       height: 50px;
-      margin: 20px 0;
+      margin: 15px 0;
       color: #fff;
-      background: linear-gradient(to right, #667eea, #764ba2);
-      font-size: 1.2em;
-      font-weight: bold;
+      background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+      font-size: 1.1em;
+      font-weight: 600;
       border: none;
       border-radius: 10px;
       cursor: pointer;
@@ -80,24 +144,26 @@
     }
 
     button:hover {
-      background: linear-gradient(to right, #764ba2, #667eea);
+      background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
       transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 6px 15px rgba(118,75,162,0.3);
     }
 
     .register-forget {
       display: flex;
       justify-content: space-between;
-      margin-top: 16px;
+      margin-top: 14px;
     }
 
     .register-forget a {
       color: var(--primary-color);
       text-decoration: none;
       font-size: 14px;
+      transition: color 0.3s;
     }
 
     .register-forget a:hover {
+      color: var(--secondary-color);
       text-decoration: underline;
     }
 
@@ -110,24 +176,24 @@
     #login-error {
       text-align: center;
       margin-top: 16px;
-      color: #ff3b30;
+      color: var(--error-color);
+      font-weight: 500;
     }
 
     .support-link {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 18px;
     }
 
     .support-link a {
-      color: #000000;
+      color: #000;
       text-decoration: none;
       font-size: 14px;
       font-weight: 600;
+      transition: color 0.3s;
     }
 
-    .support-link a:hover {
-      text-decoration: underline;
-    }
+    .support-link a:hover { color: var(--primary-color); }
 
     .scanner span {
       color: transparent;
@@ -139,38 +205,28 @@
     .scanner span::before {
       content: "جارٍ التحميل...";
       position: absolute;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       width: 0;
       height: 100%;
-      border-right: 4px solid #000000;
+      border-right: 4px solid #000;
       overflow: hidden;
-      color: #000000;
+      color: #000;
       animation: load91371 2s linear infinite;
     }
 
     @keyframes load91371 {
-      0%, 10%, 100% {
-        width: 0;
-      }
-      60%, 80% {
-        width: 100%;
-      }
+      0%, 10%, 100% { width: 0; }
+      60%, 80% { width: 100%; }
     }
 
-    .disabled {
-      pointer-events: none;
-      opacity: 0.6;
-    }
+    .disabled { pointer-events: none; opacity: 0.6; }
 
-    /* Sidebar Styles */
     .sidebar {
       height: 100%;
       width: 0;
       position: fixed;
       z-index: 1;
-      top: 0;
-      right: 0;
+      top: 0; right: 0;
       background-color: #111;
       overflow-x: hidden;
       transition: 0.5s;
@@ -186,17 +242,85 @@
       transition: 0.3s;
     }
 
-    .sidebar a:hover {
-      color: #f1f1f1;
-    }
+    .sidebar a:hover { color: #f1f1f1; }
 
     .sidebar .closebtn {
       position: absolute;
       top: 0;
       right: 25px;
       font-size: 36px;
-      margin-left: 50px;
     }
+
+    /* ✅ Modern Toggle Switch for Remember Me */
+.remember-me {
+  margin-bottom: 16px;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8f8f8;
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  width: 100%;
+}
+
+.toggle-label:hover {
+  background: #f0f0f0;
+}
+
+.toggle-label span {
+  font-size: 15px;
+  color: #333;
+  user-select: none;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 18px; width: 18px;
+  left: 3px; bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.toggle-switch input:checked + .slider {
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+}
+
+.toggle-switch input:checked + .slider::before {
+  transform: translateX(20px);
+}
+
+
   </style>
 </head>
 <body>
@@ -204,24 +328,38 @@
     <div class="login-container">
       <h1>تسجيل الدخول</h1>
       <form onsubmit="event.preventDefault(); checkPassword();">
-        <input type="text" id="code" placeholder="أدخل الكود..." class="disable-on-submit" required />
-        <input type="password" id="password" placeholder="أدخل كلمة المرور..." class="disable-on-submit" required />
-        <button type="submit" class="disable-on-submit">دخول</button>
+        <input type="text" id="code" placeholder="أدخل الكود..." required />
+        <input type="password" id="password" placeholder="أدخل كلمة المرور..." required />
+
+        <!-- ✅ Fully clickable Remember Me -->
+<div class="remember-me">
+  <label for="rememberMe" class="toggle-label">
+    <span>تذكرني</span>
+    <div class="toggle-switch">
+      <input type="checkbox" id="rememberMe">
+      <span class="slider"></span>
+    </div>
+  </label>
+</div>
+
+
+        <button type="submit">دخول</button>
       </form>
+
       <div class="register-forget">
         <a href="https://yamenxy.github.io/DATA_M/">تسجيل جديد</a>
         <a href="https://script.google.com/macros/s/AKfycbxUHiRTP8ylJ-SYcOWMXJPBO4PWuzPfs7UyAFlBiHav9o5UoTPGfpbNXd_mavVicfpp/exec">نسيت كلمة المرور؟</a>
       </div>
+
       <div id="loading-message" style="display:none;">
         <div class="loader">
-          <div class="scanner">
-            <span>جارٍ التحميل...</span>
-          </div>
+          <div class="scanner"><span>جارٍ التحميل...</span></div>
         </div>
       </div>
 
       <div id="login-error"></div>
     </div>
+
     <div class="support-link">
       <a href="javascript:void(0)" onclick="openNav()">هل تحتاج مساعدة؟</a>
     </div>
@@ -234,65 +372,77 @@
   </div>
 
   <script>
-    function checkPassword() {
-      var code = document.getElementById("code").value;
-      var password = document.getElementById("password").value;
-      var loadingMessage = document.getElementById("loading-message");
-      var loginError = document.getElementById("login-error");
-
-      if (code.trim() === "" || password.trim() === "") {
-        loginError.textContent = "يجب إدخال الكود وكلمة المرور!";
-      } else {
-        loadingMessage.style.display = "block";
-        disablePage();
-
-        var url = 'https://script.google.com/macros/s/AKfycbzxqK9fVsbS1q90K_m1nmyqE1-kKaNg5SR6TO4Wf7G2RZnbW27bikAuHH-tH5i7Zwlcfg/exec';
-        url += '?code=' + encodeURIComponent(code) + '&password=' + encodeURIComponent(password);
-
-        fetch(url)
-          .then(response => response.json())
-          .then(data => {
-            loadingMessage.style.display = "none";
-            enablePage();
-            if (data.exists) {
-              loginError.textContent = "";
-              window.location.href = 'the_main.html';
-            } else {
-              loginError.textContent = "الكود أو كلمة المرور غير صحيحة. حاول مرة أخرى.";
-            }
-          })
-          .catch(error => {
-            loadingMessage.style.display = "none";
-            enablePage();
-            console.error('Error:', error);
-            loginError.textContent = "حدث خطأ ما. حاول مرة أخرى.";
-          });
+    window.onload = function() {
+      const savedCode = localStorage.getItem("savedCode");
+      const savedPassword = localStorage.getItem("savedPassword");
+      if (savedCode && savedPassword) {
+        document.getElementById("code").value = savedCode;
+        document.getElementById("password").value = savedPassword;
+        document.getElementById("rememberMe").checked = true;
       }
+    };
+
+    function checkPassword() {
+      const code = document.getElementById("code").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const remember = document.getElementById("rememberMe").checked;
+      const loadingMessage = document.getElementById("loading-message");
+      const loginError = document.getElementById("login-error");
+
+      if (!code || !password) {
+        loginError.textContent = "يجب إدخال الكود وكلمة المرور!";
+        return;
+      }
+
+      loadingMessage.style.display = "block";
+      disablePage();
+
+      const url = `https://script.google.com/macros/s/AKfycbzxqK9fVsbS1q90K_m1nmyqE1-kKaNg5SR6TO4Wf7G2RZnbW27bikAuHH-tH5i7Zwlcfg/exec?code=${encodeURIComponent(code)}&password=${encodeURIComponent(password)}`;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          loadingMessage.style.display = "none";
+          enablePage();
+          if (data.exists) {
+            loginError.textContent = "";
+
+            if (remember) {
+              localStorage.setItem("savedCode", code);
+              localStorage.setItem("savedPassword", password);
+            } else {
+              localStorage.removeItem("savedCode");
+              localStorage.removeItem("savedPassword");
+            }
+
+            window.location.href = 'the_main.html';
+          } else {
+            loginError.textContent = "الكود أو كلمة المرور غير صحيحة.";
+          }
+        })
+        .catch(() => {
+          loadingMessage.style.display = "none";
+          enablePage();
+          loginError.textContent = "حدث خطأ ما. حاول مرة أخرى.";
+        });
     }
 
     function disablePage() {
-      var elements = document.getElementsByClassName('disable-on-submit');
-      for (var i = 0; i < elements.length; i++) {
-        elements[i].classList.add('disabled');
-        elements[i].disabled = true;
-      }
+      document.querySelectorAll('.disable-on-submit').forEach(el => {
+        el.classList.add('disabled');
+        el.disabled = true;
+      });
     }
 
     function enablePage() {
-      var elements = document.getElementsByClassName('disable-on-submit');
-      for (var i = 0; i < elements.length; i++) {
-        elements[i].classList.remove('disabled');
-        elements[i].disabled = false;
-      }
+      document.querySelectorAll('.disable-on-submit').forEach(el => {
+        el.classList.remove('disabled');
+        el.disabled = false;
+      });
     }
 
-    function openNav() {
-      document.getElementById("mySidebar").style.width = "250px";
-    }
-
-    function closeNav() {
-      document.getElementById("mySidebar").style.width = "0";
-    }
+    function openNav() { document.getElementById("mySidebar").style.width = "250px"; }
+    function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
   </script>
 </body>
 </html>
