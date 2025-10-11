@@ -209,6 +209,7 @@ async function loadLinks() {
     try {
         const res = await fetch(`${API_URL}?pageName=${PAGE_NAME}`);
         const links = await res.json();
+        window.videoLinks = links;
         
 
         loadVideo('pcloud');
@@ -217,7 +218,7 @@ async function loadLinks() {
         document.getElementById("loading-screen").style.display = "none";
         document.getElementById("videoSection").style.opacity = 1;
         document.body.style.overflow = "auto";
-        window.videoLinks = links;
+        
     } catch {
         alert("⚠️ خطأ في تحميل روابط الفيديو");
     }
@@ -235,4 +236,5 @@ function loadVideo(source) {
 
 </body>
 </html>
+
 
