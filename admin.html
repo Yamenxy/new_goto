@@ -1,12 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   <style>
     :root {
       --background: #1a1a2e;
@@ -30,10 +29,6 @@
       color: var(--color);
       letter-spacing: 1px;
       transition: background 0.2s ease;
-      -webkit-transition: background 0.2s ease;
-      -moz-transition: background 0.2s ease;
-      -ms-transition: background 0.2s ease;
-      -o-transition: background 0.2s ease;
     }
 
     a {
@@ -64,17 +59,13 @@
       backdrop-filter: blur(20px);
       z-index: 99;
       padding: 2rem;
-      -webkit-border-radius: 10px;
-      -moz-border-radius: 10px;
-      -ms-border-radius: 10px;
-      -o-border-radius: 10px;
     }
 
     .login-container form input {
       display: block;
       padding: 14.5px;
       width: 100%;
-      margin: 2rem 0;
+      margin: 1.5rem 0;
       color: var(--color);
       outline: none;
       background-color: #9191911f;
@@ -84,16 +75,11 @@
       letter-spacing: 0.8px;
       font-size: 15px;
       backdrop-filter: blur(15px);
-      -webkit-border-radius: 5px;
-      -moz-border-radius: 5px;
-      -ms-border-radius: 5px;
-      -o-border-radius: 5px;
     }
 
     .login-container form input:focus {
       box-shadow: 0 0 16px 1px rgba(0, 0, 0, 0.2);
       animation: wobble 0.3s ease-in;
-      -webkit-animation: wobble 0.3s ease-in;
     }
 
     .login-container form button {
@@ -111,23 +97,11 @@
       margin-bottom: 2rem;
       transition: all 0.1s ease-in-out;
       border: none;
-      -webkit-border-radius: 5px;
-      -moz-border-radius: 5px;
-      -ms-border-radius: 5px;
-      -o-border-radius: 5px;
-      -webkit-transition: all 0.1s ease-in-out;
-      -moz-transition: all 0.1s ease-in-out;
-      -ms-transition: all 0.1s ease-in-out;
-      -o-transition: all 0.1s ease-in-out;
     }
 
     .login-container form button:hover {
       box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.15);
       transform: scale(1.02);
-      -webkit-transform: scale(1.02);
-      -moz-transform: scale(1.02);
-      -ms-transform: scale(1.02);
-      -o-transform: scale(1.02);
     }
 
     .circle {
@@ -135,10 +109,6 @@
       height: 8rem;
       background: var(--primary-color);
       border-radius: 50%;
-      -webkit-border-radius: 50%;
-      -moz-border-radius: 50%;
-      -ms-border-radius: 50%;
-      -o-border-radius: 50%;
       position: absolute;
     }
 
@@ -154,10 +124,6 @@
       left: 0;
       z-index: -1;
       transform: translate(-45%, -45%);
-      -webkit-transform: translate(-45%, -45%);
-      -moz-transform: translate(-45%, -45%);
-      -ms-transform: translate(-45%, -45%);
-      -o-transform: translate(-45%, -45%);
     }
 
     .circle-two {
@@ -165,69 +131,28 @@
       right: 0;
       z-index: -1;
       transform: translate(45%, 45%);
-      -webkit-transform: translate(45%, 45%);
-      -moz-transform: translate(45%, 45%);
-      -ms-transform: translate(45%, 45%);
-      -o-transform: translate(45%, 45%);
     }
 
     .register-forget {
       margin: 1rem 0;
       display: flex;
       justify-content: space-between;
+      align-items: center;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
 
     .opacity {
       opacity: 0.6;
     }
 
-    .theme-btn-container {
-      position: absolute;
-      left: 0;
-      bottom: 2rem;
-    }
-
-    .theme-btn {
-      cursor: pointer;
-      transition: all 0.3s ease-in;
-    }
-
-    .theme-btn:hover {
-      width: 40px !important;
-    }
-
     @keyframes wobble {
-      0% {
-        transform: scale(1.025);
-        -webkit-transform: scale(1.025);
-        -moz-transform: scale(1.025);
-        -ms-transform: scale(1.025);
-        -o-transform: scale(1.025);
-      }
-
-      25% {
-        transform: scale(1);
-        -webkit-transform: scale(1);
-        -moz-transform: scale(1);
-        -ms-transform: scale(1);
-        -o-transform: scale(1);
-      }
-
-      75% {
-        transform: scale(1.025);
-        -webkit-transform: scale(1.025);
-        -moz-transform: scale(1.025);
-        -ms-transform: scale(1.025);
-        -o-transform: scale(1.025);
-      }
-
-      100% {
-        transform: scale(1);
-        -webkit-transform: scale(1);
-        -moz-transform: scale(1);
-        -ms-transform: scale(1);
-        -o-transform: scale(1);
-      }
+      0%, 75%, 100% { transform: scale(1); }
+      25%, 50% { transform: scale(1.025); }
     }
   </style>
 </head>
@@ -236,59 +161,94 @@
     <div class="login-container">
       <div class="circle circle-one"></div>
       <div class="form-container">
-        <img src="https://raw.githubusercontent.com/hicodersofficial/glassmorphism-login-form/master/assets/illustration.png" alt="illustration" class="illustration" />
+        <img
+          src="https://raw.githubusercontent.com/hicodersofficial/glassmorphism-login-form/master/assets/illustration.png"
+          alt="illustration"
+          class="illustration"
+        />
         <h1 class="opacity">Admin_Page</h1>
         <form onsubmit="event.preventDefault(); checkPassword();">
           <input type="text" id="code" placeholder="Enter The code..." required />
           <input type="password" id="password" placeholder="Enter The Password..." required />
-          <button type="submit">check</button>
+
           <div class="register-forget opacity">
-            
+            <label class="remember-me">
+              <input type="checkbox" id="rememberMe" />
+              Remember Me
+            </label>
+          </div>
 
-        </div>
-
+          <button type="submit">Check</button>
         </form>
-        <div id="loading-message" style="display:none; color: white;">Loading...</div> <!-- Loading message -->
-        <div id="login-error" style="color: red;"></div> <!-- Error message -->
+        <div id="loading-message" style="display:none; color: white;">Loading...</div>
+        <div id="login-error" style="color: red;"></div>
       </div>
       <div class="circle circle-two"></div>
     </div>
-    <div class="theme-btn-container"></div>
   </section>
 
   <script>
+    // 🧠 Load saved login info if available
+    window.onload = function () {
+      const savedCode = localStorage.getItem("savedCode");
+      const savedPassword = localStorage.getItem("savedPassword");
+      if (savedCode && savedPassword) {
+        document.getElementById("code").value = savedCode;
+        document.getElementById("password").value = savedPassword;
+        document.getElementById("rememberMe").checked = true;
+      }
+    };
+
+    // 🔐 Function to check password
     function checkPassword() {
-        var code = document.getElementById("code").value;
-        var password = document.getElementById("password").value; // Get the password value
-        var loadingMessage = document.getElementById("loading-message");
-        var loginError = document.getElementById("login-error");
-  
-        if (code.trim() === "" || password.trim() === "") {
-            loginError.textContent = "Code and password are required!";
-        } else {
-            loadingMessage.style.display = "block";
-            var url = 'https://script.google.com/macros/s/AKfycbyvh7NP8tbBL_t2rdl2VY8PNW-89Dm1OGetVCWaJyng3IlwBDV2rDwHg0mhiOuTdfIL/exec';
-            url += '?code=' + encodeURIComponent(code) + '&password=' + encodeURIComponent(password);
-  
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    loadingMessage.style.display = "none";
-                    if (data.exists) {
-                        loginError.textContent = "";
-                        window.location.href = "welcome_page.html?username=" + code; // Redirect to the_main.html
-                    } else {
-                        loginError.textContent = "Incorrect code or password. Please try again.";
-                    }
-                })
-                .catch(error => {
-                    loadingMessage.style.display = "none";
-                    console.error('Error:', error);
-                    loginError.textContent = "An error occurred. Please try again.";
-                });
-        }
+      var code = document.getElementById("code").value;
+      var password = document.getElementById("password").value;
+      var remember = document.getElementById("rememberMe").checked;
+      var loadingMessage = document.getElementById("loading-message");
+      var loginError = document.getElementById("login-error");
+
+      if (code.trim() === "" || password.trim() === "") {
+        loginError.textContent = "Code and password are required!";
+        return;
+      }
+
+      loadingMessage.style.display = "block";
+      loginError.textContent = "";
+
+      var url =
+        "https://script.google.com/macros/s/AKfycbyvh7NP8tbBL_t2rdl2VY8PNW-89Dm1OGetVCWaJyng3IlwBDV2rDwHg0mhiOuTdfIL/exec";
+      url +=
+        "?code=" +
+        encodeURIComponent(code) +
+        "&password=" +
+        encodeURIComponent(password);
+
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          loadingMessage.style.display = "none";
+          if (data.exists) {
+            if (remember) {
+              // 💾 Save login info
+              localStorage.setItem("savedCode", code);
+              localStorage.setItem("savedPassword", password);
+            } else {
+              // ❌ Remove saved data if unchecked
+              localStorage.removeItem("savedCode");
+              localStorage.removeItem("savedPassword");
+            }
+
+            window.location.href = "welcome_page.html?username=" + code;
+          } else {
+            loginError.textContent = "Incorrect code or password. Please try again.";
+          }
+        })
+        .catch((error) => {
+          loadingMessage.style.display = "none";
+          console.error("Error:", error);
+          loginError.textContent = "An error occurred. Please try again.";
+        });
     }
   </script>
-  
 </body>
 </html>
