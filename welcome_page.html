@@ -7,14 +7,9 @@
     <style>
         @import url('https://fonts.googleapis.com/css?family=Lato:300,400|Poppins:300,400,800&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-        }
+        * { margin: 0; padding: 0; }
 
-        body, html {
-            overflow: hidden;
-        }
+        body, html { overflow: hidden; }
 
         .container {
             width: 100%;
@@ -27,7 +22,7 @@
 
         .box {
             width: 250px;
-            height: 250px;
+            height: auto;
             position: relative;
             display: flex;
             justify-content: center;
@@ -98,47 +93,6 @@
             letter-spacing: 5px;
         }
 
-        footer {
-            width: 350px;
-            height: 80px;
-            background: #ffb510;
-            position: absolute;
-            right: 0;
-            bottom: -80px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: top 0.8s forwards;
-            animation-delay: 4s;
-        }
-
-        footer span {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            color: #232323;
-            font-family: 'Poppins';
-        }
-
-        footer i {
-            margin-right: 25px;
-            font-size: 22px;
-            color: #232323;
-            animation: icon 2s forwards;
-            animation-delay: 4s;
-            opacity: 0;
-        }
-
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: black;
-        }
-
         nav ul {
             list-style-type: none;
             margin: 0;
@@ -164,6 +118,7 @@
             z-index: 1;
             transition: 0.5s;
             margin: 1em;
+            cursor: pointer;
         }
 
         nav ul li span {
@@ -187,20 +142,22 @@
             transform: translateY(0) scale(2);
         }
 
-        nav ul li span:nth-child(1) {
-            --n: 1;
+        nav ul li span:nth-child(1) { --n: 1; }
+        nav ul li span:nth-child(2) { --n: 2; }
+        nav ul li span:nth-child(3) { --n: 3; }
+        nav ul li span:nth-child(4) { --n: 4; }
+
+        .remember-box {
+            color: white;
+            font-family: 'Lato';
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        nav ul li span:nth-child(2) {
-            --n: 2;
-        }
-
-        nav ul li span:nth-child(3) {
-            --n: 3;
-        }
-
-        nav ul li span:nth-child(4) {
-            --n: 4;
+        .remember-box input {
+            margin-left: 8px;
         }
     </style>
 </head>
@@ -215,6 +172,12 @@
             <div class="role">
                 <div class="block"></div>
                 <p><span id="username"></span></p>     
+            </div>
+
+            <div class="remember-box">
+                <label>
+                    <input type="checkbox" id="rememberMe"> Remember me
+                </label>
             </div>
 
             <div style="width: 100%; margin: 0 auto; text-align: center;">
@@ -232,14 +195,37 @@
     </div>
 
     <script>
-        // Retrieve the username from the query parameter
-        var urlParams = new URLSearchParams(window.location.search);
-        var username = urlParams.get('username');
-        document.getElementById('username').textContent = username;
+        const usernameSpan = document.getElementById('username');
+        const rememberCheckbox = document.getElementById('rememberMe');
 
-        // Add event listener for all nav items
-        document.querySelectorAll('.nav-item').forEach(function(item) {
-            item.addEventListener('click', function() {
+        // Check local storage
+        let savedName = localStorage.getItem('savedUsername');
+
+        if (savedName) {
+            usernameSpan.textContent = savedName;
+            rememberCheckbox.checked = true;
+        } else {
+            // Retrieve from URL if not saved
+            const urlParams = new URLSearchParams(window.location.search);
+            const username = urlParams.get('username');
+            if (username) {
+                usernameSpan.textContent = username;
+            }
+        }
+
+        // Save username when "Remember me" is checked
+        rememberCheckbox.addEventListener('change', function() {
+            const name = usernameSpan.textContent.trim();
+            if (this.checked && name) {
+                localStorage.setItem('savedUsername', name);
+            } else {
+                localStorage.removeItem('savedUsername');
+            }
+        });
+
+        // Navigation links
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
                 window.location.href = item.getAttribute('data-url');
             });
         });
