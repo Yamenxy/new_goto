@@ -11,9 +11,48 @@
         color: white;
         direction: rtl;
         text-align: center;
+        margin: 0;
+        padding: 0;
     }
 
-    /* 🔑 Code Page */
+    /* 🌙 Fullscreen Loader */
+    #loading-screen {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #181818;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease;
+    }
+
+    .spinner-border {
+        width: 3.5rem;
+        height: 3.5rem;
+        border: 0.4em solid #333;
+        border-top: 0.4em solid #00C9FF;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        box-shadow: 0 0 20px rgba(0,201,255,0.4);
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    #loading-screen p {
+        margin-top: 20px;
+        color: #00C9FF;
+        font-size: 1.3rem;
+        letter-spacing: 1px;
+    }
+
+    /* 🔑 Code Input Page */
     .code-section {
         max-width: 420px;
         margin: 100px auto;
@@ -62,11 +101,6 @@
         box-shadow: 0 0 10px #00C9FF, inset 0 0 8px rgba(0,0,0,0.8);
     }
 
-    .code-section input::placeholder {
-        color: #aaa;
-        font-size: 1rem;
-    }
-
     .code-section button {
         width: 100%;
         padding: 14px;
@@ -94,7 +128,6 @@
         min-height: 22px;
     }
 
-    /* ✨ Fade In Animation */
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(-20px); }
         to   { opacity: 1; transform: translateY(0); }
@@ -108,14 +141,23 @@
         padding: 20px;
         gap: 20px;
         flex-direction: row-reverse;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .video-section.active {
+        opacity: 1;
+        transform: translateY(0);
     }
 
     .video-sources {
         flex: 1;
         padding: 20px;
-        background-color: #222;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        background-color: #202020;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        animation: fadeIn 1s ease;
     }
 
     .source-item {
@@ -123,41 +165,40 @@
         align-items: center;
         justify-content: space-between;
         padding: 15px 20px;
-        background-color: #333;
+        background-color: #2a2a2a;
         border-radius: 10px;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
         cursor: pointer;
-        transition: background 0.3s ease;
+        transition: all 0.3s ease;
     }
 
     .source-item:hover {
-        background-color: #444;
+        background-color: #383838;
+        transform: translateY(-2px);
     }
 
     .source-item img {
         height: 30px;
         width: 30px;
-        margin-left: 20px;
-    }
-
-    .source-label {
-        flex: 1;
-        font-size: 1.1rem;
+        margin-left: 15px;
+        filter: drop-shadow(0 0 5px rgba(0,201,255,0.5));
     }
 
     .source-resolution {
         font-weight: bold;
-        background-color: #00C9FF;
-        padding: 5px 10px;
+        background: linear-gradient(45deg, #00C9FF, #92FE9D);
+        padding: 6px 12px;
         border-radius: 5px;
+        color: #000;
+        font-size: 0.9rem;
     }
 
     .video-container {
         flex: 3;
         background-color: #000;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6);
         text-align: center;
     }
 
@@ -166,143 +207,176 @@
         height: 600px;
         border: none;
         border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,201,255,0.2);
+        transition: all 0.4s ease;
     }
 
     @media (max-width: 768px) {
-        .video-section {
-            flex-direction: column;
-        }
-
-        .video-container iframe {
-            height: 400px;
-        }
-    }
-
-    /* ⏳ Loading Spinner */
-    .loading {
-        display: none;
-        margin-top: 15px;
-    }
-
-    .spinner {
-        border: 4px solid #444;
-        border-top: 4px solid #00C9FF;
-        border-radius: 50%;
-        width: 32px;
-        height: 32px;
-        animation: spin 1s linear infinite;
-        margin: auto;
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        .video-section { flex-direction: column; }
+        .video-container iframe { height: 400px; }
+        .video-sources { order: 2; }
     }
 </style>
 </head>
 <body>
 
-    <!-- 🔑 Code Input Page -->
-    <div class="code-section" id="codeSection">
-        <h2>🎬 ادخل الكود الخاص بك</h2>
-        <p class="hint">من فضلك أدخل الكود لمتابعة الفيديو</p>
-        <div class="form-group">
-            <input type="text" id="studentCode" placeholder="ادخل الكود هنا">
-            <button onclick="verifyCode()">✅ تحقق من الكود</button>
+<!-- 🔑 Code Input Page -->
+<div class="code-section" id="codeSection">
+    <h2>🎬 ادخل الكود الخاص بك</h2>
+    <p class="hint">من فضلك أدخل الكود لمتابعة الفيديو</p>
+    <div class="form-group">
+        <input type="text" id="studentCode" placeholder="ادخل الكود هنا">
+        <button onclick="verifyCode()">✅ تحقق من الكود</button>
+    </div>
+    <div id="message"></div>
+</div>
+
+<!-- 🌀 Loading Screen -->
+<div id="loading-screen">
+    <div class="spinner-border"></div>
+    <p>جارٍ تحميل الفيديو...</p>
+</div>
+
+<!-- 🎥 Video Page -->
+<div class="video-section" id="videoSection">
+    <div class="video-sources">
+        <div class="source-item" onclick="loadVideo('pcloud')">
+            <img src="images/pcloud.png" alt="pcloud Icon">
+            <div class="source-label">pCloud</div>
+            <div class="source-resolution">FHD</div>
         </div>
-        <div id="message"></div>
-        <div class="loading" id="loading"><div class="spinner"></div></div>
+        <div class="source-item" onclick="loadVideo('drive')">
+            <img src="images/drive.png" alt="Google Drive Icon">
+            <div class="source-label">Google Drive</div>
+            <div class="source-resolution">FHD</div>
+        </div>
+        <div class="source-item" onclick="loadVideo('mega')">
+            <img src="images/mega.png" alt="Mega Icon">
+            <div class="source-label">Mega.nz</div>
+            <div class="source-resolution">FHD</div>
+        </div>
     </div>
 
-    <!-- 🎥 Video Page -->
-    <div class="video-section" id="videoSection">
-        <div class="video-sources">
-            <div class="source-item" onclick="loadVideo('drive')">
-                <img src="images/drive.png" alt="Google Drive Icon">
-                <div class="source-label">Google Drive</div>
-                <div class="source-resolution">FHD</div>
-            </div>
-
-            <div class="source-item" onclick="loadVideo('pcloud')">
-                <img src="images/pcloud.png" alt="pcloud Icon">
-                <div class="source-label">pCloud</div>
-                <div class="source-resolution">FHD</div>
-            </div>
-
-            <div class="source-item" onclick="loadVideo('mega')">
-                <img src="images/mega.png" alt="Mega Icon">
-                <div class="source-label">Mega.nz</div>
-                <div class="source-resolution">FHD</div>
-            </div>
-        </div>
-
-        <div class="video-container">
-            <iframe id="video-frame" src="" allowfullscreen></iframe>
-        </div>
+    <div class="video-container">
+        <iframe id="video-frame" src="" allowfullscreen></iframe>
     </div>
+</div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxaoorJWQpHw9JS1JRBLVuNUc5Vu4HG_mdCGWveJ_yMJ74R02l1uN_u2CC6Grshum5Xsw/exec";
-    let verified = false;
+const VERIFY_URL = "https://script.google.com/macros/s/AKfycbwP_1KznBrII1HroNK2Xa1gI-eJAulDEmuPLI0yqcGS-g9ygr2NH-G6XhPFOI8uwTWYEQ/exec";
+const LINKS_URL = "https://script.google.com/macros/s/AKfycbxzx44D-Lwn_Jt2ScVQJlkNHQ7LBSRw2h7odaqCEsKubdhazczMWtd0JY-03tZVTBw/exec";
+const PAGE_NAME = "video9";
 
-    async function verifyCode() {
-        const code = document.getElementById("studentCode").value.trim();
-        const msg = document.getElementById("message");
-        const loader = document.getElementById("loading");
+let verified = false;
+let videoLinks = {};
 
-        if (!code) {
-            msg.innerText = "⚠️ من فضلك أدخل الكود";
+async function verifyCode() {
+    const code = document.getElementById("studentCode").value.trim();
+    const msg = document.getElementById("message");
+
+    if (!code) {
+        msg.innerText = "⚠️ من فضلك أدخل الكود";
+        msg.style.color = "red";
+        return;
+    }
+
+    msg.innerText = "⏳ جاري التحقق...";
+    msg.style.color = "#00C9FF";
+
+    try {
+        const res = await fetch(VERIFY_URL, {
+            method: "POST",
+            body: new URLSearchParams({
+                barcode: code,
+                attendanceType: "الحضور التاسع"
+            })
+        });
+        const data = await res.json();
+
+        if (data.attendance && data.attendance[0] === "✓") {
+            verified = true;
+            msg.style.color = "lightgreen";
+            msg.innerText = "✅ تم التحقق بنجاح!";
+
+            document.getElementById("codeSection").style.display = "none";
+            document.getElementById("loading-screen").style.display = "flex";
+            await loadLinks();
+        } else {
             msg.style.color = "red";
-            return;
+            msg.innerText = "❌ لم يتم حضور هذه المحاضرة";
         }
-
-        // Show loading spinner
-        loader.style.display = "block";
-        msg.innerText = "";
-
-        try {
-            const res = await fetch(SCRIPT_URL, {
-                method: "POST",
-                body: new URLSearchParams({
-                    barcode: code,
-                    attendanceType: "الحضور التاسع"
-                })
-            });
-
-            const data = await res.json();
-            if (data.attendance && data.attendance[0] === "✓") {
-                msg.style.color = "lightgreen";
-                msg.innerText = "✅ تم التحقق!";
-                document.getElementById("codeSection").style.display = "none";
-                document.getElementById("videoSection").style.display = "flex";
-                verified = true;
-            } else {
-                msg.style.color = "red";
-                msg.innerText = "❌ غير مسموح لك بالمشاهدة";
-                verified = false;
-            }
-        } catch (err) {
-            msg.style.color = "orange";
-            msg.innerText = "⚠️ خطأ في الاتصال بالخادم!";
-            verified = false;
-        } finally {
-            // Hide loading spinner
-            loader.style.display = "none";
-        }
+    } catch (err) {
+        msg.style.color = "orange";
+        msg.innerText = "⚠️ خطأ في الاتصال بالخادم!";
     }
+}
 
-    function loadVideo(source) {
-        if (!verified) return;
+async function loadLinks() {
+    try {
+        const res = await fetch(`${LINKS_URL}?pageName=${PAGE_NAME}`);
+        videoLinks = await res.json();
 
-        const iframe = document.getElementById("video-frame");
-        if (source === 'mega') {
-            iframe.src = "https://mega.nz/embed/eiozRaDa#hUWFBk5A4gLBo9I5LTEbrFzkcuPfEh47EApMGF0k89Y";
-        } else if (source === 'drive') {
-            iframe.src = "https://drive.google.com/file/d/1AUfL1aA_YKd25gFmSAQZBTQ4Y_45tD78/preview"; 
-        } else if (source === 'pcloud') {
-            iframe.src = "https://u.pcloud.link/publink/show?code=XZCQca0ZNkiLcLbDOiQExAGnwRKfxLundsaX"; 
+        document.getElementById("loading-screen").style.display = "none";
+        const videoSection = document.getElementById("videoSection");
+        const sourcesContainer = document.querySelector(".video-sources");
+        sourcesContainer.innerHTML = ""; // clear existing buttons
+
+        // 🎥 Only show sources that exist
+        if (videoLinks.pcloud && videoLinks.pcloud.trim() !== "") {
+            sourcesContainer.innerHTML += `
+                <div class="source-item" onclick="loadVideo('pcloud')">
+                    <img src="images/pcloud.png" alt="pcloud Icon">
+                    <div class="source-label">pCloud</div>
+                    <div class="source-resolution">FHD</div>
+                </div>`;
         }
+
+        if (videoLinks.drive && videoLinks.drive.trim() !== "") {
+            sourcesContainer.innerHTML += `
+                <div class="source-item" onclick="loadVideo('drive')">
+                    <img src="images/drive.png" alt="Google Drive Icon">
+                    <div class="source-label">Google Drive</div>
+                    <div class="source-resolution">FHD</div>
+                </div>`;
+        }
+
+        if (videoLinks.mega && videoLinks.mega.trim() !== "") {
+            sourcesContainer.innerHTML += `
+                <div class="source-item" onclick="loadVideo('mega')">
+                    <img src="images/mega.png" alt="Mega Icon">
+                    <div class="source-label">Mega.nz</div>
+                    <div class="source-resolution">FHD</div>
+                </div>`;
+        }
+
+        // 🟩 Show section if any links exist
+        if (Object.values(videoLinks).some(link => link && link.trim() !== "")) {
+            videoSection.style.display = "flex";
+            setTimeout(() => videoSection.classList.add("active"), 50);
+
+            // Load the first available video automatically
+            if (videoLinks.pcloud) loadVideo('pcloud');
+            else if (videoLinks.drive) loadVideo('drive');
+            else if (videoLinks.mega) loadVideo('mega');
+        } else {
+            alert("⚠️ لا يوجد روابط فيديو متاحة لهذا الدرس حاليًا.");
+        }
+
+    } catch (err) {
+        alert("⚠️ خطأ في تحميل روابط الفيديو");
+        console.error(err);
     }
+}
+
+function loadVideo(source) {
+    if (!verified || !videoLinks[source]) return;
+    const iframe = document.getElementById("video-frame");
+    iframe.src = videoLinks[source];
+}
 </script>
+
 </body>
 </html>
+
+
+
