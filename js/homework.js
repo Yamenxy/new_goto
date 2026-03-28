@@ -149,9 +149,17 @@ function renderHomeworkCards() {
   // Titles are Arabic like "واجب المحاضرة الاولي", so we use array position, not title parsing.
   const availableVideos = [];
   allVideos.forEach((v, i) => {
-    if (studentAttendance[i] === true) {
-      availableVideos.push({ ...v, _index: i }); // store original index
-    }
+    if (studentAttendance[i] !== true) return;
+
+    // Skip empty/placeholder rows or items without meaningful data
+    const hasContent = v && (
+      (v.title && String(v.title).trim()) ||
+      (v.imgSrc && String(v.imgSrc).trim()) ||
+      (v.links && Array.isArray(v.links) && v.links.length > 0)
+    );
+    if (!hasContent) return;
+
+    availableVideos.push({ ...v, _index: i }); // store original index
   });
 
   if (availableVideos.length === 0) {
