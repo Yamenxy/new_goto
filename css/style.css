@@ -1,6 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Cairo:wght@400;600&display=swap');
+
+:root {
+    --bg: #F8F9FA;
+    --surface: #FFFFFF;
+    --primary: #1E3A8A; /* deep slate blue */
+    --accent: #0D9488;  /* warm teal */
+    --text: #111827;
+    --muted: #6B7280;
+    --max-width: 1200px;
+    --radius: 8px;
+}
+
 body {
-    transition-duration: 1s !important;
-    background-color: rgb(213, 213, 213) !important;
+    transition: background-color 300ms ease, color 300ms ease;
+    background-color: var(--bg) !important;
+    color: var(--text);
+    font-family: Inter, Roboto, Cairo, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial;
     overflow-x: hidden;
 }
 
@@ -13,16 +28,48 @@ body {
 /* nav */
 .nav,
 .navbar {
-    background-color: rgb(235, 235, 235) !important;
+    background-color: var(--surface) !important;
     padding-left: 10px !important;
+    border-bottom: 1px solid rgba(16,24,40,0.06);
+    transition: opacity 200ms ease, background-color 200ms ease;
+    opacity: 0.98;
+}
 
-    transition-duration: 0.5s !important;
-    opacity: 0.4;
+.nav a,
+.navbar a {
+    color: var(--primary);
 }
 
 .nav:hover,
 .navbar:hover {
     opacity: 1 !important;
+}
+
+/* layout container (boxed content) */
+.container, .site-container {
+    max-width: var(--max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+/* headings */
+h1, h2, h3, h4 {
+    color: var(--text);
+    font-weight: 600;
+}
+
+/* primary buttons */
+.btnn, .btn-primary {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: white !important;
+    border-radius: var(--radius);
+}
+
+.btnn:hover, .btn-primary:hover {
+    background-color: color-mix(in srgb, var(--primary) 80%, black 20%) !important;
 }
 
 
