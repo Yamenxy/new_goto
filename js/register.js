@@ -44,33 +44,95 @@ function startScanner() {
     showToast('Scanner library not loaded', 'error');
     return;
   }
+  // If a previous instance is running, stop it first to avoid duplicate handlers
+  try { if (scannerRunning && typeof Quagga !== 'undefined') Quagga.stop(); } catch (e) {}
+  // Remove any previous onDetected handler if supported
+  try { if (Quagga && typeof Quagga.offDetected === 'function') Quagga.offDetected(); } catch (e) {}
 
-  Quagga.init({
-    inputStream: {
-      name: "Live",
-      type: "LiveStream",
-      target: scannerEl,
-      constraints: { facingMode: "environment", width: 480, height: 320 }
+  // Warn when not served over HTTPS (camera access may be blocked by browser)
+  if (location.protocol === 'http:' && location.hostname !== 'localhost') {
+    showToast('Camera may be blocked: serve the site over HTTPS or use localhost', 'warning');
+  }
+
+  // Try multiple configs in sequence to avoid OverconstrainedError
+  const tryConfigs = [
+    // Preferred: environment camera, reasonable ideal size
+    {
+      inputStream: { name: "Live", type: "LiveStream", target: scannerEl, constraints: { facingMode: "environment", width: { ideal: 640 }, height: { ideal: 480 } } },
+      locator: { patchSize: "medium", halfSample: true },
+      numOfWorkers: (navigator.hardwareConcurrency || 2),
+      decoder: { readers: ["code_128_reader", "ean_reader", "ean_8_reader", "code_39_reader", "upc_reader", "i2of5_reader"] },
+      locate: true
     },
-    decoder: {
-      readers: ["code_128_reader", "ean_reader", "ean_8_reader", "code_39_reader", "upc_reader", "i2of5_reader"]
+    // Relax size constraints
+    {
+      inputStream: { name: "Live", type: "LiveStream", target: scannerEl, constraints: { facingMode: "environment" } },
+      locator: { patchSize: "large", halfSample: true },
+      numOfWorkers: 1,
+      decoder: { readers: ["code_128_reader", "ean_reader", "code_39_reader"] },
+      locate: true
+    },
+    // Final fallback: no facingMode (lets browser choose), minimal work
+    {
+      inputStream: { name: "Live", type: "LiveStream", target: scannerEl },
+      locator: { patchSize: "large", halfSample: true },
+      numOfWorkers: 1,
+      decoder: { readers: ["code_128_reader"] },
+      locate: true
     }
-  }, (err) => {
-    if (err) {
-      showToast('Camera error: ' + err.message, 'error');
+  ];
+
+  const initQuagga = (configs, idx = 0) => {
+    if (idx >= configs.length) {
+      showToast('Camera error: No compatible camera constraints found', 'error');
       stopScanner();
       return;
     }
-    Quagga.start();
-    scannerRunning = true;
-  });
+    const cfgAttempt = configs[idx];
+    Quagga.init(cfgAttempt, (err) => {
+      if (err) {
+        console.warn('Quagga init attempt failed', idx, err && err.name);
+        // If OverconstrainedError, try the next, otherwise show error
+        if (err && (err.name === 'OverconstrainedError' || err.name === 'ConstraintNotSatisfiedError' || err.constraint)) {
+          initQuagga(configs, idx + 1);
+          return;
+        }
+        console.error('Quagga init error', err);
+        const msg = err && err.name ? `${err.name}: ${err.message || ''}` : 'Camera error';
+        showToast('Camera error: ' + msg, 'error');
+        stopScanner();
+        return;
+      }
+      try {
+        Quagga.start();
+        scannerRunning = true;
+      } catch (startErr) {
+        console.error('Quagga start failed', startErr);
+        showToast('Unable to start scanner', 'error');
+        stopScanner();
+      }
+    });
+  };
 
-  Quagga.onDetected((result) => {
-    const code = result.codeResult.code;
-    document.getElementById('studentCode').value = code;
-    stopScanner();
-    showToast('تم مسح الكود: ' + code, 'success');
-  });
+  initQuagga(tryConfigs);
+
+  // Single detection handler — unregister previous to avoid duplicates
+  const onDetectedHandler = (result) => {
+    try {
+      const code = result && result.codeResult && result.codeResult.code;
+      if (code) {
+        document.getElementById('studentCode').value = code;
+        stopScanner();
+        showToast('تم مسح الكود: ' + code, 'success');
+      }
+    } catch (e) { console.error('onDetected handler error', e); }
+  };
+
+  if (typeof Quagga.onDetected === 'function') {
+    Quagga.onDetected(onDetectedHandler);
+  } else if (typeof Quagga.addListener === 'function') {
+    Quagga.addListener('detected', onDetectedHandler);
+  }
 }
 
 function stopScanner() {
