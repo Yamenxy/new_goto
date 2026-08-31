@@ -147,7 +147,7 @@ function renderHomeworkCards() {
 
   // Filter videos by index: item 0 → attendance index 0 (الحضور الاول), item 1 → index 1, etc.
   // Titles are Arabic like "واجب المحاضرة الاولي", so we use array position, not title parsing.
-  const availableVideos = [];
+    const availableVideos = [];
   allVideos.forEach((v, i) => {
     if (studentAttendance[i] !== true) return;
 
@@ -197,7 +197,44 @@ function renderHomeworkCards() {
     `;
     grid.appendChild(card);
   });
+  // Prefetch links for available videos in background to reduce wait when user clicks
+  try {
+    const pageNames = availableVideos.map(v => 'video' + (v._index + 1));
+    // don't await - run in background
+    prefetchVideoLinks(pageNames);
+  } catch (e) {}
   updateLanguage();
+}
+
+// Prefetch video links for a list of page names with limited concurrency
+function prefetchVideoLinks(pageNames) {
+  if (!Array.isArray(pageNames) || pageNames.length === 0) return;
+  const concurrency = 3;
+  const queue = pageNames.slice();
+
+  async function worker() {
+    while (queue.length) {
+      const pageName = queue.shift();
+      if (!pageName) break;
+      if (videoLinksCache[pageName]) continue; // already cached
+      try {
+        const resp = await fetch(`${VIDEO_LINKS_API}?pageName=${encodeURIComponent(pageName)}`, { credentials: 'omit', redirect: 'follow' });
+        if (!resp.ok) continue;
+        const links = await resp.json();
+        // store only non-empty links to avoid overwriting good cache with empty
+        if (links && (links.drive || links.pcloud || links.mega)) {
+          videoLinksCache[pageName] = links;
+        }
+      } catch (err) {
+        // ignore individual failures
+      }
+      // small delay between requests to be polite
+      await new Promise(r => setTimeout(r, 200));
+    }
+  }
+
+  // launch workers (no await)
+  for (let i = 0; i < concurrency; i++) worker();
 }
 
 /* ===== Load video links then show source picker ===== */
@@ -294,4 +331,3 @@ function closeVideoPlayer() {
   document.getElementById('homeworkList').style.display = 'block';
   document.getElementById('videoWrapper').innerHTML = '';
 }
-
