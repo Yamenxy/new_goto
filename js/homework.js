@@ -1,5 +1,5 @@
 /* ===== Homework Page JS ===== */
-const REGISTRATION_API = 'https://script.google.com/macros/s/AKfycbxMqosQRUm6nepBh7LVPa1NS9p0blHh3NYMXg785Oz-mCuZ2s9XysUwpmQ7X-7z-vyH/exec';
+const REGISTRATION_API = 'https://script.google.com/macros/s/AKfycbxdHXnO8VB4ubw30DHFa88T2vNi98PctOPhjFMTYAYeDGth30EXzOcLgAEnf3ZTOVu7LA/exec';
 const VIDEO_LIST_API = 'https://script.google.com/macros/s/AKfycbwQNMEz5NCkdhPd4fvK_iWhVGcDBPZY78f7Jbe_0RZB9kRSkNQk2TZmYlw9rB-P8M8T/exec';
 const VIDEO_LINKS_API = 'https://script.google.com/macros/s/AKfycbxzx44D-Lwn_Jt2ScVQJlkNHQ7LBSRw2h7odaqCEsKubdhazczMWtd0JY-03tZVTBw/exec';
 
