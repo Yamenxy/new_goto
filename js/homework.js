@@ -537,66 +537,104 @@ async function loadHomeworkData(
    FETCH ATTENDANCE
    ========================================================= */
 
-async function fetchAttendance(
-    studentCode
-) {
+async function fetchAttendance(studentCode) {
 
-    const url =
-        ATTENDANCE_API +
-        "?action=getStudentData&code=" +
-        encodeURIComponent(
-            studentCode
-        );
+  try {
+
+    const url = new URL(ATTENDANCE_API);
+
+    // Add parameters separately
+    url.searchParams.set(
+      "action",
+      "getStudentData"
+    );
+
+    url.searchParams.set(
+      "code",
+      String(studentCode).trim()
+    );
 
 
-    const response =
-        await fetch(
-            url,
-            {
-                method: "GET",
-                cache: "no-store"
-            }
-        );
+    console.log(
+      "Attendance API URL:",
+      url.toString()
+    );
+
+
+    const response = await fetch(
+      url.toString(),
+      {
+        method: "GET",
+        cache: "no-store"
+      }
+    );
 
 
     if (!response.ok) {
 
-        throw new Error(
-            "Attendance server returned HTTP " +
-            response.status
-        );
+      throw new Error(
+        "Attendance server returned HTTP " +
+        response.status
+      );
 
     }
 
 
-    const text =
-        await response.text();
+    const text = await response.text();
+
+    console.log(
+      "Attendance API Response:",
+      text
+    );
 
 
     let data;
 
-
     try {
 
-        data =
-            JSON.parse(text);
+      data = JSON.parse(text);
 
-    } catch (error) {
+    } catch (parseError) {
 
-        console.error(
-            "Invalid attendance response:",
-            text
-        );
+      throw new Error(
+        "Invalid JSON response from attendance server"
+      );
+
+    }
 
 
-        throw new Error(
-            "Google Sheets returned an invalid response."
-        );
+    if (!data || typeof data !== "object") {
+
+      throw new Error(
+        "Invalid attendance data"
+      );
+
+    }
+
+
+    if (data.status !== "success") {
+
+      throw new Error(
+        data.message ||
+        "Failed to load student attendance"
+      );
 
     }
 
 
     return data;
+
+
+  } catch (error) {
+
+    console.error(
+      "fetchAttendance Error:",
+      error
+    );
+
+    throw error;
+
+  }
 
 }
 
