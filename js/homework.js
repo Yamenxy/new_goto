@@ -882,7 +882,7 @@ async function loadAndPlay(
   try {
 
     const url =
-      `${VIDEO_LINKS_API}` +
+      `${LESSON_VIDEOS_API}` +
       `?pageName=${encodeURIComponent(pageName)}`;
 
 
