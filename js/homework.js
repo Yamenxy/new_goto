@@ -30,2148 +30,1292 @@ const ATTENDANCE_API =
 
 
 
-/* =========================================================
-   GLOBAL VARIABLES
-   ========================================================= */
+// =========================================================
+// GLOBAL DATA
+// =========================================================
 
-let currentStudent = null;
+let studentAttendance = {};
 
-let allHomework = [];
+let allVideos = [];
 
-let allLessonVideos = [];
+let videoLinksCache = {};
 
-let currentLanguage =
-    localStorage.getItem("language") || "ar";
+const VIDEO_LIST_CACHE_KEY = 'homeworkVideoListCache';
+const VIDEO_LIST_CACHE_TTL = 300000;
 
+async function fetchJsonWithRetry(url) {
+  let lastError;
 
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const response = await fetch(url, {
+        credentials: 'omit',
+        redirect: 'follow'
+      });
 
-/* =========================================================
-   LANGUAGE
-   ========================================================= */
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
 
-function updateLanguage() {
-
-    currentLanguage =
-        localStorage.getItem("language") || "ar";
-
-
-    // Page direction
-    document.documentElement.lang =
-        currentLanguage;
-
-    document.documentElement.dir =
-        currentLanguage === "ar"
-            ? "rtl"
-            : "ltr";
-
-
-    // Update text
-    document
-        .querySelectorAll(
-            "[data-en], [data-ar]"
-        )
-        .forEach(element => {
-
-            const text =
-                element.getAttribute(
-                    "data-" + currentLanguage
-                );
-
-
-            if (text === null) {
-                return;
-            }
-
-
-            // Only replace plain text elements
-            if (
-                element.children.length === 0
-            ) {
-
-                element.textContent = text;
-
-            }
-
-        });
-
-
-    // Update language button
-    const languageButton =
-        document.getElementById(
-            "languageToggle"
-        );
-
-
-    if (languageButton) {
-
-        const span =
-            languageButton.querySelector(
-                "span"
-            );
-
-
-        if (span) {
-
-            span.textContent =
-                currentLanguage === "ar"
-                    ? "English"
-                    : "العربية";
-
-        }
-
+      return await response.json();
+    } catch (error) {
+      lastError = error;
+      if (attempt === 0) {
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
     }
+  }
 
+  throw lastError;
 }
 
 
-
-function toggleLanguage() {
-
-    const current =
-        localStorage.getItem("language") || "ar";
-
-
-    const next =
-        current === "ar"
-            ? "en"
-            : "ar";
-
-
-    localStorage.setItem(
-        "language",
-        next
-    );
-
-
-    updateLanguage();
-
-}
-
-
-
-/* =========================================================
-   PAGE INITIALIZATION
-   ========================================================= */
+// =========================================================
+// PAGE LOAD
+// =========================================================
 
 document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+  'DOMContentLoaded',
+  () => {
 
-        updateLanguage();
+    const user =
+      getLoggedInUser();
 
-        autoLoadHomework();
 
+    const codeCard =
+      document.getElementById(
+        'codeCheckCard'
+      );
+
+
+    const autoCard =
+      document.getElementById(
+        'autoLoadCard'
+      );
+
+
+    if (
+      user &&
+      user.studentCode
+    ) {
+
+      if (codeCard) {
+        codeCard.style.display =
+          'none';
+      }
+
+
+      if (autoCard) {
+        autoCard.style.display =
+          'block';
+      }
+
+
+      autoLoadHomework(
+        user.studentCode,
+        user.studentName || ''
+      );
+
+
+    } else {
+
+      if (codeCard) {
+        codeCard.style.display =
+          'block';
+      }
+
+
+      if (autoCard) {
+        autoCard.style.display =
+          'none';
+      }
     }
+
+  }
 );
 
 
-
-/* =========================================================
-   GET LOGGED-IN STUDENT
-   ========================================================= */
-
-function getLoggedInStudentCode() {
-
-    const loggedInUser =
-        localStorage.getItem(
-            "loggedInUser"
-        );
-
-
-    if (!loggedInUser) {
-
-        return null;
-
-    }
-
-
-    /*
-     * Your website may store loggedInUser
-     * as either:
-     *
-     * 30000
-     *
-     * or JSON:
-     *
-     * {
-     *   code: "30000",
-     *   ...
-     * }
-     */
-
-
-    try {
-
-        const parsed =
-            JSON.parse(
-                loggedInUser
-            );
-
-
-        if (
-            parsed &&
-            typeof parsed === "object"
-        ) {
-
-            return String(
-                parsed.code ||
-                parsed.studentCode ||
-                parsed.student_id ||
-                parsed.id ||
-                parsed["الكود"] ||
-                ""
-            ).trim();
-
-        }
-
-    } catch (error) {
-
-        // Not JSON.
-        // Continue below.
-
-    }
-
-
-    return String(
-        loggedInUser
-    ).trim();
-
-}
-
-
-
-/* =========================================================
-   AUTOMATIC HOMEWORK LOADING
-   ========================================================= */
-
-async function autoLoadHomework() {
-
-    try {
-
-        updateLanguage();
-
-
-        const code =
-            getLoggedInStudentCode();
-
-
-        /*
-         * If there is no logged-in student,
-         * show the manual code box.
-         */
-
-        if (!code) {
-
-            showElement(
-                "autoLoadCard",
-                false
-            );
-
-
-            showElement(
-                "codeCheckCard",
-                true
-            );
-
-
-            return;
-
-        }
-
-
-        showElement(
-            "autoLoadCard",
-            true
-        );
-
-
-        showElement(
-            "codeCheckCard",
-            false
-        );
-
-
-        setAutoLoadMessage(
-            "جاري التحقق من حضورك..."
-        );
-
-
-        await loadHomeworkData(
-            code
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            "Homework error:",
-            error
-        );
-
-
-        showHomeworkError(
-            error.message
-        );
-
-    }
-
-}
-
-
-
-/* =========================================================
-   MANUAL CODE CHECK
-   ========================================================= */
-
-async function checkHomeworkAccess() {
-
-    const input =
-        document.getElementById(
-            "hwStudentCode"
-        );
-
-
-    const button =
-        document.getElementById(
-            "hwCheckBtn"
-        );
-
-
-    if (!input) {
-
-        return;
-
-    }
-
-
-    const code =
-        String(
-            input.value || ""
-        ).trim();
-
-
-    if (!code) {
-
-        showAlert(
-            "من فضلك أدخل كود الطالب.",
-            "error"
-        );
-
-
-        return;
-
-    }
-
-
-    try {
-
-        if (button) {
-
-            button.disabled = true;
-
-            button.innerHTML =
-                `
-                <i class="fas fa-spinner fa-spin"></i>
-                <span>جاري التحميل...</span>
-                `;
-
-        }
-
-
-        await loadHomeworkData(
-            code
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            "Manual homework error:",
-            error
-        );
-
-
-        showAlert(
-            error.message,
-            "error"
-        );
-
-
-    } finally {
-
-        if (button) {
-
-            button.disabled = false;
-
-            button.innerHTML =
-                `
-                <i class="fas fa-search"></i>
-                <span data-en="Show My Homework"
-                      data-ar="عرض واجباتي">
-                    عرض واجباتي
-                </span>
-                `;
-
-
-            updateLanguage();
-
-        }
-
-    }
-
-}
-
-
-
-/* =========================================================
-   MAIN HOMEWORK LOADING
-   ========================================================= */
-
-async function loadHomeworkData(
-    studentCode
+// =========================================================
+// AUTO LOAD HOMEWORK
+// =========================================================
+
+async function autoLoadHomework(
+  code,
+  displayName
 ) {
 
-    setAutoLoadMessage(
-        "جاري تحميل بيانات الحضور..."
+  const autoCard =
+    document.getElementById(
+      'autoLoadCard'
     );
 
 
-    // ---------------------------------------------
-    // 1. Get attendance
-    // ---------------------------------------------
-
-    const attendance =
-        await fetchAttendance(
-            studentCode
-        );
-
-
-    if (
-        !attendance ||
-        attendance.status !== "success"
-    ) {
-
-        throw new Error(
-            attendance?.message ||
-            "تعذر الحصول على بيانات الحضور."
-        );
-
-    }
-
-
-    currentStudent =
-        attendance;
-
-
-    // ---------------------------------------------
-    // 2. Get homework
-    // ---------------------------------------------
-
-    setAutoLoadMessage(
-        "جاري تحميل الواجبات..."
+  const spinner =
+    document.getElementById(
+      'autoLoadSpinner'
     );
 
 
-    const homework =
-        await fetchHomework();
-
-
-    allHomework =
-        homework || [];
-
-
-    // ---------------------------------------------
-    // 3. Get lesson videos
-    // ---------------------------------------------
-
-    setAutoLoadMessage(
-        "جاري تحميل الفيديوهات..."
+  const titleEl =
+    document.getElementById(
+      'autoLoadTitle'
     );
 
 
-    const lessonVideos =
-        await fetchLessonVideos();
-
-
-    allLessonVideos =
-        lessonVideos || [];
-
-
-    // ---------------------------------------------
-    // 4. Match attendance with homework
-    // ---------------------------------------------
-
-    const availableHomework =
-        getAvailableHomework(
-            allHomework,
-            attendance.attendance
-        );
-
-
-    // ---------------------------------------------
-    // 5. Show results
-    // ---------------------------------------------
-
-    showElement(
-        "autoLoadCard",
-        false
+  const msgEl =
+    document.getElementById(
+      'autoLoadMsg'
     );
 
-
-    showElement(
-        "codeCheckCard",
-        false
-    );
-
-
-    renderHomework(
-        availableHomework
-    );
-
-
-}
-
-
-
-/* =========================================================
-   FETCH ATTENDANCE
-   ========================================================= */
-
-async function fetchAttendance(studentCode) {
 
   try {
 
-    const url = new URL(ATTENDANCE_API);
-
-    // Add parameters separately
-    url.searchParams.set(
-      "action",
-      "getStudentData"
-    );
-
-    url.searchParams.set(
-      "code",
-      String(studentCode).trim()
-    );
+    await loadHomeworkData(code);
 
 
-    console.log(
-      "Attendance API URL:",
-      url.toString()
-    );
+    const attendedCount =
+      Object.values(
+        studentAttendance
+      )
+      .filter(Boolean)
+      .length;
 
 
-    const response = await fetch(
-      url.toString(),
-      {
-        method: "GET",
-        cache: "no-store"
+    if (
+      attendedCount === 0
+    ) {
+
+      if (spinner) {
+
+        spinner.className =
+          'fas fa-inbox';
+
+        spinner.style.color =
+          'var(--text-muted)';
       }
+
+
+      if (titleEl) {
+
+        titleEl.textContent =
+          displayName
+            ? `مرحباً ${displayName}`
+            : 'Welcome';
+
+        titleEl.setAttribute(
+          'data-en',
+          displayName
+            ? `Welcome, ${displayName}`
+            : 'Welcome'
+        );
+
+        titleEl.setAttribute(
+          'data-ar',
+          displayName
+            ? `مرحباً، ${displayName}`
+            : 'مرحباً'
+        );
+      }
+
+
+      if (msgEl) {
+
+        msgEl.textContent =
+          'لا توجد واجبات متاحة للمحاضرات التي حضرتها';
+
+        msgEl.setAttribute(
+          'data-en',
+          'No homework available for your attended lectures.'
+        );
+
+        msgEl.setAttribute(
+          'data-ar',
+          'لا توجد واجبات متاحة للمحاضرات التي حضرتها.'
+        );
+      }
+
+
+      updateLanguage();
+
+      return;
+    }
+
+
+    if (autoCard) {
+      autoCard.style.display =
+        'none';
+    }
+
+
+    const homeworkList =
+      document.getElementById(
+        'homeworkList'
+      );
+
+
+    if (homeworkList) {
+
+      homeworkList.style.display =
+        'block';
+    }
+
+
+    renderHomeworkCards();
+
+
+    showToast(
+      `${attendedCount} homework available!`,
+      'success'
     );
 
 
-    if (!response.ok) {
-
-      throw new Error(
-        "Attendance server returned HTTP " +
-        response.status
-      );
-
-    }
-
-
-    const text = await response.text();
-
-    console.log(
-      "Attendance API Response:",
-      text
-    );
-
-
-    let data;
-
-    try {
-
-      data = JSON.parse(text);
-
-    } catch (parseError) {
-
-      throw new Error(
-        "Invalid JSON response from attendance server"
-      );
-
-    }
-
-
-    if (!data || typeof data !== "object") {
-
-      throw new Error(
-        "Invalid attendance data"
-      );
-
-    }
-
-
-    if (data.status !== "success") {
-
-      throw new Error(
-        data.message ||
-        "Failed to load student attendance"
-      );
-
-    }
-
-
-    return data;
-
-
-  } catch (error) {
+  } catch (err) {
 
     console.error(
-      "fetchAttendance Error:",
-      error
-    );
-
-    throw error;
-
-  }
-
-}
-
-
-
-/* =========================================================
-   FETCH HOMEWORK
-   ========================================================= */
-
-async function fetchHomework() {
-
-    const response =
-        await fetch(
-            MAIN_VIDEOS_API +
-            "?t=" +
-            Date.now(),
-            {
-                method: "GET",
-                cache: "no-store"
-            }
-        );
-
-
-    if (!response.ok) {
-
-        throw new Error(
-            "Homework server returned HTTP " +
-            response.status
-        );
-
-    }
-
-
-    const text =
-        await response.text();
-
-
-    let data;
-
-
-    try {
-
-        data =
-            JSON.parse(text);
-
-    } catch (error) {
-
-        console.error(
-            "Invalid homework response:",
-            text
-        );
-
-
-        throw new Error(
-            "Google Sheets homework response is invalid."
-        );
-
-    }
-
-
-    if (!Array.isArray(data)) {
-
-        return [];
-
-    }
-
-
-    return data;
-
-}
-
-
-
-/* =========================================================
-   FETCH LESSON VIDEOS
-   ========================================================= */
-
-async function fetchLessonVideos() {
-
-    /*
-     * The lesson-video API needs pageName.
-     *
-     * We request video1, video2, etc.
-     *
-     * We first determine how many lectures
-     * exist from the homework list.
-     */
-
-
-    const numberOfLectures =
-        Math.max(
-            allHomework.length,
-            20
-        );
-
-
-    const videos = [];
-
-
-    for (
-        let i = 1;
-        i <= numberOfLectures;
-        i++
-    ) {
-
-        const pageName =
-            "video" + i;
-
-
-        try {
-
-            const url =
-                LESSON_VIDEOS_API +
-                "?pageName=" +
-                encodeURIComponent(
-                    pageName
-                ) +
-                "&t=" +
-                Date.now();
-
-
-            const response =
-                await fetch(
-                    url,
-                    {
-                        method: "GET",
-                        cache: "no-store"
-                    }
-                );
-
-
-            if (!response.ok) {
-
-                continue;
-
-            }
-
-
-            const text =
-                await response.text();
-
-
-            let data;
-
-
-            try {
-
-                data =
-                    JSON.parse(text);
-
-            } catch (error) {
-
-                continue;
-
-            }
-
-
-            if (
-                data &&
-                !data.error
-            ) {
-
-                videos.push({
-
-                    pageName:
-                        pageName,
-
-                    drive:
-                        cleanUrl(
-                            data.drive
-                        ),
-
-                    pcloud:
-                        cleanUrl(
-                            data.pcloud
-                        ),
-
-                    mega:
-                        cleanUrl(
-                            data.mega
-                        )
-
-                });
-
-            }
-
-        } catch (error) {
-
-            console.warn(
-                "Could not load " +
-                pageName,
-                error
-            );
-
-        }
-
-    }
-
-
-    return videos;
-
-}
-
-
-
-/* =========================================================
-   MATCH HOMEWORK TO ATTENDANCE
-   ========================================================= */
-
-function getAvailableHomework(
-    homework,
-    attendance
-) {
-
-    if (
-        !Array.isArray(homework)
-    ) {
-
-        return [];
-
-    }
-
-
-    if (
-        !Array.isArray(attendance)
-    ) {
-
-        return [];
-
-    }
-
-
-    const result = [];
-
-
-    homework.forEach(
-        (
-            item,
-            homeworkIndex
-        ) => {
-
-            /*
-             * Homework row:
-             *
-             * واجب المحاضرة الاولي
-             *
-             * واجب المحاضرة التانية
-             *
-             * واجب المحاضرة التالتة
-             *
-             *
-             * We determine lecture number
-             * from the position in the sheet.
-             */
-
-
-            const lectureNumber =
-                homeworkIndex + 1;
-
-
-            const attendanceRecord =
-                attendance.find(
-                    record =>
-                        Number(
-                            record.value
-                        ) ===
-                        lectureNumber
-                );
-
-
-            if (
-                attendanceRecord &&
-                attendanceRecord.present
-            ) {
-
-                result.push({
-
-                    ...item,
-
-                    lectureNumber:
-                        lectureNumber,
-
-                    attendance:
-                        attendanceRecord
-
-                });
-
-            }
-
-        }
+      'Homework error:',
+      err
     );
 
 
-    return result;
+    if (spinner) {
 
-}
+      spinner.className =
+        'fas fa-exclamation-triangle';
 
-
-
-/* =========================================================
-   RENDER HOMEWORK
-   ========================================================= */
-
-function renderHomework(
-    homework
-) {
-
-    const section =
-        document.getElementById(
-            "homeworkList"
-        );
-
-
-    const grid =
-        document.getElementById(
-            "homeworkGrid"
-        );
-
-
-    if (!section || !grid) {
-
-        return;
-
+      spinner.style.color =
+        'var(--error)';
     }
 
 
-    section.style.display =
-        "block";
+    if (titleEl) {
 
+      titleEl.textContent =
+        'Connection Error';
 
-    grid.innerHTML = "";
+      titleEl.setAttribute(
+        'data-en',
+        'Connection Error'
+      );
 
-
-    // ---------------------------------------------
-    // No homework
-    // ---------------------------------------------
-
-    if (
-        !homework ||
-        homework.length === 0
-    ) {
-
-        grid.innerHTML =
-            `
-            <div
-                style="
-                    width:100%;
-                    text-align:center;
-                    padding:60px 20px;
-                "
-            >
-
-                <i
-                    class="fas fa-book-open"
-                    style="
-                        font-size:50px;
-                        opacity:.5;
-                        margin-bottom:20px;
-                    "
-                ></i>
-
-                <h3>
-                    لا توجد واجبات متاحة حالياً
-                </h3>
-
-                <p
-                    style="
-                        color:var(--text-muted);
-                        margin-top:10px;
-                    "
-                >
-                    الواجبات ستظهر تلقائياً
-                    بعد حضور المحاضرة.
-                </p>
-
-            </div>
-            `;
-
-
-        return;
-
+      titleEl.setAttribute(
+        'data-ar',
+        'خطأ في الاتصال'
+      );
     }
 
 
+    if (msgEl) {
 
-    // ---------------------------------------------
-    // Render cards
-    // ---------------------------------------------
-
-    homework.forEach(
-        (
-            item,
-            index
-        ) => {
-
-            const card =
-                createHomeworkCard(
-                    item,
-                    index
-                );
-
-
-            grid.appendChild(
-                card
-            );
-
-        }
-    );
+      msgEl.textContent =
+        'Failed to load homework. Please refresh the page.';
+    }
 
 
     updateLanguage();
-
+  }
 }
 
 
+// =========================================================
+// LOAD ALL REQUIRED DATA
+// =========================================================
 
-/* =========================================================
-   CREATE HOMEWORK CARD
-   ========================================================= */
-
-function createHomeworkCard(
-    item,
-    index
+async function loadHomeworkData(
+  code
 ) {
 
-    const card =
-        document.createElement(
-            "div"
+  // Attendance and the public homework list are independent requests.
+  await Promise.all([
+    fetchAttendance(code),
+    fetchVideoList()
+  ]);
+
+
+  // -------------------------------------------------------
+  // 3. Keep only videos whose lecture was attended
+  // -------------------------------------------------------
+
+  allVideos =
+    allVideos.filter(
+      (video, index) => {
+
+        return (
+          studentAttendance[index + 1] === true
         );
-
-
-    card.className =
-        "content-card homework-card";
-
-
-    const title =
-        escapeHtml(
-            item.title ||
-            `واجب المحاضرة ${index + 1}`
-        );
-
-
-    const image =
-        cleanUrl(
-            item.imgSrc
-        ) ||
-        "https://i.postimg.cc/Zn32QtQc/27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg";
-
-
-    const link =
-        cleanUrl(
-            item.link
-        );
-
-
-    card.innerHTML =
-        `
-        <div
-            style="
-                overflow:hidden;
-                border-radius:12px;
-                margin-bottom:18px;
-            "
-        >
-
-            <img
-                src="${escapeAttribute(image)}"
-                alt="${escapeAttribute(title)}"
-                style="
-                    width:100%;
-                    display:block;
-                    aspect-ratio:16/9;
-                    object-fit:cover;
-                "
-                onerror="
-                    this.src='https://i.postimg.cc/Zn32QtQc/27aaa2af-994c-4d8a-8221-c5a3674cbb9b.jpg';
-                "
-            >
-
-        </div>
-
-
-        <div
-            style="
-                display:flex;
-                flex-direction:column;
-                gap:12px;
-            "
-        >
-
-            <h3
-                style="margin:0;"
-            >
-                ${title}
-            </h3>
-
-
-            <div
-                style="
-                    color:var(--text-muted);
-                    font-size:.9rem;
-                "
-            >
-
-                <i class="fas fa-circle-check"></i>
-
-                <span>
-                    المحاضرة
-                    ${item.lectureNumber}
-                </span>
-
-            </div>
-
-
-            <button
-                type="button"
-                class="btn btn-primary"
-                onclick="openHomeworkVideo(${index})"
-            >
-
-                <i class="fas fa-play"></i>
-
-                مشاهدة الفيديو
-
-            </button>
-
-
-            ${
-                link
-                    ? `
-                    <a
-                        href="${escapeAttribute(link)}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="btn btn-outline"
-                    >
-
-                        <i class="fas fa-external-link-alt"></i>
-
-                        فتح صفحة الواجب
-
-                    </a>
-                    `
-                    : ""
-            }
-
-        </div>
-        `;
-
-
-    return card;
-
-}
-
-
-
-/* =========================================================
-   OPEN HOMEWORK VIDEO
-   ========================================================= */
-
-function openHomeworkVideo(
-    index
-) {
-
-    if (
-        !Array.isArray(allHomework) ||
-        allHomework.length === 0
-    ) {
-
-        return;
-
-    }
-
-
-    /*
-     * allHomework contains the entire sheet.
-     *
-     * We need to find the actual available
-     * homework by attendance again.
-     */
-
-
-    const available =
-        getAvailableHomework(
-            allHomework,
-            currentStudent?.attendance || []
-        );
-
-
-    const homework =
-        available[index];
-
-
-    if (!homework) {
-
-        return;
-
-    }
-
-
-    const lectureNumber =
-        homework.lectureNumber;
-
-
-    const videoPageName =
-        "video" +
-        lectureNumber;
-
-
-    const video =
-        allLessonVideos.find(
-            item =>
-                item.pageName ===
-                videoPageName
-        );
-
-
-    showVideoPlayer(
-        homework,
-        video
+      }
     );
 
 }
 
 
+// =========================================================
+// MANUAL CHECK
+// =========================================================
 
-/* =========================================================
-   SHOW VIDEO PLAYER
-   ========================================================= */
+async function checkHomeworkAccess() {
 
-function showVideoPlayer(
-    homework,
-    video
-) {
-
-    const section =
-        document.getElementById(
-            "videoPlayerSection"
-        );
+  const input =
+    document.getElementById(
+      'hwStudentCode'
+    );
 
 
-    const wrapper =
-        document.getElementById(
-            "videoWrapper"
-        );
+  const alertEl =
+    document.getElementById(
+      'hwAlert'
+    );
 
 
-    const title =
-        document.getElementById(
-            "videoTitle"
-        );
+  const checkBtn =
+    document.getElementById(
+      'hwCheckBtn'
+    );
 
 
-    if (!section || !wrapper) {
-
-        return;
-
-    }
-
-
-    if (title) {
-
-        title.textContent =
-            homework.title ||
-            "Homework Video";
-
-    }
+  const code =
+    input
+      ? input.value.trim()
+      : '';
 
 
-    wrapper.innerHTML = "";
+  if (!code) {
+
+    alertEl.innerHTML = `
+
+      <div class="alert alert-error">
+
+        <i class="fas fa-exclamation-circle"></i>
+
+        <span>
+          يرجى إدخال كود الطالب
+        </span>
+
+      </div>
+
+    `;
+
+    return;
+  }
 
 
-    // ---------------------------------------------
-    // No video links
-    // ---------------------------------------------
+  checkBtn.disabled =
+    true;
+
+
+  checkBtn.innerHTML = `
+
+    <i class="fas fa-spinner fa-spin"></i>
+
+    جاري التحقق...
+
+  `;
+
+
+  alertEl.innerHTML = `
+
+    <div
+      class="alert"
+      style="
+        background:rgba(0,210,255,0.1);
+        border-color:var(--primary);
+        color:var(--text);
+      "
+    >
+
+      <i class="fas fa-sync fa-spin"></i>
+
+      جاري التحقق من حضورك...
+
+    </div>
+
+  `;
+
+
+  try {
+
+    await loadHomeworkData(
+      code
+    );
+
+
+    const attendedCount =
+      Object.values(
+        studentAttendance
+      )
+      .filter(Boolean)
+      .length;
+
 
     if (
-        !video ||
-        (
-            !video.drive &&
-            !video.pcloud &&
-            !video.mega
-        )
+      attendedCount === 0
     ) {
 
-        wrapper.innerHTML =
-            `
-            <div
-                style="
-                    text-align:center;
-                    padding:50px 20px;
-                "
-            >
+      alertEl.innerHTML = `
 
-                <i
-                    class="fas fa-video-slash"
-                    style="
-                        font-size:50px;
-                        margin-bottom:20px;
-                        opacity:.5;
-                    "
-                ></i>
+        <div class="alert alert-error">
 
-                <h3>
-                    الفيديو غير متاح حالياً
-                </h3>
+          <i class="fas fa-times-circle"></i>
 
-                <p
-                    style="
-                        color:var(--text-muted);
-                        margin-top:10px;
-                    "
-                >
-                    سيتم إضافة الفيديو قريباً.
-                </p>
+          <span>
+            لا يوجد حضور مسجل لهذا الكود.
+          </span>
 
-            </div>
-            `;
+        </div>
 
+      `;
 
-        section.style.display =
-            "block";
-
-
-        hideHomeworkList();
-
-
-        return;
-
+      return;
     }
 
 
-    // ---------------------------------------------
-    // Create video options
-    // ---------------------------------------------
-
-    const container =
-        document.createElement(
-            "div"
-        );
+    document
+      .getElementById(
+        'codeCheckCard'
+      )
+      .style.display =
+      'none';
 
 
-    container.style.cssText =
-        `
-        max-width:1000px;
-        margin:0 auto;
-        `;
+    document
+      .getElementById(
+        'homeworkList'
+      )
+      .style.display =
+      'block';
 
 
-    const heading =
-        document.createElement(
-            "div"
-        );
+    renderHomeworkCards();
 
 
-    heading.style.cssText =
-        `
-        text-align:center;
-        margin-bottom:25px;
-        `;
+    showToast(
+      `${attendedCount} homework available!`,
+      'success'
+    );
 
 
-    heading.innerHTML =
-        `
-        <p
-            style="
-                color:var(--text-muted);
-                margin-bottom:20px;
-            "
-        >
-            اختر مصدر الفيديو
+  } catch (err) {
+
+    console.error(err);
+
+
+    alertEl.innerHTML = `
+
+      <div class="alert alert-error">
+
+        <i class="fas fa-exclamation-triangle"></i>
+
+        <span>
+          خطأ في الاتصال. حاول مرة أخرى.
+        </span>
+
+      </div>
+
+    `;
+
+
+  } finally {
+
+    checkBtn.disabled =
+      false;
+
+
+    checkBtn.innerHTML = `
+
+      <i class="fas fa-search"></i>
+
+      عرض واجباتي
+
+    `;
+  }
+}
+
+
+// =========================================================
+// FETCH ATTENDANCE
+// =========================================================
+
+async function fetchAttendance(
+  code
+) {
+
+  studentAttendance = {};
+
+
+  const url =
+    `${REGISTRATION_API}` +
+    `?action=getStudentData` +
+    `&code=${encodeURIComponent(code)}`;
+
+
+  const data = await fetchJsonWithRetry(url);
+
+
+  if (
+    data.status !== 'success'
+  ) {
+
+    throw new Error(
+      data.message ||
+      'Student not found'
+    );
+  }
+
+
+  if (
+    Array.isArray(
+      data.attendance
+    )
+  ) {
+
+    data.attendance.forEach(
+      item => {
+
+        const lectureNumber =
+          Number(item.value);
+
+
+        studentAttendance[
+          lectureNumber
+        ] =
+          item.present === true;
+
+      }
+    );
+  }
+
+
+  return data;
+}
+
+
+// =========================================================
+// FETCH MAIN VIDEOS
+// =========================================================
+
+async function fetchVideoList() {
+
+  try {
+    const cached = sessionStorage.getItem(VIDEO_LIST_CACHE_KEY);
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      if (
+        parsed.timestamp &&
+        Date.now() - parsed.timestamp < VIDEO_LIST_CACHE_TTL &&
+        Array.isArray(parsed.data)
+      ) {
+        allVideos = parsed.data;
+        return parsed.data;
+      }
+    }
+  } catch (error) {
+    sessionStorage.removeItem(VIDEO_LIST_CACHE_KEY);
+  }
+
+  const data = await fetchJsonWithRetry(VIDEO_LIST_API);
+
+
+  if (
+    !Array.isArray(data)
+  ) {
+
+    throw new Error(
+      'Invalid video list'
+    );
+  }
+
+
+  allVideos =
+    data;
+
+  try {
+    sessionStorage.setItem(
+      VIDEO_LIST_CACHE_KEY,
+      JSON.stringify({
+        timestamp: Date.now(),
+        data
+      })
+    );
+  } catch (error) {
+    // Storage can be unavailable in private browsing; the live response is valid.
+  }
+
+
+  return data;
+}
+
+
+// =========================================================
+// RENDER HOMEWORK
+// =========================================================
+
+function renderHomeworkCards() {
+
+  const grid =
+    document.getElementById(
+      'homeworkGrid'
+    );
+
+
+  if (!grid) {
+    return;
+  }
+
+
+  if (
+    !allVideos ||
+    allVideos.length === 0
+  ) {
+
+    grid.innerHTML = `
+
+      <div class="empty-state">
+
+        <i class="fas fa-lock"></i>
+
+        <p>
+          لا توجد واجبات متاحة للمحاضرات التي حضرتها
         </p>
-        `;
+
+      </div>
+
+    `;
+
+    return;
+  }
 
 
-    container.appendChild(
-        heading
-    );
+  grid.innerHTML = '';
 
 
-    // ---------------------------------------------
-    // Buttons
-    // ---------------------------------------------
+  allVideos.forEach(
+    (video, index) => {
 
-    const buttons =
+      const lectureNum =
+        Number(
+          video.lecture ||
+          index + 1
+        );
+
+
+      const pageName =
+        video.videoCode ||
+        `video${lectureNum}`;
+
+
+      const card =
         document.createElement(
-            "div"
+          'div'
         );
 
 
-    buttons.style.cssText =
-        `
-        display:flex;
-        justify-content:center;
-        flex-wrap:wrap;
-        gap:12px;
-        margin-bottom:25px;
-        `;
+      card.className =
+        'content-card';
 
 
-    if (video.pcloud) {
-
-        buttons.appendChild(
-            createVideoSourceButton(
-                "pCloud",
-                "fas fa-cloud",
-                video.pcloud,
-                "pcloud"
-            )
-        );
-
-    }
+      card.style.animationDelay =
+        `${index * 0.1}s`;
 
 
-    if (video.drive) {
-
-        buttons.appendChild(
-            createVideoSourceButton(
-                "Google Drive",
-                "fab fa-google-drive",
-                video.drive,
-                "drive"
-            )
-        );
-
-    }
-
-
-    if (video.mega) {
-
-        buttons.appendChild(
-            createVideoSourceButton(
-                "MEGA",
-                "fas fa-cloud",
-                video.mega,
-                "mega"
-            )
-        );
-
-    }
+      const thumbStyle =
+        video.imgSrc
+          ? `
+            background-image:url('${escapeAttr(video.imgSrc)}');
+            background-size:cover;
+            background-position:center;
+            height:160px;
+            border-radius:8px;
+            margin-bottom:12px;
+          `
+          : '';
 
 
-    container.appendChild(
-        buttons
-    );
+      card.innerHTML = `
+
+        ${
+          video.imgSrc
+
+            ? `
+              <div
+                style="${thumbStyle}"
+              ></div>
+            `
+
+            : `
+              <div class="card-icon">
+                <i class="fas fa-play-circle"></i>
+              </div>
+            `
+        }
 
 
-    // ---------------------------------------------
-    // Player
-    // ---------------------------------------------
-
-    const player =
-        document.createElement(
-            "div"
-        );
+        <h3 class="card-title">
+          ${escapeHtml(
+            video.title ||
+            `واجب المحاضرة ${lectureNum}`
+          )}
+        </h3>
 
 
-    player.id =
-        "homeworkVideoContainer";
-
-
-    player.style.cssText =
-        `
-        width:100%;
-        min-height:500px;
-        border-radius:15px;
-        overflow:hidden;
-        background:#000;
-        `;
-
-
-    player.innerHTML =
-        `
-        <div
-            style="
-                min-height:500px;
-                display:flex;
-                justify-content:center;
-                align-items:center;
-                color:white;
-                text-align:center;
-                padding:30px;
-            "
+        <p
+          class="card-desc"
+          style="margin-bottom:5px;"
         >
 
-            <div>
+          <span>
+            المحاضرة ${lectureNum}
+          </span>
 
-                <i
-                    class="fas fa-play-circle"
-                    style="
-                        font-size:70px;
-                        margin-bottom:20px;
-                    "
-                ></i>
+          —
 
-                <h3>
-                    اختر مصدر الفيديو بالأعلى
-                </h3>
+          <i
+            class="fas fa-check-circle"
+            style="color:var(--success);"
+          ></i>
 
-            </div>
+          <span>
+            حاضر
+          </span>
+
+        </p>
+
+
+        <div
+          class="video-source-btns"
+          id="videoBtns_${pageName}"
+          style="
+            display:flex;
+            gap:8px;
+            flex-wrap:wrap;
+            margin-top:10px;
+          "
+        >
+
+          <button
+            class="btn btn-primary btn-sm"
+            onclick="loadAndPlay('${escapeAttr(pageName)}')"
+          >
+
+            <i class="fas fa-play"></i>
+
+            مشاهدة
+
+          </button>
 
         </div>
-        `;
+
+      `;
 
 
-    container.appendChild(
-        player
-    );
+      grid.appendChild(
+        card
+      );
+
+    }
+  );
 
 
-    wrapper.appendChild(
-        container
-    );
-
-
-    section.style.display =
-        "block";
-
-
-    hideHomeworkList();
-
-
-    section.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
-
+  updateLanguage();
 }
 
 
+// =========================================================
+// LOAD VIDEO LINKS
+// =========================================================
 
-/* =========================================================
-   VIDEO SOURCE BUTTON
-   ========================================================= */
-
-function createVideoSourceButton(
-    name,
-    icon,
-    url,
-    type
+async function loadAndPlay(
+  pageName
 ) {
 
-    const button =
-        document.createElement(
-            "button"
-        );
+  const btnsContainer =
+    document.getElementById(
+      'videoBtns_' +
+      pageName
+    );
 
 
-    button.type =
-        "button";
+  if (!btnsContainer) {
+    return;
+  }
 
 
-    button.className =
-        "btn btn-primary";
+  // -------------------------------------------------------
+  // Cache
+  // -------------------------------------------------------
+
+  if (
+    videoLinksCache[
+      pageName
+    ]
+  ) {
+
+    showSourceButtons(
+      pageName,
+      videoLinksCache[
+        pageName
+      ],
+      btnsContainer
+    );
+
+    return;
+  }
 
 
-    button.innerHTML =
-        `
-        <i class="${icon}"></i>
-        ${name}
-        `;
+  btnsContainer.innerHTML = `
+
+    <button
+      class="btn btn-primary btn-sm"
+      disabled
+    >
+
+      <i class="fas fa-spinner fa-spin"></i>
+
+      Loading...
+
+    </button>
+
+  `;
 
 
-    button.addEventListener(
-        "click",
-        function () {
+  try {
 
-            loadVideoSource(
-                url,
-                type
-            );
+    const url =
+      `${VIDEO_LINKS_API}` +
+      `?pageName=${encodeURIComponent(pageName)}`;
 
+
+    const resp =
+      await fetch(
+        url,
+        {
+          credentials: 'omit',
+          redirect: 'follow'
         }
-    );
+      );
 
 
-    return button;
+    if (!resp.ok) {
 
-}
-
-
-
-/* =========================================================
-   LOAD VIDEO SOURCE
-   ========================================================= */
-
-function loadVideoSource(
-    url,
-    type
-) {
-
-    const container =
-        document.getElementById(
-            "homeworkVideoContainer"
-        );
-
-
-    if (!container || !url) {
-
-        return;
-
+      throw new Error(
+        'Video links request failed'
+      );
     }
 
 
-    const safeUrl =
-        cleanUrl(url);
+    const result =
+      await resp.json();
 
-
-    if (!safeUrl) {
-
-        return;
-
-    }
-
-
-    /*
-     * Google Drive
-     */
 
     if (
-        type === "drive" ||
-        safeUrl.includes(
-            "drive.google.com"
-        )
+      result.status !== 'success'
     ) {
 
-        const embedUrl =
-            convertGoogleDriveUrl(
-                safeUrl
-            );
-
-
-        if (embedUrl) {
-
-            container.innerHTML =
-                `
-                <iframe
-                    src="${escapeAttribute(embedUrl)}"
-                    style="
-                        width:100%;
-                        height:600px;
-                        border:0;
-                        display:block;
-                    "
-                    allow="
-                        autoplay;
-                        fullscreen
-                    "
-                    allowfullscreen
-                ></iframe>
-                `;
-
-
-            return;
-
-        }
-
+      throw new Error(
+        result.message ||
+        'Video not found'
+      );
     }
 
 
-    /*
-     * pCloud / MEGA
-     *
-     * These services may block iframe embedding.
-     *
-     * Try iframe first.
-     */
+    videoLinksCache[
+      pageName
+    ] = result;
 
-    container.innerHTML =
-        `
-        <iframe
-            src="${escapeAttribute(safeUrl)}"
-            style="
-                width:100%;
-                height:600px;
-                border:0;
-                display:block;
-                background:#000;
-            "
-            allow="
-                autoplay;
-                fullscreen;
-                encrypted-media
-            "
-            allowfullscreen
-        ></iframe>
 
-        <div
-            style="
-                text-align:center;
-                padding:15px;
-                background:#111;
-                color:white;
-            "
-        >
+    showSourceButtons(
+      pageName,
+      result,
+      btnsContainer
+    );
 
-            <a
-                href="${escapeAttribute(safeUrl)}"
-                target="_blank"
-                rel="noopener noreferrer"
-                style="color:white;"
-            >
-                إذا لم يعمل الفيديو،
-                اضغط هنا لفتحه مباشرة
-            </a>
 
-        </div>
-        `;
+  } catch (err) {
 
+    console.error(err);
+
+
+    btnsContainer.innerHTML = `
+
+      <span
+        style="color:var(--error);"
+      >
+
+        <i class="fas fa-exclamation-triangle"></i>
+
+        Failed to load links
+
+      </span>
+
+    `;
+  }
 }
 
 
+// =========================================================
+// SHOW VIDEO SOURCE BUTTONS
+// =========================================================
 
-/* =========================================================
-   GOOGLE DRIVE URL CONVERTER
-   ========================================================= */
-
-function convertGoogleDriveUrl(
-    url
+function showSourceButtons(
+  pageName,
+  links,
+  container
 ) {
 
-    /*
-     * Example:
-     *
-     * https://drive.google.com/file/d/FILE_ID/view
-     *
-     * becomes:
-     *
-     * https://drive.google.com/file/d/FILE_ID/preview
-     */
+  let html = '';
 
+
+  if (
+    links.mega
+  ) {
+
+    html += `
+
+      <button
+        class="btn btn-primary btn-sm"
+        onclick="playVideo(
+          '${escapeAttr(links.mega)}',
+          '${escapeAttr(pageName)}',
+          'mega'
+        )"
+      >
+
+        <i class="fas fa-play"></i>
+
+        Mega
+
+      </button>
+
+    `;
+  }
+
+
+  if (
+    links.drive
+  ) {
+
+    html += `
+
+      <button
+        class="btn btn-outline btn-sm"
+        onclick="playVideo(
+          '${escapeAttr(links.drive)}',
+          '${escapeAttr(pageName)}',
+          'drive'
+        )"
+      >
+
+        <i class="fab fa-google-drive"></i>
+
+        Drive
+
+      </button>
+
+    `;
+  }
+
+
+  if (
+    links.pcloud
+  ) {
+
+    html += `
+
+      <button
+        class="btn btn-outline btn-sm"
+        onclick="playVideo(
+          '${escapeAttr(links.pcloud)}',
+          '${escapeAttr(pageName)}',
+          'pcloud'
+        )"
+      >
+
+        <i class="fas fa-cloud"></i>
+
+        pCloud
+
+      </button>
+
+    `;
+  }
+
+
+  if (!html) {
+
+    html = `
+
+      <span
+        style="color:var(--text-muted);"
+      >
+
+        No links available
+
+      </span>
+
+    `;
+  }
+
+
+  container.innerHTML =
+    html;
+}
+
+
+// =========================================================
+// PLAY VIDEO
+// =========================================================
+
+function playVideo(
+  url,
+  title,
+  source
+) {
+
+  const playerSection =
+    document.getElementById(
+      'videoPlayerSection'
+    );
+
+
+  const listSection =
+    document.getElementById(
+      'homeworkList'
+    );
+
+
+  const wrapper =
+    document.getElementById(
+      'videoWrapper'
+    );
+
+
+  const infoTitle =
+    document.getElementById(
+      'videoTitle'
+    );
+
+
+  if (
+    !playerSection ||
+    !listSection ||
+    !wrapper
+  ) {
+    return;
+  }
+
+
+  listSection.style.display =
+    'none';
+
+
+  playerSection.style.display =
+    'block';
+
+
+  if (infoTitle) {
+
+    infoTitle.textContent =
+      title ||
+      'Homework Video';
+  }
+
+
+  if (source === 'drive') {
+
+    const embedUrl =
+      convertDriveToEmbed(
+        url
+      );
+
+
+    wrapper.innerHTML = `
+
+      <iframe
+
+        src="${escapeAttr(embedUrl)}"
+
+        frameborder="0"
+
+        allowfullscreen
+
+        allow="
+          autoplay;
+          encrypted-media
+        "
+
+        style="
+          width:100%;
+          aspect-ratio:16/9;
+          border-radius:12px;
+        "
+
+      ></iframe>
+
+    `;
+
+
+  } else {
+
+    wrapper.innerHTML = `
+
+      <iframe
+
+        src="${escapeAttr(url)}"
+
+        frameborder="0"
+
+        allowfullscreen
+
+        allow="
+          autoplay;
+          encrypted-media
+        "
+
+        style="
+          width:100%;
+          aspect-ratio:16/9;
+          border-radius:12px;
+        "
+
+      ></iframe>
+
+    `;
+  }
+}
+
+
+// =========================================================
+// GOOGLE DRIVE
+// =========================================================
+
+function convertDriveToEmbed(
+  url
+) {
+
+  const patterns = [
+
+    /\/file\/d\/([a-zA-Z0-9_-]+)/,
+
+    /id=([a-zA-Z0-9_-]+)/,
+
+    /\/d\/([a-zA-Z0-9_-]+)/
+
+  ];
+
+
+  for (
+    const pattern of patterns
+  ) {
 
     const match =
-        url.match(
-            /\/file\/d\/([^/]+)/
-        );
+      url.match(pattern);
 
 
-    if (match && match[1]) {
+    if (match) {
 
-        return (
-            "https://drive.google.com/file/d/" +
-            match[1] +
-            "/preview"
-        );
-
+      return (
+        `https://drive.google.com/file/d/` +
+        `${match[1]}/preview`
+      );
     }
+  }
 
 
-    /*
-     * Alternative Drive URL
-     */
-
-    const idMatch =
-        url.match(
-            /[?&]id=([^&]+)/
-        );
-
-
-    if (
-        idMatch &&
-        idMatch[1]
-    ) {
-
-        return (
-            "https://drive.google.com/file/d/" +
-            idMatch[1] +
-            "/preview"
-        );
-
-    }
-
-
-    return url;
-
+  return url;
 }
 
 
-
-/* =========================================================
-   CLOSE VIDEO PLAYER
-   ========================================================= */
+// =========================================================
+// CLOSE PLAYER
+// =========================================================
 
 function closeVideoPlayer() {
 
-    const section =
-        document.getElementById(
-            "videoPlayerSection"
-        );
-
-
-    const wrapper =
-        document.getElementById(
-            "videoWrapper"
-        );
-
-
-    if (wrapper) {
-
-        wrapper.innerHTML = "";
-
-    }
-
-
-    if (section) {
-
-        section.style.display =
-            "none";
-
-    }
-
-
-    showHomeworkList();
-
-}
-
-
-
-/* =========================================================
-   SHOW / HIDE HOMEWORK
-   ========================================================= */
-
-function hideHomeworkList() {
-
-    const section =
-        document.getElementById(
-            "homeworkList"
-        );
-
-
-    if (section) {
-
-        section.style.display =
-            "none";
-
-    }
-
-}
-
-
-
-function showHomeworkList() {
-
-    const section =
-        document.getElementById(
-            "homeworkList"
-        );
-
-
-    if (section) {
-
-        section.style.display =
-            "block";
-
-    }
-
-}
-
-
-
-/* =========================================================
-   AUTO LOAD MESSAGE
-   ========================================================= */
-
-function setAutoLoadMessage(
-    message
-) {
-
-    const element =
-        document.getElementById(
-            "autoLoadMsg"
-        );
-
-
-    if (element) {
-
-        element.textContent =
-            message;
-
-    }
-
-}
-
-
-
-/* =========================================================
-   SHOW ELEMENT
-   ========================================================= */
-
-function showElement(
-    id,
-    show
-) {
-
-    const element =
-        document.getElementById(
-            id
-        );
-
-
-    if (!element) {
-
-        return;
-
-    }
-
-
-    element.style.display =
-        show ? "block" : "none";
-
-}
-
-
-
-/* =========================================================
-   ALERT
-   ========================================================= */
-
-function showAlert(
-    message,
-    type = "error"
-) {
-
-    const alert =
-        document.getElementById(
-            "hwAlert"
-        );
-
-
-    if (!alert) {
-
-        return;
-
-    }
-
-
-    alert.innerHTML =
-        `
-        <div
-            style="
-                padding:12px 16px;
-                border-radius:10px;
-                background:rgba(255,0,0,.08);
-                color:var(--text);
-            "
-        >
-            ${escapeHtml(message)}
-        </div>
-        `;
-
-}
-
-
-
-/* =========================================================
-   HOMEWORK ERROR
-   ========================================================= */
-
-function showHomeworkError(
-    message
-) {
-
-    showElement(
-        "autoLoadCard",
-        false
+  const player =
+    document.getElementById(
+      'videoPlayerSection'
     );
 
 
-    showElement(
-        "homeworkList",
-        true
+  const list =
+    document.getElementById(
+      'homeworkList'
     );
 
 
-    const grid =
-        document.getElementById(
-            "homeworkGrid"
-        );
+  const wrapper =
+    document.getElementById(
+      'videoWrapper'
+    );
 
 
-    if (!grid) {
+  if (player) {
 
-        return;
-
-    }
-
-
-    grid.innerHTML =
-        `
-        <div
-            style="
-                width:100%;
-                text-align:center;
-                padding:50px 20px;
-            "
-        >
-
-            <i
-                class="fas fa-exclamation-triangle"
-                style="
-                    font-size:50px;
-                    margin-bottom:20px;
-                "
-            ></i>
+    player.style.display =
+      'none';
+  }
 
 
-            <h3>
-                حدث خطأ أثناء تحميل الواجبات
-            </h3>
+  if (list) {
+
+    list.style.display =
+      'block';
+  }
 
 
-            <p
-                style="
-                    color:var(--text-muted);
-                    margin:12px 0 20px;
-                "
-            >
-                ${escapeHtml(message)}
-            </p>
+  if (wrapper) {
 
-
-            <button
-                class="btn btn-primary"
-                onclick="location.reload()"
-            >
-
-                <i class="fas fa-redo"></i>
-
-                إعادة المحاولة
-
-            </button>
-
-        </div>
-        `;
-
+    wrapper.innerHTML =
+      '';
+  }
 }
 
 
-
-/* =========================================================
-   URL CLEANER
-   ========================================================= */
-
-function cleanUrl(
-    value
-) {
-
-    if (
-        value === null ||
-        value === undefined
-    ) {
-
-        return "";
-
-    }
-
-
-    return String(
-        value
-    ).trim();
-
-}
-
-
-
-/* =========================================================
-   HTML ESCAPE
-   ========================================================= */
+// =========================================================
+// SECURITY / HTML ESCAPING
+// =========================================================
 
 function escapeHtml(
-    value
+  value
 ) {
 
-    return String(
-        value ?? ""
+  return String(value)
+    .replace(
+      /&/g,
+      '&amp;'
     )
     .replace(
-        /&/g,
-        "&amp;"
+      /</g,
+      '&lt;'
     )
     .replace(
-        /</g,
-        "&lt;"
+      />/g,
+      '&gt;'
     )
     .replace(
-        />/g,
-        "&gt;"
+      /"/g,
+      '&quot;'
     )
     .replace(
-        /"/g,
-        "&quot;"
-    )
-    .replace(
-        /'/g,
-        "&#039;"
+      /'/g,
+      '&#039;'
     );
-
 }
 
 
-
-function escapeAttribute(
-    value
+function escapeAttr(
+  value
 ) {
 
-    return escapeHtml(
-        value
+  return String(value)
+    .replace(
+      /\\/g,
+      '\\\\'
+    )
+    .replace(
+      /'/g,
+      "\\'"
+    )
+    .replace(
+      /"/g,
+      '&quot;'
     );
-
 }
-
-
-
-/* =========================================================
-   DEBUG HELPERS
-   ========================================================= */
-
-window.homeworkDebug = {
-
-    getStudent:
-        function () {
-            return currentStudent;
-        },
-
-    getHomework:
-        function () {
-            return allHomework;
-        },
-
-    getVideos:
-        function () {
-            return allLessonVideos;
-        },
-
-    reload:
-        function () {
-            autoLoadHomework();
-        }
-
-};
