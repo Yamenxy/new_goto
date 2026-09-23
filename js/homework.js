@@ -235,7 +235,7 @@ async function autoLoadHomework(
       }
 
 
-      updateLanguage();
+      setLanguage(currentLang);
 
       return;
     }
@@ -311,7 +311,7 @@ async function autoLoadHomework(
     }
 
 
-    updateLanguage();
+    setLanguage(currentLang);
   }
 }
 
@@ -542,7 +542,7 @@ async function fetchAttendance(
 
 
   const url =
-    `${REGISTRATION_API}` +
+    `${ATTENDANCE_API}` +
     `?action=getStudentData` +
     `&code=${encodeURIComponent(code)}`;
 
@@ -577,7 +577,10 @@ async function fetchAttendance(
         studentAttendance[
           lectureNumber
         ] =
-          item.present === true;
+          item.present === true ||
+          item.present === 'true' ||
+          item.present === 1 ||
+          item.present === '1';
 
       }
     );
@@ -611,7 +614,7 @@ async function fetchVideoList() {
     sessionStorage.removeItem(VIDEO_LIST_CACHE_KEY);
   }
 
-  const data = await fetchJsonWithRetry(VIDEO_LIST_API);
+  const data = await fetchJsonWithRetry(MAIN_VIDEOS_API);
 
 
   if (
@@ -814,7 +817,7 @@ function renderHomeworkCards() {
   );
 
 
-  updateLanguage();
+  setLanguage(currentLang);
 }
 
 
